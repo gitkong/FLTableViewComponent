@@ -20,6 +20,9 @@ class DemoViewController: FLComponentController {
         let NibComponent = NibDemoComponent.init(tableView: self.tableView)
 
         arr.append(component)
+        arr.append(component)
+        arr.append(component)
+        arr.append(NibComponent)
         arr.append(NibComponent)
         self.components = arr
     }

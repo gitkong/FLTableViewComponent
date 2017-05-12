@@ -20,6 +20,7 @@
 		B6B5C9ED1EC46BDE006BA487 /* NibDemoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9EC1EC46BDE006BA487 /* NibDemoComponent.swift */; };
 		B6B5C9F01EC46C10006BA487 /* NibDemoTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9EE1EC46C10006BA487 /* NibDemoTableViewCell.swift */; };
 		B6B5C9F11EC46C10006BA487 /* NibDemoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B6B5C9EF1EC46C10006BA487 /* NibDemoTableViewCell.xib */; };
+		B6B5C9F31EC5964F006BA487 /* FLTableViewHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9F21EC5964E006BA487 /* FLTableViewHeaderFooterView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -38,6 +39,7 @@
 		B6B5C9EC1EC46BDE006BA487 /* NibDemoComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibDemoComponent.swift; sourceTree = "<group>"; };
 		B6B5C9EE1EC46C10006BA487 /* NibDemoTableViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = NibDemoTableViewCell.swift; sourceTree = "<group>"; };
 		B6B5C9EF1EC46C10006BA487 /* NibDemoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NibDemoTableViewCell.xib; sourceTree = "<group>"; };
+		B6B5C9F21EC5964E006BA487 /* FLTableViewHeaderFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLTableViewHeaderFooterView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -92,6 +94,7 @@
 				B6B5C9DD1EC44466006BA487 /* FLComponentController.swift */,
 				B6B5C9DF1EC45216006BA487 /* FLBaseComponent.swift */,
 				B6B5C9E11EC454E2006BA487 /* FLTableComponentProtocol.swift */,
+				B6B5C9F21EC5964E006BA487 /* FLTableViewHeaderFooterView.swift */,
 			);
 			name = FLTableComponent;
 			sourceTree = "<group>";
@@ -172,6 +175,7 @@
 			files = (
 				B6B5C9E01EC45216006BA487 /* FLBaseComponent.swift in Sources */,
 				B6B5C9DE1EC44466006BA487 /* FLComponentController.swift in Sources */,
+				B6B5C9F31EC5964F006BA487 /* FLTableViewHeaderFooterView.swift in Sources */,
 				B6B5C9ED1EC46BDE006BA487 /* NibDemoComponent.swift in Sources */,
 				B6B5C9CE1EC443AE006BA487 /* ViewController.swift in Sources */,
 				B6B5C9E81EC45A63006BA487 /* DemoViewController.swift in Sources */,
@@ -344,6 +348,7 @@
 				B6B5C9DC1EC443AE006BA487 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

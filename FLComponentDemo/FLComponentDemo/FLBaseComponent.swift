@@ -8,7 +8,10 @@
 
 import UIKit
 
-class FLBaseComponent: NSObject {
+let FLHeaderFooterTitleTopPadding : CGFloat = 5
+let FLHeaderFooterTitleLeftPadding : CGFloat = 20
+
+class FLBaseComponent: NSObject, FLTableComponentConfiguration, FLTableComponentEvent {
     
     var tableView : UITableView?
     
@@ -20,7 +23,9 @@ class FLBaseComponent: NSObject {
     }
 }
 
-extension FLBaseComponent : FLTableComponentConfiguration{
+// MARK : base configuration
+
+extension FLBaseComponent {
     var cellIdentifier : String {
         return "\(NSStringFromClass(type(of: self)))-cell"
     }
@@ -35,8 +40,8 @@ extension FLBaseComponent : FLTableComponentConfiguration{
     
     func register() {
         tableView?.registerClass(className: UITableViewCell.self, cellReuseIdentifier: self.cellIdentifier)
-        tableView?.registerClass(className: UITableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.headerIdentifier)
-        tableView?.registerClass(className: UITableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.footerIdentifier)
+        tableView?.registerClass(className: FLTableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.headerIdentifier)
+        tableView?.registerClass(className: FLTableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.footerIdentifier)
     }
     
     func numberOfRows() -> NSInteger {
@@ -46,19 +51,62 @@ extension FLBaseComponent : FLTableComponentConfiguration{
     func cellForRow(at indexPath: IndexPath) -> UITableViewCell {
         return (tableView?.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath))!
     }
-    
-    // header or footer customizaion
-    
-    func headerView(at section: Int) -> UITableViewHeaderFooterView?{
-        return tableView?.dequeueReusableHeaderFooterView(withIdentifier: self.headerIdentifier)
+}
+
+// MARK : header or footer customizaion
+
+extension FLBaseComponent {
+    func headerView(at section: Int) -> FLTableViewHeaderFooterView? {
+        let headerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.headerIdentifier)
+        if let headerTitle = self.titleForHeader(at: section) {
+            headerView?.titleLabel.attributedText = headerTitle
+        }
+        headerView?.section = section
+        return headerView
     }
     
-    func footerView(at section: Int) -> UITableViewHeaderFooterView?{
-        return tableView?.dequeueReusableHeaderFooterView(withIdentifier: self.footerIdentifier)
+    func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
+        let footerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.footerIdentifier)
+        if let footerTitle = self.titleForFooter(at: section) {
+            footerView?.titleLabel.attributedText = footerTitle
+        }
+        footerView?.section = section
+        return footerView
     }
     
-    // Display customization
+    func heightForHeader(at section : Int) -> CGFloat {
+        if let headerTitle = self.titleForHeader(at: section) {
+            return suitableTitleHeight(forString: headerTitle)
+        }
+        return CGFloat.leastNormalMagnitude
+    }
     
+    func heightForFooter(at section : Int) -> CGFloat {
+        if let footerTitle = self.titleForFooter(at: section) {
+            return suitableTitleHeight(forString: footerTitle)
+        }
+        return CGFloat.leastNormalMagnitude
+    }
+    
+    func titleForHeader(at section : Int) -> NSMutableAttributedString? {
+        return nil
+    }
+    
+    func titleForFooter(at section : Int) -> NSMutableAttributedString? {
+        return nil
+    }
+    
+    private func suitableTitleHeight(forString string : NSMutableAttributedString) -> CGFloat{
+        let option = NSStringDrawingOptions.usesLineFragmentOrigin
+        let rect = string.boundingRect(with: CGSize.init(width: UIScreen.main.bounds.width - 2 * FLHeaderFooterTitleLeftPadding, height: CGFloat.greatestFiniteMagnitude), options: option, context: nil)
+        // footer or header height must higher than the real rect for footer or header title,otherwise, footer or header title will offset
+        return rect.height + FLHeaderFooterTitleTopPadding * 2
+    }
+}
+
+// MARK : Display customization
+
+extension FLBaseComponent {
     func tableView(willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
         // do nothing
     }
@@ -80,6 +128,27 @@ extension FLBaseComponent : FLTableComponentConfiguration{
     }
     
     func tableView(didEndDisplayingFooterView view: UITableViewHeaderFooterView, forSection section: Int){
+        
+    }
+}
+
+// MARK : selector
+
+extension FLBaseComponent {
+    
+    func tableView(didSelectHeaderViewAt section: Int){
+        
+    }
+    
+    func tableView(didSelectFooterViewAt section: Int){
+        
+    }
+    
+    func tableView(didSelectRowAt indexPath: IndexPath){
+        
+    }
+    
+    func tableView(didDeselectRowAt indexPath: IndexPath){
         
     }
 }
@@ -115,5 +184,13 @@ extension UITableView{
         
         self.register(className, forHeaderFooterViewReuseIdentifier: headerFooterViewReuseIdentifier)
     }
+    
+    func dequeueReusableFLHeaderFooterView(withIdentifier identifier: String) -> FLTableViewHeaderFooterView?{
+        return self.dequeueReusableHeaderFooterView(withIdentifier: identifier) as? FLTableViewHeaderFooterView
+    }
+}
+
+extension NSMutableAttributedString {
+    
 }
 
