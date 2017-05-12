@@ -11,9 +11,11 @@ import UIKit
 let FLHeaderFooterTitleTopPadding : CGFloat = 5
 let FLHeaderFooterTitleLeftPadding : CGFloat = 20
 
-class FLBaseComponent: NSObject, FLTableComponentConfiguration, FLTableComponentEvent {
+class FLBaseComponent: NSObject, FLTableComponentConfiguration {
     
     var tableView : UITableView?
+    
+    weak var delegate : FLTableComponentEvent?
     
     init(tableView : UITableView){
         super.init()
@@ -61,7 +63,9 @@ extension FLBaseComponent {
         if let headerTitle = self.titleForHeader(at: section) {
             headerView?.titleLabel.attributedText = headerTitle
         }
+        headerView?.delegate = delegate
         headerView?.section = section
+        headerView?.headerFooterType = .Header
         return headerView
     }
     
@@ -70,7 +74,9 @@ extension FLBaseComponent {
         if let footerTitle = self.titleForFooter(at: section) {
             footerView?.titleLabel.attributedText = footerTitle
         }
+        footerView?.delegate = delegate
         footerView?.section = section
+        footerView?.headerFooterType = .Footer
         return footerView
     }
     
@@ -132,26 +138,6 @@ extension FLBaseComponent {
     }
 }
 
-// MARK : selector
-
-extension FLBaseComponent {
-    
-    func tableView(didSelectHeaderViewAt section: Int){
-        
-    }
-    
-    func tableView(didSelectFooterViewAt section: Int){
-        
-    }
-    
-    func tableView(didSelectRowAt indexPath: IndexPath){
-        
-    }
-    
-    func tableView(didDeselectRowAt indexPath: IndexPath){
-        
-    }
-}
 
 extension UITableView{
     func registerNib(className : AnyClass, cellReuseIdentifier : String){

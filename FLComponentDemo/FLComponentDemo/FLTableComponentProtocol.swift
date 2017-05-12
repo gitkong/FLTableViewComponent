@@ -66,7 +66,9 @@ import UIKit
     
     @objc optional func tableView(didSelectFooterViewAt section: Int)
     
-    @objc optional func tableView(didSelectRowAt indexPath: IndexPath)
+}
+
+extension FLTableComponentEvent {
     
-    @objc optional func tableView(didDeselectRowAt indexPath: IndexPath)
+    
 }

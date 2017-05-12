@@ -14,7 +14,7 @@ class DemoViewController: FLComponentController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        var arr : Array<FLTableComponentConfiguration> = []
+        var arr : Array<FLBaseComponent> = []
         
         let component = DemoComponent.init(tableView: self.tableView)
         let NibComponent = NibDemoComponent.init(tableView: self.tableView)
@@ -29,6 +29,14 @@ class DemoViewController: FLComponentController {
     
     override var tableViewStyle: UITableViewStyle {
         return UITableViewStyle.grouped
+    }
+    
+    override func tableView(didSelectFooterViewAt section: Int) {
+        //
+    }
+    
+    func tableView(didSelectRowAt indexPath: IndexPath) {
+        print("\(indexPath.section)-\(indexPath.row)")
     }
 
 }

@@ -31,7 +31,9 @@ class NibDemoComponent: FLBaseComponent {
         var headerView = super.headerView(at: section)
         if (headerView == nil) {
             // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
-            headerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.headerIdentifier,section: section)
+            // also you have to set headerFooterType to identifity what you click
+            headerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.headerIdentifier,section: section, headerFooterType: FLTableViewHeaderFooterType.Header)
+            headerView?.delegate = delegate
             headerView?.addSubview(UISlider.init(frame: CGRect.init(x: 20, y: 0, width: 100, height: 30)))
         }
         headerView?.contentView.backgroundColor = UIColor.yellow

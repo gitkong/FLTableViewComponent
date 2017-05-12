@@ -18,7 +18,7 @@ class FLComponentController: UIViewController {
         return tableView
     }()
     
-    var components : Array<FLTableComponentConfiguration> = [] {
+    var components : Array<FLBaseComponent> = [] {
         didSet{
             if components.count != 0 {
                 tableView.reloadData()
@@ -58,11 +58,11 @@ extension FLComponentController {
     }
     
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        return components[section].numberOfRows!()
+        return components[section].numberOfRows()
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        return components[indexPath.section].cellForRow!(at: indexPath)
+        return components[indexPath.section].cellForRow(at: indexPath)
     }
 }
 
@@ -71,19 +71,21 @@ extension FLComponentController {
 extension FLComponentController {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?{
-        return components[section].headerView!(at: section)
+        components[section].delegate = self
+        return components[section].headerView(at: section)
     }
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView?{
-        return components[section].footerView!(at: section)
+        components[section].delegate = self
+        return components[section].footerView(at: section)
     }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
-        return components[section].heightForHeader!(at: section)
+        return components[section].heightForHeader(at: section)
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat{
-        return components[section].heightForFooter!(at: section)
+        return components[section].heightForFooter(at: section)
     }
 }
 
@@ -92,7 +94,7 @@ extension FLComponentController {
 extension FLComponentController {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
-        components[indexPath.section].tableView!(willDisplay: cell, forRowAt: indexPath)
+        components[indexPath.section].tableView(willDisplay: cell, forRowAt: indexPath)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
@@ -100,57 +102,32 @@ extension FLComponentController {
     }
     
     public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        components[section].tableView!(willDisplayHeaderView: (view as? UITableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(willDisplayHeaderView: (view as? UITableViewHeaderFooterView)!, forSection: section)
     }
     
     public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int){
-        components[section].tableView!(willDisplayFooterView: (view as? UITableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(willDisplayFooterView: (view as? UITableViewHeaderFooterView)!, forSection: section)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int){
-        components[section].tableView!(didEndDisplayingHeaderView: (view as? UITableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(didEndDisplayingHeaderView: (view as? UITableViewHeaderFooterView)!, forSection: section)
     }
     
     public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int){
-        components[section].tableView!(didEndDisplayingFooterView: (view as? UITableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(didEndDisplayingFooterView: (view as? UITableViewHeaderFooterView)!, forSection: section)
     }
 }
 
 // MARK : selection
 
-extension FLComponentController {
-//    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
-//        return false
-//    }
-//    
-//    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
-//        
-//    }
-//    
-//    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
-//        
-//    }
+extension FLComponentController : FLTableComponentEvent{
     
-    
-    // Called before the user changes the selection. Return a new indexPath, or nil, to change the proposed selection.
-//    func tableView(_ tableView: UITableView, willSelectRowAt indexPath: IndexPath) -> IndexPath? {
-//        
-//    }
-//    
-//    func tableView(_ tableView: UITableView, willDeselectRowAt indexPath: IndexPath) -> IndexPath? {
-//        
-//    }
-    
-    // Called after the user changes the selection.
-    public func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let component = components[indexPath.section]
-//        component.
-//        component.
-//        components[indexPath.section].tableView!(didSelectRowAt: indexPath)
+    func tableView(didSelectHeaderViewAt section: Int){
+        print("header did click at \(String(describing: section))")
     }
     
-    public func tableView(_ tableView: UITableView, didDeselectRowAt indexPath: IndexPath) {
-        
+    func tableView(didSelectFooterViewAt section: Int){
+        print("footer did click at \(String(describing: section))")
     }
 }
 

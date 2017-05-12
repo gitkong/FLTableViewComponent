@@ -8,6 +8,11 @@
 
 import UIKit
 
+enum FLTableViewHeaderFooterType {
+    case Header
+    case Footer
+}
+
 // MARK : use FLTableViewHeaderFooterView, because extension can not store properties or override method
 
 class FLTableViewHeaderFooterView: UITableViewHeaderFooterView {
@@ -16,10 +21,15 @@ class FLTableViewHeaderFooterView: UITableViewHeaderFooterView {
     
     public var section : Int?
     
+    weak var delegate : FLTableComponentEvent?
+    
+    public var headerFooterType : FLTableViewHeaderFooterType = .Header
+    
     // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
-    convenience init(reuseIdentifier: String?, section: Int){
+    convenience init(reuseIdentifier: String?, section: Int, headerFooterType: FLTableViewHeaderFooterType = .Header){
         self.init(reuseIdentifier: reuseIdentifier)
         self.section = section
+        self.headerFooterType = headerFooterType
     }
     
     override init(reuseIdentifier: String?) {
@@ -60,10 +70,19 @@ class FLTableViewHeaderFooterView: UITableViewHeaderFooterView {
         }
     }
     
+//    var headerFooterViewClickOperation : (FLTableViewHeaderFooterType)->Void?
+    
 }
 
-extension FLTableViewHeaderFooterView {
+extension FLTableViewHeaderFooterView : FLTableComponentEvent{
+    
     func headerFooterDidClick(){
-        print("headerFooterView did click at \(String(describing: section))")
+//        headerFooterViewClickOperation(self.headerFooterType)
+        switch self.headerFooterType {
+        case .Header:
+            delegate?.tableView!(didSelectHeaderViewAt: section!)
+        default:
+            delegate?.tableView!(didSelectFooterViewAt: section!)
+        }
     }
 }
