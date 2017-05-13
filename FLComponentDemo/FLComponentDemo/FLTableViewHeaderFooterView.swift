@@ -8,11 +8,6 @@
 
 import UIKit
 
-enum FLTableViewHeaderFooterType {
-    case Header
-    case Footer
-}
-
 // MARK : use FLTableViewHeaderFooterView, because extension can not store properties or override method
 
 class FLTableViewHeaderFooterView: UITableViewHeaderFooterView {
@@ -23,14 +18,15 @@ class FLTableViewHeaderFooterView: UITableViewHeaderFooterView {
     
     weak var delegate : FLTableComponentEvent?
     
-    public var headerFooterType : FLTableViewHeaderFooterType = .Header
+    public var identifierType : FLIdentifierType?
     
     // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
-    convenience init(reuseIdentifier: String?, section: Int, headerFooterType: FLTableViewHeaderFooterType = .Header){
+    convenience init(reuseIdentifier: String?, section: Int){
         self.init(reuseIdentifier: reuseIdentifier)
         self.section = section
-        self.headerFooterType = headerFooterType
     }
+    
+    // MARK : dequeue will call init
     
     override init(reuseIdentifier: String?) {
         super.init(reuseIdentifier: reuseIdentifier)
@@ -39,7 +35,7 @@ class FLTableViewHeaderFooterView: UITableViewHeaderFooterView {
         titleLabel.textColor = UIColor.init(red: 0.43, green: 0.43, blue: 0.45, alpha: 1)
         titleLabel.font = UIFont.systemFont(ofSize: 13)
         self.contentView.addSubview(titleLabel)
-        
+        self.identifierType = FLIdentifierType.type(of: reuseIdentifier)
         // add gesture
         let tapG : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.headerFooterDidClick))
         
@@ -69,20 +65,20 @@ class FLTableViewHeaderFooterView: UITableViewHeaderFooterView {
             self.contentView.backgroundColor = newValue
         }
     }
-    
-//    var headerFooterViewClickOperation : (FLTableViewHeaderFooterType)->Void?
-    
 }
 
 extension FLTableViewHeaderFooterView : FLTableComponentEvent{
     
     func headerFooterDidClick(){
-//        headerFooterViewClickOperation(self.headerFooterType)
-        switch self.headerFooterType {
+        guard let identifierType = self.identifierType , let section = self.section else {
+            return
+        }
+        switch identifierType {
         case .Header:
-            delegate?.tableView!(didSelectHeaderViewAt: section!)
-        default:
-            delegate?.tableView!(didSelectFooterViewAt: section!)
+            delegate?.tableHeaderView!(self, didClickSectionAt: section)
+        case .Footer:
+            delegate?.tableFooterView!(self, didClickSectionAt: section)
+        default : break
         }
     }
 }

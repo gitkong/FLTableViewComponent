@@ -11,16 +11,37 @@ import UIKit
 let FLHeaderFooterTitleTopPadding : CGFloat = 5
 let FLHeaderFooterTitleLeftPadding : CGFloat = 20
 
+enum FLIdentifierType  : String{
+    case Cell = "cell"
+    case Header = "header"
+    case Footer = "footer"
+    
+    static func type(of  reuseIdentifier : String?) -> FLIdentifierType? {
+        if let reuseId = reuseIdentifier {
+            if reuseId.hasSuffix(FLIdentifierType.Header.rawValue) {
+                return .Header
+            }
+            else if reuseId.hasSuffix(FLIdentifierType.Footer.rawValue) {
+                return .Footer
+            }
+            else {
+                return .Cell
+            }
+        }
+        return nil
+    }
+}
+
 class FLBaseComponent: NSObject, FLTableComponentConfiguration {
     
     var tableView : UITableView?
     
-    weak var delegate : FLTableComponentEvent?
+    weak var componentController : FLTableComponentEvent?
     
     init(tableView : UITableView){
         super.init()
         self.tableView = tableView
-        // regist cell
+        // regist cell or header or footer
         self.register()
     }
 }
@@ -28,16 +49,16 @@ class FLBaseComponent: NSObject, FLTableComponentConfiguration {
 // MARK : base configuration
 
 extension FLBaseComponent {
-    var cellIdentifier : String {
-        return "\(NSStringFromClass(type(of: self)))-cell"
+    final var cellIdentifier : String {
+        return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Cell.rawValue)"
     }
     
-    var footerIdentifier: String {
-        return "\(NSStringFromClass(type(of: self)))-footer"
+    final var footerIdentifier: String {
+        return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Footer.rawValue)"
     }
     
-    var headerIdentifier: String {
-        return "\(NSStringFromClass(type(of: self)))-header"
+    final var headerIdentifier: String {
+        return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Header.rawValue)"
     }
     
     func register() {
@@ -58,25 +79,54 @@ extension FLBaseComponent {
 // MARK : header or footer customizaion
 
 extension FLBaseComponent {
+    
+    private func addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  {
+        headerFooterView?.delegate = componentController
+    }
+    
+    // MARK : if you regist for header or footer, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
+    
+    func additionalOperationForReuseHeaderView(_ headerView : FLTableViewHeaderFooterView?) {
+        // do something , such as add lable or button into headerView or footerView to resue
+    }
+    
+    func additionalOperationForReuseFooterFooterView(_ footerView : FLTableViewHeaderFooterView?) {
+        
+    }
+    
+    
+    /// MARK : when you override this method, you should call super to get headerView if you just regist FLTableViewHeaderFooterView class; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if you want headerView have accurate event handling capabilities,
+    ///
+    /// - Parameter section: current section
+    /// - Returns: FLTableViewHeaderFooterView
     func headerView(at section: Int) -> FLTableViewHeaderFooterView? {
-        let headerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.headerIdentifier)
+        var headerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.headerIdentifier)
+        // MARK : if subclass override headerView(at section: Int) method , also override register() and do nothing in it, so headerView will be nil, then create the new one to reuse it
+        if (headerView == nil) {
+            // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
+            headerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.headerIdentifier,section: section)
+            additionalOperationForReuseHeaderView(headerView)
+        }
         if let headerTitle = self.titleForHeader(at: section) {
             headerView?.titleLabel.attributedText = headerTitle
         }
-        headerView?.delegate = delegate
+        addClickDelegete(for: headerView)
         headerView?.section = section
-        headerView?.headerFooterType = .Header
         return headerView
     }
     
     func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
-        let footerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.footerIdentifier)
+        var footerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.footerIdentifier)
+        if (footerView == nil) {
+            // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
+            footerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.footerIdentifier,section: section)
+            additionalOperationForReuseFooterFooterView(footerView)
+        }
         if let footerTitle = self.titleForFooter(at: section) {
             footerView?.titleLabel.attributedText = footerTitle
         }
-        footerView?.delegate = delegate
+        addClickDelegete(for: footerView)
         footerView?.section = section
-        footerView?.headerFooterType = .Footer
         return footerView
     }
     
@@ -117,23 +167,23 @@ extension FLBaseComponent {
         // do nothing
     }
     
-    func tableView(willDisplayHeaderView view: UITableViewHeaderFooterView, forSection section: Int){
-        
-    }
-    
-    func tableView(willDisplayFooterView view: UITableViewHeaderFooterView, forSection section: Int){
-        
-    }
-    
     func tableView(didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
         
     }
     
-    func tableView(didEndDisplayingHeaderView view: UITableViewHeaderFooterView, forSection section: Int){
+    func tableView(willDisplayHeaderView view: FLTableViewHeaderFooterView, forSection section: Int){
         
     }
     
-    func tableView(didEndDisplayingFooterView view: UITableViewHeaderFooterView, forSection section: Int){
+    func tableView(willDisplayFooterView view: FLTableViewHeaderFooterView, forSection section: Int){
+        
+    }
+    
+    func tableView(didEndDisplayingHeaderView view: FLTableViewHeaderFooterView, forSection section: Int){
+        
+    }
+    
+    func tableView(didEndDisplayingFooterView view: FLTableViewHeaderFooterView, forSection section: Int){
         
     }
 }

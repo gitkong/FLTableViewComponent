@@ -51,24 +51,21 @@ import UIKit
     
     @objc optional func tableView(didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath)
     
-    @objc optional func tableView(willDisplayHeaderView view: UITableViewHeaderFooterView, forSection section: Int)
+    @objc optional func tableView(willDisplayHeaderView view: FLTableViewHeaderFooterView, forSection section: Int)
     
-    @objc optional func tableView(willDisplayFooterView view: UITableViewHeaderFooterView, forSection section: Int)
+    @objc optional func tableView(willDisplayFooterView view: FLTableViewHeaderFooterView, forSection section: Int)
     
-    @objc optional func tableView(didEndDisplayingHeaderView view: UITableViewHeaderFooterView, forSection section: Int)
+    @objc optional func tableView(didEndDisplayingHeaderView view: FLTableViewHeaderFooterView, forSection section: Int)
     
-    @objc optional func tableView(didEndDisplayingFooterView view: UITableViewHeaderFooterView, forSection section: Int)
+    @objc optional func tableView(didEndDisplayingFooterView view: FLTableViewHeaderFooterView, forSection section: Int)
 }
 
 @objc protocol FLTableComponentEvent {
     
-    @objc optional func tableView(didSelectHeaderViewAt section: Int)
+    // Header or Footer tapping event
     
-    @objc optional func tableView(didSelectFooterViewAt section: Int)
+    @objc optional func tableHeaderView(_  headerView : FLTableViewHeaderFooterView, didClickSectionAt section: Int)
     
-}
-
-extension FLTableComponentEvent {
-    
+    @objc optional func tableFooterView(_  footerView : FLTableViewHeaderFooterView, didClickSectionAt section: Int)
     
 }

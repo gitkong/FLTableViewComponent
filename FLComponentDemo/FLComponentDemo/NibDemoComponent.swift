@@ -28,19 +28,28 @@ class NibDemoComponent: FLBaseComponent {
     
     override func headerView(at section: Int) -> FLTableViewHeaderFooterView? {
         // reuse slider too
-        var headerView = super.headerView(at: section)
-        if (headerView == nil) {
-            // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
-            // also you have to set headerFooterType to identifity what you click
-            headerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.headerIdentifier,section: section, headerFooterType: FLTableViewHeaderFooterType.Header)
-            headerView?.delegate = delegate
-            headerView?.addSubview(UISlider.init(frame: CGRect.init(x: 20, y: 0, width: 100, height: 30)))
-        }
+        let headerView = super.headerView(at: section)
         headerView?.contentView.backgroundColor = UIColor.yellow
         return headerView
+    }
+    
+    override func additionalOperationForReuseHeaderView(_ headerView: FLTableViewHeaderFooterView?) {
+        headerView?.addSubview(UISlider.init(frame: CGRect.init(x: 20, y: 0, width: 100, height: 30)))
     }
     
     override func heightForHeader(at section: Int) -> CGFloat {
         return 30
     }
+    
+    override func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
+        // reuse slider too
+        let footerView = super.footerView(at: section)
+        footerView?.contentView.backgroundColor = UIColor.purple
+        return footerView
+    }
+    
+    override func heightForFooter(at section: Int) -> CGFloat {
+        return 10
+    }
+    
 }

@@ -35,6 +35,7 @@ class DemoComponent: FLBaseComponent {
         let attStr = NSMutableAttributedString.init(string: "hello world,hello gitKong, i am header title test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")
         // must add attribute,otherwise,calculate the wrong rect for attribute string
         attStr.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 17), range: NSRange.init(location: 0, length: attStr.length))
+        attStr.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 13), range: NSRange.init(location: 5, length: 10))
         attStr.addAttribute(NSForegroundColorAttributeName, value: UIColor.red, range: NSRange.init(location: 0, length: 5))
         return attStr
     }

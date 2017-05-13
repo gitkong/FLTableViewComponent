@@ -31,12 +31,16 @@ class DemoViewController: FLComponentController {
         return UITableViewStyle.grouped
     }
     
-    override func tableView(didSelectFooterViewAt section: Int) {
-        //
+    override func tableHeaderView(_ headerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {
+        print("header-\(section)-title = \(String(describing: headerView.titleLabel.text))")
     }
     
-    func tableView(didSelectRowAt indexPath: IndexPath) {
-        print("\(indexPath.section)-\(indexPath.row)")
+    override func tableFooterView(_ footerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {
+        print("footer-\(section)-title = \(String(describing: footerView.titleLabel.text))")
+    }
+    
+    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        print("section-\(indexPath.section), row-\(indexPath.row)")
     }
 
 }
