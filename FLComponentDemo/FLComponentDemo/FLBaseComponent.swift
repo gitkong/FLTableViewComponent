@@ -80,12 +80,10 @@ extension FLBaseComponent {
 
 extension FLBaseComponent {
     
-    private func addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  {
-        headerFooterView?.delegate = componentController
-    }
     
-    // MARK : if you regist for header or footer, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
-    
+    /// you can override this method to perform additional operation, such as add lable or button into headerView or footerView to resue, but if you regist for header or footer, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
+    ///
+    /// - Parameter headerView:  headerView for ready to reuse
     func additionalOperationForReuseHeaderView(_ headerView : FLTableViewHeaderFooterView?) {
         // do something , such as add lable or button into headerView or footerView to resue
     }
@@ -157,6 +155,10 @@ extension FLBaseComponent {
         let rect = string.boundingRect(with: CGSize.init(width: UIScreen.main.bounds.width - 2 * FLHeaderFooterTitleLeftPadding, height: CGFloat.greatestFiniteMagnitude), options: option, context: nil)
         // footer or header height must higher than the real rect for footer or header title,otherwise, footer or header title will offset
         return rect.height + FLHeaderFooterTitleTopPadding * 2
+    }
+    
+    private func addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  {
+        headerFooterView?.delegate = componentController
     }
 }
 

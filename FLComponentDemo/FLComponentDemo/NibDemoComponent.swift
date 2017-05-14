@@ -35,6 +35,9 @@ class NibDemoComponent: FLBaseComponent {
     
     override func additionalOperationForReuseHeaderView(_ headerView: FLTableViewHeaderFooterView?) {
         headerView?.addSubview(UISlider.init(frame: CGRect.init(x: 20, y: 0, width: 100, height: 30)))
+        let btn = UIButton.init(type: UIButtonType.contactAdd)
+        btn.frame = CGRect.init(x: 200, y: 0, width: 30, height: 30)
+        headerView?.addSubview(btn)
     }
     
     override func heightForHeader(at section: Int) -> CGFloat {
