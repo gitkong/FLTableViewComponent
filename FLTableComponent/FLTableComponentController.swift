@@ -1,5 +1,5 @@
 //
-//  FLComponentController.swift
+//  FLTableComponentController.swift
 //  FLComponentDemo
 //
 //  Created by Lyon on 2017/5/11.
@@ -8,7 +8,7 @@
 
 import UIKit
 
-class FLComponentController: UIViewController {
+class FLTableComponentController: UIViewController {
     
     lazy var tableView : UITableView = {
         let tableView : UITableView = UITableView.init(frame: self.customRect(), style: self.tableViewStyle)
@@ -18,7 +18,7 @@ class FLComponentController: UIViewController {
         return tableView
     }()
     
-    var components : Array<FLBaseComponent> = [] {
+    var components : Array<FLTableBaseComponent> = [] {
         didSet{
             if components.count != 0 {
                 tableView.reloadData()
@@ -38,7 +38,7 @@ class FLComponentController: UIViewController {
     }
 }
 
-extension FLComponentController : FLTableComponentConfiguration,UITableViewDelegate, UITableViewDataSource{
+extension FLTableComponentController : FLTableComponentConfiguration,UITableViewDelegate, UITableViewDataSource{
     
     var tableViewStyle: UITableViewStyle {
         return UITableViewStyle.plain
@@ -51,7 +51,7 @@ extension FLComponentController : FLTableComponentConfiguration,UITableViewDeleg
 
 // MARK : tableView datasource
 
-extension FLComponentController {
+extension FLTableComponentController {
     
     func numberOfSections(in tableView: UITableView) -> Int {
         return components.count
@@ -68,7 +68,7 @@ extension FLComponentController {
 
 // MARK : header or footer customizaion
 
-extension FLComponentController {
+extension FLTableComponentController {
     
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?{
         let component = components[section]
@@ -81,6 +81,15 @@ extension FLComponentController {
         component.componentController = self
         return component.footerView(at: section)
     }
+}
+
+// MARK : Hight customization
+
+extension FLTableComponentController {
+    
+    func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
+        return components[indexPath.section].heightForRow(at: indexPath)
+    }
     
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
         return components[section].heightForHeader(at: section)
@@ -89,11 +98,12 @@ extension FLComponentController {
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat{
         return components[section].heightForFooter(at: section)
     }
+    
 }
 
 // MARK : Display customization
 
-extension FLComponentController {
+extension FLTableComponentController {
     
     func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
         components[indexPath.section].tableView(willDisplay: cell, forRowAt: indexPath)
@@ -122,7 +132,7 @@ extension FLComponentController {
 
 // MARK : selection
 
-extension FLComponentController : FLTableComponentEvent{
+extension FLTableComponentController : FLTableComponentEvent{
     
     func tableHeaderView(_  headerView : FLTableViewHeaderFooterView, didClickSectionAt section: Int){
         // do nothing

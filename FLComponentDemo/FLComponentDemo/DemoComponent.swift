@@ -8,7 +8,7 @@
 
 import UIKit
 
-class DemoComponent: FLBaseComponent {
+class DemoComponent: FLTableBaseComponent {
     
     override func register() {
         super.register()
@@ -27,9 +27,9 @@ class DemoComponent: FLBaseComponent {
         cell.textLabel?.text = "gitKong"
     }
     
-    override func tableView(willDisplayHeaderView view: UITableViewHeaderFooterView, forSection section: Int) {
-        print("headerView color is \(String(describing: view.contentView.backgroundColor))")
-    }
+//    override func tableView(willDisplayHeaderView view: UITableViewHeaderFooterView, forSection section: Int) {
+//        print("headerView color is \(String(describing: view.contentView.backgroundColor))")
+//    }
     
     override func titleForHeader(at section: Int) -> NSMutableAttributedString? {
         let attStr = NSMutableAttributedString.init(string: "hello world,hello gitKong, i am header title test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")

@@ -8,7 +8,7 @@
 
 import UIKit
 
-class NibDemoComponent: FLBaseComponent {
+class NibDemoComponent: FLTableBaseComponent {
     
     override func register() {
         // MARK : Do not call super register, if you just want to reuse headerView, otherwise, you should call super
@@ -24,6 +24,10 @@ class NibDemoComponent: FLBaseComponent {
     
     override func numberOfRows() -> NSInteger {
         return 3
+    }
+    
+    override func heightForRow(at indexPath: IndexPath) -> CGFloat {
+        return 60
     }
     
     override func headerView(at section: Int) -> FLTableViewHeaderFooterView? {

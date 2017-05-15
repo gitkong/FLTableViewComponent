@@ -1,5 +1,5 @@
 //
-//  FLBaseComponent.swift
+//  FLTableBaseComponent.swift
 //  FLComponentDemo
 //
 //  Created by Lyon on 2017/5/11.
@@ -10,6 +10,7 @@ import UIKit
 
 let FLHeaderFooterTitleTopPadding : CGFloat = 5
 let FLHeaderFooterTitleLeftPadding : CGFloat = 20
+let FLTableViewCellDefaultHeight : CGFloat = 44
 
 enum FLIdentifierType  : String{
     case Cell = "cell"
@@ -32,7 +33,7 @@ enum FLIdentifierType  : String{
     }
 }
 
-class FLBaseComponent: NSObject, FLTableComponentConfiguration {
+class FLTableBaseComponent: NSObject, FLTableComponentConfiguration {
     
     var tableView : UITableView?
     
@@ -48,7 +49,7 @@ class FLBaseComponent: NSObject, FLTableComponentConfiguration {
 
 // MARK : base configuration
 
-extension FLBaseComponent {
+extension FLTableBaseComponent {
     final var cellIdentifier : String {
         return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Cell.rawValue)"
     }
@@ -78,22 +79,26 @@ extension FLBaseComponent {
 
 // MARK : header or footer customizaion
 
-extension FLBaseComponent {
+extension FLTableBaseComponent {
     
     
-    /// you can override this method to perform additional operation, such as add lable or button into headerView or footerView to resue, but if you regist for header or footer, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
+    /// you can override this method to perform additional operation, such as add lable or button into headerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for headerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
     ///
     /// - Parameter headerView:  headerView for ready to reuse
     func additionalOperationForReuseHeaderView(_ headerView : FLTableViewHeaderFooterView?) {
         // do something , such as add lable or button into headerView or footerView to resue
     }
     
+    
+    /// you can override this method to perform additional operation, such as add lable or button into footerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for footerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
+    ///
+    /// - Parameter footerView: footerView for ready to reuse
     func additionalOperationForReuseFooterFooterView(_ footerView : FLTableViewHeaderFooterView?) {
         
     }
     
     
-    /// MARK : when you override this method, you should call super to get headerView if you just regist FLTableViewHeaderFooterView class; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if you want headerView have accurate event handling capabilities,
+    /// when you override this method, you should call super to get headerView if you just regist the class of FLTableViewHeaderFooterView; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if this headerView have to accurate tapping event
     ///
     /// - Parameter section: current section
     /// - Returns: FLTableViewHeaderFooterView
@@ -113,6 +118,10 @@ extension FLBaseComponent {
         return headerView
     }
     
+    /// when you override this method, you should call super to get footerView if you just regist the class of FLTableViewHeaderFooterView; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if this footerView have to accurate tapping event
+    ///
+    /// - Parameter section: current section
+    /// - Returns: FLTableViewHeaderFooterView
     func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
         var footerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.footerIdentifier)
         if (footerView == nil) {
@@ -126,6 +135,27 @@ extension FLBaseComponent {
         addClickDelegete(for: footerView)
         footerView?.section = section
         return footerView
+    }
+    
+    func titleForHeader(at section : Int) -> NSMutableAttributedString? {
+        return nil
+    }
+    
+    func titleForFooter(at section : Int) -> NSMutableAttributedString? {
+        return nil
+    }
+    
+    private func addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  {
+        headerFooterView?.delegate = componentController
+    }
+}
+
+// MARK : height customization
+
+extension FLTableBaseComponent {
+    
+    func heightForRow(at indexPath: IndexPath) -> CGFloat {
+        return FLTableViewCellDefaultHeight
     }
     
     func heightForHeader(at section : Int) -> CGFloat {
@@ -142,29 +172,17 @@ extension FLBaseComponent {
         return CGFloat.leastNormalMagnitude
     }
     
-    func titleForHeader(at section : Int) -> NSMutableAttributedString? {
-        return nil
-    }
-    
-    func titleForFooter(at section : Int) -> NSMutableAttributedString? {
-        return nil
-    }
-    
     private func suitableTitleHeight(forString string : NSMutableAttributedString) -> CGFloat{
         let option = NSStringDrawingOptions.usesLineFragmentOrigin
         let rect = string.boundingRect(with: CGSize.init(width: UIScreen.main.bounds.width - 2 * FLHeaderFooterTitleLeftPadding, height: CGFloat.greatestFiniteMagnitude), options: option, context: nil)
         // footer or header height must higher than the real rect for footer or header title,otherwise, footer or header title will offset
         return rect.height + FLHeaderFooterTitleTopPadding * 2
     }
-    
-    private func addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  {
-        headerFooterView?.delegate = componentController
-    }
 }
 
 // MARK : Display customization
 
-extension FLBaseComponent {
+extension FLTableBaseComponent {
     func tableView(willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
         // do nothing
     }

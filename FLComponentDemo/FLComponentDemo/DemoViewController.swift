@@ -8,13 +8,13 @@
 
 import UIKit
 
-class DemoViewController: FLComponentController {
+class DemoViewController: FLTableComponentController {
 
     override func viewDidLoad() {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
-        var arr : Array<FLBaseComponent> = []
+        var arr : Array<FLTableBaseComponent> = []
         
         let component = DemoComponent.init(tableView: self.tableView)
         let NibComponent = NibDemoComponent.init(tableView: self.tableView)

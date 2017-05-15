@@ -12,8 +12,8 @@
 		B6B5C9D11EC443AE006BA487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6B5C9CF1EC443AE006BA487 /* Main.storyboard */; };
 		B6B5C9D31EC443AE006BA487 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = B6B5C9D21EC443AE006BA487 /* Assets.xcassets */; };
 		B6B5C9D61EC443AE006BA487 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6B5C9D41EC443AE006BA487 /* LaunchScreen.storyboard */; };
-		B6B5C9DE1EC44466006BA487 /* FLComponentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9DD1EC44466006BA487 /* FLComponentController.swift */; };
-		B6B5C9E01EC45216006BA487 /* FLBaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9DF1EC45216006BA487 /* FLBaseComponent.swift */; };
+		B6B5C9DE1EC44466006BA487 /* FLTableComponentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9DD1EC44466006BA487 /* FLTableComponentController.swift */; };
+		B6B5C9E01EC45216006BA487 /* FLTableBaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9DF1EC45216006BA487 /* FLTableBaseComponent.swift */; };
 		B6B5C9E21EC454E2006BA487 /* FLTableComponentProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9E11EC454E2006BA487 /* FLTableComponentProtocol.swift */; };
 		B6B5C9E81EC45A63006BA487 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9E71EC45A63006BA487 /* DemoViewController.swift */; };
 		B6B5C9EA1EC45A9A006BA487 /* DemoComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9E91EC45A9A006BA487 /* DemoComponent.swift */; };
@@ -31,8 +31,8 @@
 		B6B5C9D21EC443AE006BA487 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		B6B5C9D51EC443AE006BA487 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		B6B5C9D71EC443AE006BA487 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		B6B5C9DD1EC44466006BA487 /* FLComponentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLComponentController.swift; sourceTree = "<group>"; };
-		B6B5C9DF1EC45216006BA487 /* FLBaseComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLBaseComponent.swift; sourceTree = "<group>"; };
+		B6B5C9DD1EC44466006BA487 /* FLTableComponentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLTableComponentController.swift; sourceTree = "<group>"; };
+		B6B5C9DF1EC45216006BA487 /* FLTableBaseComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLTableBaseComponent.swift; sourceTree = "<group>"; };
 		B6B5C9E11EC454E2006BA487 /* FLTableComponentProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLTableComponentProtocol.swift; sourceTree = "<group>"; };
 		B6B5C9E71EC45A63006BA487 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		B6B5C9E91EC45A9A006BA487 /* DemoComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoComponent.swift; sourceTree = "<group>"; };
@@ -91,8 +91,8 @@
 		B6B5C9EB1EC4657E006BA487 /* FLTableComponent */ = {
 			isa = PBXGroup;
 			children = (
-				B6B5C9DD1EC44466006BA487 /* FLComponentController.swift */,
-				B6B5C9DF1EC45216006BA487 /* FLBaseComponent.swift */,
+				B6B5C9DD1EC44466006BA487 /* FLTableComponentController.swift */,
+				B6B5C9DF1EC45216006BA487 /* FLTableBaseComponent.swift */,
 				B6B5C9E11EC454E2006BA487 /* FLTableComponentProtocol.swift */,
 				B6B5C9F21EC5964E006BA487 /* FLTableViewHeaderFooterView.swift */,
 			);
@@ -173,8 +173,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				B6B5C9E01EC45216006BA487 /* FLBaseComponent.swift in Sources */,
-				B6B5C9DE1EC44466006BA487 /* FLComponentController.swift in Sources */,
+				B6B5C9E01EC45216006BA487 /* FLTableBaseComponent.swift in Sources */,
+				B6B5C9DE1EC44466006BA487 /* FLTableComponentController.swift in Sources */,
 				B6B5C9F31EC5964F006BA487 /* FLTableViewHeaderFooterView.swift in Sources */,
 				B6B5C9ED1EC46BDE006BA487 /* NibDemoComponent.swift in Sources */,
 				B6B5C9CE1EC443AE006BA487 /* ViewController.swift in Sources */,
