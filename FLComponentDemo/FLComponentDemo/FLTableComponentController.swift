@@ -28,13 +28,24 @@ class FLTableComponentController: UIViewController {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
-        self.tableView.frame = self.customRect()
+        tableView.frame = self.customRect()
     }
 
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
-        view.addSubview(self.tableView)
+        view.addSubview(tableView)
+        
+        self.tableView.tableHeaderView = headerView(of: tableView)
+        self.tableView.tableFooterView = footerView(of: tableView)
+    }
+    
+    func headerView(of tableView : UITableView) -> UIView? {
+        return nil
+    }
+    
+    func footerView(of tableView : UITableView) -> UIView? {
+        return nil
     }
 }
 

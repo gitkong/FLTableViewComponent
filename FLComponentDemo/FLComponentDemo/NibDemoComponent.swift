@@ -55,6 +55,10 @@ class NibDemoComponent: FLTableBaseComponent {
         return footerView
     }
     
+    override func additionalOperationForReuseFooterView(_ footerView: FLTableViewHeaderFooterView?) {
+        // the same as header
+    }
+    
     override func heightForFooter(at section: Int) -> CGFloat {
         return 10
     }

@@ -20,15 +20,26 @@ class DemoViewController: FLTableComponentController {
         let NibComponent = NibDemoComponent.init(tableView: self.tableView)
 
         arr.append(component)
-        arr.append(component)
-        arr.append(component)
-        arr.append(NibComponent)
         arr.append(NibComponent)
         self.components = arr
     }
     
     override var tableViewStyle: UITableViewStyle {
         return UITableViewStyle.grouped
+    }
+    
+    override func customRect() -> CGRect {
+        return self.view.bounds
+    }
+    
+    override func headerView(of tableView: UITableView) -> UIView? {
+        let view = UIView.init(frame: CGRect.init(x: 0, y: 0, width: tableView.frame.size.width, height: 100))
+        view.backgroundColor = UIColor.lightGray
+        return view
+    }
+    
+    override func footerView(of tableView: UITableView) -> UIView? {
+        return nil
     }
     
     override func tableHeaderView(_ headerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {

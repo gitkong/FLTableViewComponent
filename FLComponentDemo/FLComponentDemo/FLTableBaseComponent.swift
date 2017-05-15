@@ -82,7 +82,7 @@ extension FLTableBaseComponent {
 extension FLTableBaseComponent {
     
     
-    /// you can override this method to perform additional operation, such as add lable or button into headerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for headerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
+    /// you can override this method to perform additional operation, such as add lable or button into headerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for headerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
     ///
     /// - Parameter headerView:  headerView for ready to reuse
     func additionalOperationForReuseHeaderView(_ headerView : FLTableViewHeaderFooterView?) {
@@ -90,10 +90,10 @@ extension FLTableBaseComponent {
     }
     
     
-    /// you can override this method to perform additional operation, such as add lable or button into footerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for footerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method,
+    /// you can override this method to perform additional operation, such as add lable or button into footerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for footerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
     ///
     /// - Parameter footerView: footerView for ready to reuse
-    func additionalOperationForReuseFooterFooterView(_ footerView : FLTableViewHeaderFooterView?) {
+    func additionalOperationForReuseFooterView(_ footerView : FLTableViewHeaderFooterView?) {
         
     }
     
@@ -127,7 +127,7 @@ extension FLTableBaseComponent {
         if (footerView == nil) {
             // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
             footerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.footerIdentifier,section: section)
-            additionalOperationForReuseFooterFooterView(footerView)
+            additionalOperationForReuseFooterView(footerView)
         }
         if let footerTitle = self.titleForFooter(at: section) {
             footerView?.titleLabel.attributedText = footerTitle

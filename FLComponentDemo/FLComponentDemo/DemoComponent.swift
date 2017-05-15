@@ -27,10 +27,6 @@ class DemoComponent: FLTableBaseComponent {
         cell.textLabel?.text = "gitKong"
     }
     
-//    override func tableView(willDisplayHeaderView view: UITableViewHeaderFooterView, forSection section: Int) {
-//        print("headerView color is \(String(describing: view.contentView.backgroundColor))")
-//    }
-    
     override func titleForHeader(at section: Int) -> NSMutableAttributedString? {
         let attStr = NSMutableAttributedString.init(string: "hello world,hello gitKong, i am header title test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")
         // must add attribute,otherwise,calculate the wrong rect for attribute string
