@@ -136,7 +136,7 @@ override func footerView(of tableView: UITableView) -> UIView? {
 
 279761135@qq.com
 
-## Thinks
+## Thanks
 
 [rickytan RTComponentTableView(Objective-C)](https://github.com/rickytan/RTComponentTableView)
 
