@@ -8,32 +8,9 @@
 
 import UIKit
 
-let FLHeaderFooterTitleTopPadding : CGFloat = 5
-let FLHeaderFooterTitleLeftPadding : CGFloat = 20
 let FLTableViewCellDefaultHeight : CGFloat = 44
 
-enum FLIdentifierType  : String{
-    case Cell = "cell"
-    case Header = "header"
-    case Footer = "footer"
-    
-    static func type(of  reuseIdentifier : String?) -> FLIdentifierType? {
-        if let reuseId = reuseIdentifier {
-            if reuseId.hasSuffix(FLIdentifierType.Header.rawValue) {
-                return .Header
-            }
-            else if reuseId.hasSuffix(FLIdentifierType.Footer.rawValue) {
-                return .Footer
-            }
-            else {
-                return .Cell
-            }
-        }
-        return nil
-    }
-}
-
-class FLTableBaseComponent: NSObject, FLTableComponentConfiguration {
+class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
     
     var tableView : UITableView?
     
@@ -50,19 +27,8 @@ class FLTableBaseComponent: NSObject, FLTableComponentConfiguration {
 // MARK : base configuration
 
 extension FLTableBaseComponent {
-    final var cellIdentifier : String {
-        return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Cell.rawValue)"
-    }
     
-    final var footerIdentifier: String {
-        return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Footer.rawValue)"
-    }
-    
-    final var headerIdentifier: String {
-        return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Header.rawValue)"
-    }
-    
-    func register() {
+    override func register() {
         tableView?.registerClass(className: UITableViewCell.self, cellReuseIdentifier: self.cellIdentifier)
         tableView?.registerClass(className: FLTableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.headerIdentifier)
         tableView?.registerClass(className: FLTableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.footerIdentifier)

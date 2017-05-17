@@ -22,13 +22,22 @@ class DemoViewController: FLTableComponentController {
         arr.append(component)
         arr.append(NibComponent)
         self.components = arr
+        
+        self.components.append(component)
+        
+        self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "add", style: .done, target: self, action: #selector(self.addElement))
+    }
+    
+    func addElement() {
+        self.components.append(NibDemoComponent.init(tableView: self.tableView))
+        self.reloadComponent()
     }
     
     override var tableViewStyle: UITableViewStyle {
         return UITableViewStyle.grouped
     }
     
-    override func customRect() -> CGRect {
+    override var customRect : CGRect {
         return self.view.bounds
     }
     

@@ -2,7 +2,7 @@
 Pod::Spec.new do |s|
 
   s.name         = "FLTableComponent"
-  s.version      = "0.0.1"
+  s.version      = "1.0.0"
   s.summary      = "A component for tableView"
 
   s.description  = <<-DESC
@@ -10,7 +10,7 @@ A component for tableView, which can greatly reduce your controller codes, also,
                    DESC
 
   s.homepage     = "https://github.com/gitkong/FLTableViewComponent"
-
+  s.license	 = 'MIT'
   s.license      = { :type => "MIT", :file => "FILE_LICENSE" }
 
 

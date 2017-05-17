@@ -13,10 +13,12 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
+//        let collectionView : UICollectionView = UICollectionView()
+        
     }
     
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        self.navigationController?.pushViewController(DemoViewController(), animated: true)
+        self.navigationController?.pushViewController(DemoCollectionViewController(), animated: true)
     }
 
     override func didReceiveMemoryWarning() {

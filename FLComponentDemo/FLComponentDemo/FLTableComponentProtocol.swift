@@ -6,26 +6,17 @@
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
+// MARK : you can override this protocol methods
+
 import UIKit
 
-@objc protocol FLTableComponentConfiguration {
+@objc protocol FLTableComponentConfiguration : FLBaseComponentProtocol {
     
-    // custom UI,default tableView is plain and rect is self.view.bounds
+    // custom UI,default tableView is plain
     
     @objc optional var tableViewStyle : UITableViewStyle { get }
     
-    @objc optional func customRect() -> CGRect
-    
-    @objc optional var cellIdentifier : String { get }
-    
-    @objc optional var headerIdentifier : String { get }
-    
-    @objc optional var footerIdentifier : String { get }
-    
-    // normal configuration
-    
-    // MARK : Do not call super register, if you just want to reuse headerView, otherwise, you should call super.register()
-    @objc optional func register()
+    // dataSource configuration
     
     @objc optional func numberOfRows() -> NSInteger
     
