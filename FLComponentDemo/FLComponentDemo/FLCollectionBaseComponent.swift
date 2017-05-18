@@ -41,6 +41,17 @@ extension FLCollectionBaseComponent {
     }
     
     
+    /// If you do not override this method, the flow layout uses the values in its itemSize property to set the size of items instead. Your implementation of this method can return a fixed set of sizes or dynamically adjust the sizes based on the cell’s content.
+    ///
+    /// - Parameters:
+    ///   - collectionViewLayout: Default is flowLayout
+    ///   - indexPath: current indexPath
+    /// - Returns: item size
+    func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
+        return CGSize.zero
+    }
+    
+    
 }
 
 

@@ -14,6 +14,10 @@
 		B62A0C021ECC4D6800245D42 /* FLCollectionComponentController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C011ECC4D6800245D42 /* FLCollectionComponentController.swift */; };
 		B62A0C041ECC64EE00245D42 /* DemoCollectionViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C031ECC64EE00245D42 /* DemoCollectionViewController.swift */; };
 		B62A0C061ECC69DE00245D42 /* DemoCollectionComponentOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C051ECC69DE00245D42 /* DemoCollectionComponentOne.swift */; };
+		B62A0C081ECD424000245D42 /* FLCollectionViewFlowLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C071ECD424000245D42 /* FLCollectionViewFlowLayout.swift */; };
+		B62A0C0B1ECDA8C100245D42 /* DemoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C091ECDA8C100245D42 /* DemoCollectionViewCell.swift */; };
+		B62A0C0C1ECDA8C100245D42 /* DemoCollectionViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B62A0C0A1ECDA8C100245D42 /* DemoCollectionViewCell.xib */; };
+		B62A0C0E1ECDB38F00245D42 /* DemoCollectionComponentTwo.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C0D1ECDB38F00245D42 /* DemoCollectionComponentTwo.swift */; };
 		B6B5C9CC1EC443AE006BA487 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9CB1EC443AE006BA487 /* AppDelegate.swift */; };
 		B6B5C9CE1EC443AE006BA487 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9CD1EC443AE006BA487 /* ViewController.swift */; };
 		B6B5C9D11EC443AE006BA487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6B5C9CF1EC443AE006BA487 /* Main.storyboard */; };
@@ -38,6 +42,10 @@
 		B62A0C011ECC4D6800245D42 /* FLCollectionComponentController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLCollectionComponentController.swift; sourceTree = "<group>"; };
 		B62A0C031ECC64EE00245D42 /* DemoCollectionViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCollectionViewController.swift; sourceTree = "<group>"; };
 		B62A0C051ECC69DE00245D42 /* DemoCollectionComponentOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCollectionComponentOne.swift; sourceTree = "<group>"; };
+		B62A0C071ECD424000245D42 /* FLCollectionViewFlowLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLCollectionViewFlowLayout.swift; sourceTree = "<group>"; };
+		B62A0C091ECDA8C100245D42 /* DemoCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCollectionViewCell.swift; sourceTree = "<group>"; };
+		B62A0C0A1ECDA8C100245D42 /* DemoCollectionViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = DemoCollectionViewCell.xib; sourceTree = "<group>"; };
+		B62A0C0D1ECDB38F00245D42 /* DemoCollectionComponentTwo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoCollectionComponentTwo.swift; sourceTree = "<group>"; };
 		B6B5C9C81EC443AE006BA487 /* FLComponentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLComponentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6B5C9CB1EC443AE006BA487 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6B5C9CD1EC443AE006BA487 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -106,9 +114,13 @@
 				B62A0BFB1ECC2F0A00245D42 /* FLCollectionBaseComponent.swift */,
 				B62A0BFD1ECC49B500245D42 /* FLCollectionComponentProtocol.swift */,
 				B62A0C011ECC4D6800245D42 /* FLCollectionComponentController.swift */,
+				B62A0C071ECD424000245D42 /* FLCollectionViewFlowLayout.swift */,
 				B62A0BF41ECC25B500245D42 /* TableViewDemo */,
 				B62A0C031ECC64EE00245D42 /* DemoCollectionViewController.swift */,
 				B62A0C051ECC69DE00245D42 /* DemoCollectionComponentOne.swift */,
+				B62A0C091ECDA8C100245D42 /* DemoCollectionViewCell.swift */,
+				B62A0C0A1ECDA8C100245D42 /* DemoCollectionViewCell.xib */,
+				B62A0C0D1ECDB38F00245D42 /* DemoCollectionComponentTwo.swift */,
 				B6B5C9CF1EC443AE006BA487 /* Main.storyboard */,
 				B6B5C9D21EC443AE006BA487 /* Assets.xcassets */,
 				B6B5C9D41EC443AE006BA487 /* LaunchScreen.storyboard */,
@@ -188,6 +200,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B62A0C0C1ECDA8C100245D42 /* DemoCollectionViewCell.xib in Resources */,
 				B6B5C9D61EC443AE006BA487 /* LaunchScreen.storyboard in Resources */,
 				B6B5C9D31EC443AE006BA487 /* Assets.xcassets in Resources */,
 				B6B5C9F11EC46C10006BA487 /* NibDemoTableViewCell.xib in Resources */,
@@ -216,8 +229,11 @@
 				B6B5C9E81EC45A63006BA487 /* DemoViewController.swift in Sources */,
 				B6B5C9E21EC454E2006BA487 /* FLTableComponentProtocol.swift in Sources */,
 				B6B5C9F01EC46C10006BA487 /* NibDemoTableViewCell.swift in Sources */,
+				B62A0C0B1ECDA8C100245D42 /* DemoCollectionViewCell.swift in Sources */,
+				B62A0C081ECD424000245D42 /* FLCollectionViewFlowLayout.swift in Sources */,
 				B6B5C9EA1EC45A9A006BA487 /* DemoComponent.swift in Sources */,
 				B6B5C9CC1EC443AE006BA487 /* AppDelegate.swift in Sources */,
+				B62A0C0E1ECDB38F00245D42 /* DemoCollectionComponentTwo.swift in Sources */,
 				B62A0C001ECC4A3200245D42 /* FLBaseComponentProtocol.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

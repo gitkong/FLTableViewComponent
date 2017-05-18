@@ -11,7 +11,7 @@ import UIKit
 class FLCollectionComponentController: UIViewController{
     
     lazy var collectionView : UICollectionView = {
-        let collectionView : UICollectionView = UICollectionView.init(frame: self.customRect, collectionViewLayout: self.collectionViewlayout)
+        let collectionView : UICollectionView = UICollectionView.init(frame: self.customRect, collectionViewLayout: self.collectionViewLayout)
         collectionView.backgroundColor = UIColor.white
         collectionView.delegate = self
         collectionView.dataSource = self
@@ -34,6 +34,8 @@ class FLCollectionComponentController: UIViewController{
         view.backgroundColor = UIColor.white
         view.addSubview(collectionView)
     }
+    
+    
 }
 
 extension FLCollectionComponentController : FLCollectionComponentConfiguration {
@@ -42,14 +44,28 @@ extension FLCollectionComponentController : FLCollectionComponentConfiguration {
         return self.view.bounds
     }
     
-    func flowLayoutConfiguration(_ flowLayout: UICollectionViewFlowLayout) {
+    func flowLayoutConfiguration(_ flowLayout: FLCollectionViewFlowLayout) {
         // do somethings
     }
     
-    var collectionViewlayout: UICollectionViewLayout {
-        let flowLayout : UICollectionViewFlowLayout = UICollectionViewFlowLayout()
+    var flowLayoutStyle: FLCollectionViewFlowLayoutStyle {
+        return .System
+    }
+    
+    var collectionViewLayout: UICollectionViewLayout {
+        let flowLayout : FLCollectionViewFlowLayout = FLCollectionViewFlowLayout.init(with: self.flowLayoutStyle)
+        flowLayout.delegate = self
         flowLayoutConfiguration(flowLayout)
         return flowLayout
+    }
+    
+    func changeLayout(to layoutStyle : FLCollectionViewFlowLayoutStyle) {
+        let flowLayout : FLCollectionViewFlowLayout = FLCollectionViewFlowLayout.init(with: layoutStyle)
+        flowLayout.delegate = self
+        flowLayoutConfiguration(flowLayout)
+        self.collectionView.setCollectionViewLayout(flowLayout, animated: true) { (finish) in
+            self.reloadComponent()
+        }
     }
     
     func reloadComponent() {
@@ -59,7 +75,7 @@ extension FLCollectionComponentController : FLCollectionComponentConfiguration {
 
 // MARK : dataSources customizaion
 
-extension FLCollectionComponentController : UICollectionViewDelegate, UICollectionViewDataSource{
+extension FLCollectionComponentController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
     func numberOfSections(in collectionView: UICollectionView) -> Int {
         return components.count
@@ -77,6 +93,23 @@ extension FLCollectionComponentController : UICollectionViewDelegate, UICollecti
             return UICollectionViewCell()
         }
         return components[indexPath.section].cellForItem(at: indexPath)
+    }
+    
+    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard components.count > 0 else {
+            return CGSize.zero
+        }
+        var size : CGSize = components[indexPath.section].sizeForItem(withLayout: collectionViewLayout, at: indexPath)
+        if size == .zero {
+            if self.collectionViewLayout is FLCollectionViewFlowLayout {
+                let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
+                size = flowLayout.itemSize
+            }
+            else {
+                size = (collectionViewLayout.layoutAttributesForItem(at: indexPath) != nil) ? collectionViewLayout.layoutAttributesForItem(at: indexPath)!.size : CGSize.zero
+            }
+        }
+        return size
     }
 }
 

@@ -12,15 +12,19 @@ import UIKit
     
     // custom UI,default collectionViewlayout is flowLayout, you can override the flowLayoutConfiguration method to custom flowLayout
     
-    @objc optional var collectionViewlayout : UICollectionViewLayout { get }
+    @objc optional var collectionViewLayout : UICollectionViewLayout { get }
     
-    @objc optional func flowLayoutConfiguration(_ flowLayout : UICollectionViewFlowLayout)
+    @objc optional func flowLayoutConfiguration(_ flowLayout : FLCollectionViewFlowLayout)
+    
+    @objc optional var flowLayoutStyle : FLCollectionViewFlowLayoutStyle { get }
     
     // dataSource configuration
     
     @objc optional func numberOfItems() -> NSInteger
     
     @objc optional func cellForItem(at indexPath: IndexPath) -> UICollectionViewCell
+    
+    @objc optional func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize
     
     // header or footer view customization
     
