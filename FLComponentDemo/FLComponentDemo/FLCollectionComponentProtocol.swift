@@ -16,15 +16,21 @@ import UIKit
     
     @objc optional func flowLayoutConfiguration(_ flowLayout : FLCollectionViewFlowLayout)
     
-    @objc optional var flowLayoutStyle : FLCollectionViewFlowLayoutStyle { get }
+    @objc optional var flowLayoutStyle : FLCollectionViewFlowLayoutStyle { get set }
+    
+    @objc optional func sectionInset(at section : Int) -> UIEdgeInsets
+    
+    @objc optional func minimumLineSpacing(at section : Int) -> CGFloat
+    
+    @objc optional func minimumInteritemSpacing(at section : Int) -> CGFloat
     
     // dataSource configuration
     
     @objc optional func numberOfItems() -> NSInteger
     
-    @objc optional func cellForItem(at indexPath: IndexPath) -> UICollectionViewCell
+    @objc optional func cellForItem(at item: Int) -> UICollectionViewCell
     
-    @objc optional func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize
+    @objc optional func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at item: Int) -> CGSize
     
     // header or footer view customization
     
@@ -35,4 +41,6 @@ import UIKit
     @objc optional func heightForHeader(at section : Int) -> CGFloat
     
     @objc optional func heightForFooter(at section : Int) -> CGFloat
+    
+    //
 }

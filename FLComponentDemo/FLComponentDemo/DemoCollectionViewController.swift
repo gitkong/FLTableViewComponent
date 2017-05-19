@@ -10,7 +10,7 @@ import UIKit
 
 class DemoCollectionViewController: FLCollectionComponentController {
     
-    var flag : Bool = true
+    var flag : Bool = false
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -23,7 +23,8 @@ class DemoCollectionViewController: FLCollectionComponentController {
         arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
         arr.append(component)
         arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
-        arr.append(DemoCollectionComponentOne(collectionView: collectionView))
+        arr.append(component)
+        arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
         self.components = arr
         
         
@@ -33,23 +34,18 @@ class DemoCollectionViewController: FLCollectionComponentController {
     
     func change() {
         if self.flag {
-            self.changeLayout(to: .System)
+            self.flowLayoutStyle = .System
             self.title = "system style"
         }
         else {
-            self.changeLayout(to: .Custom)
+            self.flowLayoutStyle = .Custom
             self.title = "custom style"
         }
         self.flag = !self.flag
     }
-    
-    override var flowLayoutStyle: FLCollectionViewFlowLayoutStyle {
-        return .Custom
-    }
 
     override func flowLayoutConfiguration(_ flowLayout: FLCollectionViewFlowLayout) {
-//        super.flowLayoutConfiguration(flowLayout)
-//        flowLayout.itemSize = CGSize.init(width: 60, height: 60)
+//        flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
     }
     
     

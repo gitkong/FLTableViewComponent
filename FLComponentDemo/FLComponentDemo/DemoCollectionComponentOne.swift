@@ -19,21 +19,21 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
         return 12
     }
     
-    override func cellForItem(at indexPath: IndexPath) -> UICollectionViewCell {
-        let cell : DemoCollectionViewCell = super.cellForItem(at: indexPath) as! DemoCollectionViewCell
+    override func cellForItem(at item: Int) -> UICollectionViewCell {
+        let cell : DemoCollectionViewCell = super.cellForItem(at: item) as! DemoCollectionViewCell
         cell.backgroundColor = UIColor.red
-        cell.textLabel.text = stringFromSize(at: indexPath)
+        cell.textLabel.text = stringFromSize(at: item)
         return cell
     }
     
-    private func stringFromSize(at indexPath : IndexPath) -> String{
+    private func stringFromSize(at item: Int) -> String{
         
-        return "\(customSize(at: indexPath))"
+        return "\(customSize(at: item))"
     }
     
-    private func customSize(at indexPath : IndexPath) -> CGSize {
+    private func customSize(at item: Int) -> CGSize {
         var width : CGFloat = 100, height : CGFloat = 100
-        switch indexPath.item {
+        switch item {
         case 0:
             width = 120
             height = 60
@@ -59,37 +59,6 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
             width = 30
             height = 50
         }
-//        if indexPath.section == 0 {
-//
-//        }
-//        else{
-//            switch indexPath.item {
-//            case 0:
-//                width = 60
-//                height = 30
-//            case 1:
-//                width = 90
-//                height = 80
-//            case 2:
-//                width = 100
-//                height = 60
-//            case 3:
-//                width = 120
-//                height = 100
-//            case 4:
-//                width = 30
-//                height = 40
-//            case 5:
-//                width = 120
-//                height = 60
-//            case 6:
-//                width = 60
-//                height = 120
-//            default:
-//                width = 30
-//                height = 50
-//            }
-//        }
         return CGSize.init(width: width, height: height)
     }
     
@@ -100,12 +69,26 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
     }
     
     override func heightForHeader(at section : Int) -> CGFloat {
-        return 100
+        return 20
     }
     
-    override func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
+    override func footerView(at section: Int) -> UICollectionReusableView {
+        let footerView : UICollectionReusableView = super.footerView(at: section)
+        footerView.backgroundColor = UIColor.purple
+        return footerView
+    }
+    
+    override func heightForFooter(at section : Int) -> CGFloat {
+        return 60
+    }
+    
+    override func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at item: Int) -> CGSize {
         
-        return customSize(at: indexPath)
+        return customSize(at: item)
+    }
+    
+    override func sectionInset(at section: Int) -> UIEdgeInsets {
+        return UIEdgeInsets.zero
     }
     
 }

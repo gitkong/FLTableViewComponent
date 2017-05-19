@@ -12,6 +12,8 @@ class FLCollectionBaseComponent: FLBaseComponent, FLCollectionComponentConfigura
     
     var collectionView : UICollectionView?
     
+    var section : Int? = 0
+    
     weak var componentController : FLTableComponentEvent?
     
     init(collectionView : UICollectionView){
@@ -36,8 +38,8 @@ extension FLCollectionBaseComponent {
         return 0
     }
     
-    func cellForItem(at indexPath: IndexPath) -> UICollectionViewCell {
-        return (collectionView?.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: indexPath))!
+    func cellForItem(at item: Int) -> UICollectionViewCell {
+        return (collectionView?.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: IndexPath.init(item: item, section: section!)))!
     }
     
     
@@ -46,14 +48,15 @@ extension FLCollectionBaseComponent {
     /// - Parameters:
     ///   - collectionViewLayout: Default is flowLayout
     ///   - indexPath: current indexPath
-    /// - Returns: item size
-    func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at indexPath: IndexPath) -> CGSize {
-        return CGSize.zero
+    /// - Returns: item size,default is (50.0, 50.0)
+    func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at item: Int) -> CGSize {
+        return CGSize.init(width: 50.0, height: 50.0)
     }
     
     
 }
 
+// MARK : Header and Footer customization
 
 extension FLCollectionBaseComponent {
     
@@ -84,6 +87,23 @@ extension FLCollectionBaseComponent {
         else {
             return UICollectionReusableView()
         }
+    }
+}
+
+// MARK : Base UI Customization
+
+extension FLCollectionBaseComponent {
+    
+    func sectionInset(at section : Int) -> UIEdgeInsets {
+        return UIEdgeInsetsMake(10, 10, 10, 10)
+    }
+    
+    func minimumLineSpacing(at section : Int) -> CGFloat {
+        return 10
+    }
+    
+    func minimumInteritemSpacing(at section : Int) -> CGFloat {
+        return 10
     }
 }
 

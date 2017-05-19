@@ -14,8 +14,8 @@ class DemoComponent: FLTableBaseComponent {
         super.register()
     }
     
-    override func cellForRow(at indexPath: IndexPath) -> UITableViewCell {
-        let cell : UITableViewCell = super.cellForRow(at: indexPath)
+    override func cellForRow(at row: Int) -> UITableViewCell {
+        let cell : UITableViewCell = super.cellForRow(at: row)
         return cell
     }
     

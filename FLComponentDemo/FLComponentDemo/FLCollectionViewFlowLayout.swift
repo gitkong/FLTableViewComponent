@@ -8,9 +8,9 @@
 
 import UIKit
 
-typealias LayoutAttributesArray = Array<UICollectionViewLayoutAttributes>
+typealias LayoutAttributesArray = Array<UICollectionViewLayoutAttributes>?
 
-typealias LayoutAttributesDict = Dictionary<FLIdentifierType , LayoutAttributesArray>
+typealias LayoutAttributesDict = Dictionary<FLIdentifierType , LayoutAttributesArray>?
 
 @objc enum FLCollectionViewFlowLayoutStyle : NSInteger{
     case System = 0// Both ends of the same spacing, the middle spacing is not equal, alignment is center
@@ -23,7 +23,16 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
     
     private var sectionAttributes : Array<LayoutAttributesDict> = []
     
-    private var flowLayoutStyle : FLCollectionViewFlowLayoutStyle = .System
+    var flowLayoutStyle : FLCollectionViewFlowLayoutStyle?{
+        didSet {
+            // reset 
+            verticalTotalItemMaxY = 0
+        }
+    }
+    
+    var verticalTotalItemMaxY : CGFloat = 0
+    
+    var sectionInsetArray : Array<UIEdgeInsets> = []
     
     convenience init(with flowLayoutStyle : FLCollectionViewFlowLayoutStyle = .System) {
         self.init()
@@ -33,9 +42,6 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
     override init() {
         super.init()
         self.scrollDirection = .vertical
-        self.minimumInteritemSpacing = 8
-        self.minimumLineSpacing = 8
-        self.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
     }
     
     required init?(coder aDecoder: NSCoder) {
@@ -47,26 +53,35 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
         if flowLayoutStyle == .System {
             return
         }
-        guard self.collectionView != nil , let sections = self.collectionView?.numberOfSections else {
+        guard self.collectionView != nil , let sections = self.collectionView?.numberOfSections , self.delegate != nil else {
             return
         }
         
         sectionAttributes.removeAll()
         
-        var offsetX : CGFloat = self.sectionInset.left
-        var nextOffsetX : CGFloat = self.sectionInset.left
-        var offsetY : CGFloat = self.sectionInset.top
-        var verticalTotalItemHeight : CGFloat = 0
+        let firstInset : UIEdgeInsets = sectionInsetArray[0]
+        var offsetX : CGFloat = firstInset.left
+        var nextOffsetX : CGFloat = firstInset.left
+        var offsetY : CGFloat = firstInset.top
+        var currentInset = firstInset
+        
         var currentRowMaxItemHeight : CGFloat = 0
-        var lastHeaderAttributeHeight : CGFloat = 0
+        var lastHeaderAttributeSize : CGSize = CGSize.zero
+        var lastFooterAttributeSize : CGSize = CGSize.zero
+        
         for section in 0 ..< sections {
             
             var itemAttributes : LayoutAttributesArray = []
             var attributeDict : LayoutAttributesDict = [FLIdentifierType.Cell : itemAttributes]
             if let items = self.collectionView?.numberOfItems(inSection: section) {
-
+                let headerAttributeSize : CGSize = (self.delegate?.collectionView!(self.collectionView!, layout: self, referenceSizeForHeaderInSection: section))!
                 let headerAttribute = UICollectionViewLayoutAttributes.init(forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, with: IndexPath.init(item: 0, section: section))
-                headerAttribute.frame = CGRect.init(origin: CGPoint.init(x: 0, y: verticalTotalItemHeight), size: (self.delegate?.collectionView!(self.collectionView!, layout: self, referenceSizeForHeaderInSection: section))!)
+                headerAttribute.frame = CGRect.init(origin: CGPoint.init(x: 0, y: verticalTotalItemMaxY), size: headerAttributeSize)
+//                print("headerAttribute.frame : \(headerAttribute.frame)")
+                verticalTotalItemMaxY = 0
+                
+                let footerAttribute = UICollectionViewLayoutAttributes.init(forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, with: IndexPath.init(item: 0, section: section))
+                
                 
                 print("----- section (\(section))  ------")
                 
@@ -76,21 +91,20 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
                     let attribute = UICollectionViewLayoutAttributes.init(forCellWith: indexPath)
                     if let itemSize = self.delegate?.collectionView!(self.collectionView!, layout: self, sizeForItemAt: indexPath) {
                         
-                        print("compare : \(currentRowMaxItemHeight)  -  \(itemSize.height)")
-                        currentRowMaxItemHeight = max(currentRowMaxItemHeight, itemSize.height)
-                        
                         nextOffsetX = nextOffsetX + self.minimumInteritemSpacing + itemSize.width
                         
-                        if nextOffsetX > self.collectionView!.bounds.size.width - self.sectionInset.right {
+                        if nextOffsetX > self.collectionView!.bounds.size.width {
                             
-                            offsetX = self.sectionInset.left
-                            nextOffsetX = self.sectionInset.left + self.minimumInteritemSpacing + itemSize.width
+                            offsetX = currentInset.left
+                            nextOffsetX = currentInset.left + self.minimumInteritemSpacing + itemSize.width
                             offsetY = offsetY + currentRowMaxItemHeight + self.minimumLineSpacing
-                            print("max item height = \(currentRowMaxItemHeight)")
+//                            print("max item height = \(currentRowMaxItemHeight)")
                             // next row , compare with last itemSize
                             currentRowMaxItemHeight = itemSize.height
                         }
                         else {
+//                            print("compare : \(currentRowMaxItemHeight)  -  \(itemSize.height)")
+                            currentRowMaxItemHeight = max(currentRowMaxItemHeight, itemSize.height)
                             offsetX = nextOffsetX - (self.minimumInteritemSpacing + itemSize.width)
                         }
                         
@@ -98,23 +112,69 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
                         
                         
                         if item == items - 1 {
-                            verticalTotalItemHeight = currentRowMaxItemHeight + attribute.frame.origin.y + self.minimumLineSpacing
-                            lastHeaderAttributeHeight = headerAttribute.frame.size.height
+                            print("last attribute frame : \(attribute.frame)")
+                            verticalTotalItemMaxY = currentRowMaxItemHeight + attribute.frame.origin.y + self.minimumLineSpacing
+                            lastHeaderAttributeSize = headerAttribute.frame.size
                         }
                     }
-                    itemAttributes.append(attribute)
+                    itemAttributes!.append(attribute)
+                }
+                
+                if let footerAttributeSize = self.delegate?.collectionView!(self.collectionView!, layout: self, referenceSizeForFooterInSection: section) {
+                    if footerAttributeSize.height != 0 , footerAttributeSize.width != 0 {
+//                        print("section : \(section), footerHeight : \(footerAttributeSize.height), verticalTotalItemMaxY : \(verticalTotalItemMaxY)")
+                        footerAttribute.frame = CGRect.init(origin: CGPoint.init(x: 0, y: verticalTotalItemMaxY), size: footerAttributeSize)
+                        
+                        verticalTotalItemMaxY = verticalTotalItemMaxY + footerAttribute.frame.size.height
+                        
+                        if headerAttributeSize.height != 0 , headerAttributeSize.width != 0 {
+                            print("footer and header exist at section-\(section)")
+//                            verticalTotalItemMaxY = verticalTotalItemMaxY + self.minimumLineSpacing
+                        }
+                        else {
+                            print("footer exist at section-\(section), but header not")
+                        }
+                        
+                        offsetY = verticalTotalItemMaxY - lastHeaderAttributeSize.height + headerAttribute.frame.size.height + self.minimumLineSpacing
+                        
+                        lastFooterAttributeSize = footerAttribute.frame.size
+                    }
+                    else {
+                        print("section : \(section), headerAttribute : \(headerAttribute.size) verticalTotalItemMaxY : \(verticalTotalItemMaxY)")
+                        offsetY = verticalTotalItemMaxY - lastHeaderAttributeSize.height + headerAttribute.frame.size.height + self.minimumLineSpacing
+                        if headerAttributeSize.height != 0 , headerAttributeSize.width != 0 {
+                            print("header exist at section-\(section), but footer not")
+                        }
+                        else {
+                            print("header and footer NOT exist at section-\(section)")
+                            offsetY = offsetY + self.minimumLineSpacing
+                        }
+                    }
+                }
+                else {
+                    offsetY = verticalTotalItemMaxY - lastHeaderAttributeSize.height + headerAttribute.frame.size.height + self.minimumLineSpacing
+                }
+                
+                // if current header and last footer exist , just need to add minimumLineSpacing once
+                if lastFooterAttributeSize.height == 0 , headerAttributeSize.height == 0 {
+                    offsetY = offsetY - self.minimumLineSpacing
                 }
                 
                 // reset
+                var nextInset : UIEdgeInsets = sectionInsetArray[section]
+                if section < sections - 1 {
+                    nextInset = sectionInsetArray[section + 1]
+                }
+                currentInset = nextInset
                 
-                offsetX = self.sectionInset.left
+                offsetX = currentInset.left
                 nextOffsetX = offsetX
-                offsetY = verticalTotalItemHeight - lastHeaderAttributeHeight + headerAttribute.frame.size.height + self.minimumLineSpacing
-                
                 currentRowMaxItemHeight = 0
-                lastHeaderAttributeHeight = 0
+                lastHeaderAttributeSize = CGSize.zero
+                lastFooterAttributeSize = CGSize.zero
                 
-                attributeDict = [FLIdentifierType.Header : [headerAttribute], FLIdentifierType.Cell : itemAttributes]
+                attributeDict = [FLIdentifierType.Header : [headerAttribute], FLIdentifierType.Cell : itemAttributes, FLIdentifierType.Footer : [footerAttribute]]
+                
             }
             sectionAttributes.append(attributeDict)
         }
@@ -125,18 +185,34 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
         if flowLayoutStyle == .System {
             return super.layoutAttributesForItem(at: indexPath)
         }
-        let attributeDict = sectionAttributes[indexPath.section]
-        let itemAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Cell]!
-        return itemAttributes[indexPath.item]
+        guard let attributeDict = sectionAttributes[indexPath.section] else {
+            return nil
+        }
+        guard let itemAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Cell] else {
+            return nil
+        }
+        return itemAttributes?[indexPath.item]
     }
     
     override func layoutAttributesForSupplementaryView(ofKind elementKind: String, at indexPath: IndexPath) -> UICollectionViewLayoutAttributes? {
         if flowLayoutStyle == .System {
             return super.layoutAttributesForSupplementaryView(ofKind: elementKind, at:indexPath)
         }
-        let attributeDict = sectionAttributes[indexPath.section]
-        let headerAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Header]!
-        return headerAttributes.first
+        guard let attributeDict = sectionAttributes[indexPath.section] else {
+            return nil
+        }
+        if elementKind == UICollectionElementKindSectionHeader {
+            guard let headerAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Header] else {
+                return nil
+            }
+            return headerAttributes?.first
+        }
+        else {
+            guard let footerAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Footer] else {
+                return nil
+            }
+            return footerAttributes?.first
+        }
     }
     
     override func layoutAttributesForElements(in rect: CGRect) -> [UICollectionViewLayoutAttributes]? {
@@ -145,12 +221,20 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
         }
         var totalAttributes : LayoutAttributesArray = []
         for attributeDict in sectionAttributes {
-            let headerAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Header]!
-            let itemAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Cell]!
-            totalAttributes = totalAttributes + headerAttributes + itemAttributes
+            if let attributeDict = attributeDict {
+                if let headerAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Header] {
+                    totalAttributes = totalAttributes! + headerAttributes!
+                }
+                if let itemAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Cell] {
+                    totalAttributes = totalAttributes! + itemAttributes!
+                }
+                if let footerAttributes : LayoutAttributesArray = attributeDict[FLIdentifierType.Footer] {
+                    totalAttributes = totalAttributes! + footerAttributes!
+                }
+            }
         }
         
-        return totalAttributes.filter({ (attribute) -> Bool in
+        return totalAttributes?.filter({ (attribute) -> Bool in
             return CGRect.intersects(rect)(attribute.frame)
         })
     }
@@ -160,6 +244,20 @@ class FLCollectionViewFlowLayout: UICollectionViewFlowLayout {
             return super.shouldInvalidateLayout(forBoundsChange: newBounds)
         }
         return false
+    }
+    
+    
+    override var collectionViewContentSize: CGSize {
+        if flowLayoutStyle == .System {
+            return super.collectionViewContentSize
+        }
+        
+        if verticalTotalItemMaxY == 0 {
+            return CGSize.zero
+        }
+        
+        return CGSize.init(width: (self.collectionView?.frame.size.width)!, height: verticalTotalItemMaxY)
+        
     }
     
 }

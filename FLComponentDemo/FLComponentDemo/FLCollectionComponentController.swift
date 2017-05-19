@@ -24,6 +24,26 @@ class FLCollectionComponentController: UIViewController{
         }
     }
     
+    final var flowLayoutStyle: FLCollectionViewFlowLayoutStyle = .System{
+        didSet {
+            guard self.collectionView.collectionViewLayout is FLCollectionViewFlowLayout else {
+                return
+            }
+            let flowLayout = self.collectionView.collectionViewLayout as! FLCollectionViewFlowLayout
+            flowLayout.delegate = self
+            self.flowLayoutConfiguration(flowLayout)
+            flowLayout.flowLayoutStyle = flowLayoutStyle
+            self.reloadComponent()
+            
+            // MARK : set animate will Crash，https://bugs.swift.org/browse/SR-2417
+//            self.collectionView.collectionViewLayout.invalidateLayout()
+//            self.collectionView.layoutIfNeeded()
+//            let flowLayout = FLCollectionViewFlowLayout.init(with: flowLayoutStyle)
+//            flowLayout.delegate = self
+//            self.collectionView.setCollectionViewLayout(flowLayout, animated: true)
+        }
+    }
+    
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
         collectionView.frame = self.customRect
@@ -48,9 +68,6 @@ extension FLCollectionComponentController : FLCollectionComponentConfiguration {
         // do somethings
     }
     
-    var flowLayoutStyle: FLCollectionViewFlowLayoutStyle {
-        return .System
-    }
     
     var collectionViewLayout: UICollectionViewLayout {
         let flowLayout : FLCollectionViewFlowLayout = FLCollectionViewFlowLayout.init(with: self.flowLayoutStyle)
@@ -59,16 +76,7 @@ extension FLCollectionComponentController : FLCollectionComponentConfiguration {
         return flowLayout
     }
     
-    func changeLayout(to layoutStyle : FLCollectionViewFlowLayoutStyle) {
-        let flowLayout : FLCollectionViewFlowLayout = FLCollectionViewFlowLayout.init(with: layoutStyle)
-        flowLayout.delegate = self
-        flowLayoutConfiguration(flowLayout)
-        self.collectionView.setCollectionViewLayout(flowLayout, animated: true) { (finish) in
-            self.reloadComponent()
-        }
-    }
-    
-    func reloadComponent() {
+    final func reloadComponent() {
         self.collectionView.reloadData()
     }
 }
@@ -77,29 +85,66 @@ extension FLCollectionComponentController : FLCollectionComponentConfiguration {
 
 extension FLCollectionComponentController : UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout{
     
-    func numberOfSections(in collectionView: UICollectionView) -> Int {
+    final func numberOfSections(in collectionView: UICollectionView) -> Int {
         return components.count
     }
     
-    func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
+    final func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
         guard components.count > 0 else {
             return 0
         }
         return components[section].numberOfItems()
     }
     
-    func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
+    final func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         guard components.count > 0 else {
             return UICollectionViewCell()
         }
-        return components[indexPath.section].cellForItem(at: indexPath)
+        let component : FLCollectionBaseComponent = components[indexPath.section]
+        component.section = indexPath.section
+        return component.cellForItem(at: indexPath.item)
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+}
+
+// MARK : header or footer customizaion
+
+extension FLCollectionComponentController {
+    
+    final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard components.count > 0 else {
             return CGSize.zero
         }
-        var size : CGSize = components[indexPath.section].sizeForItem(withLayout: collectionViewLayout, at: indexPath)
+        return CGSize.init(width: collectionView.bounds.size.width,
+                           height: components[section].heightForHeader(at: section))
+    }
+    
+    final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+        guard components.count > 0 else {
+            return CGSize.zero
+        }
+        return CGSize.init(width: collectionView.bounds.size.width,
+                           height: components[section].heightForFooter(at: section))
+    }
+    
+    final func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+        guard components.count > 0 else {
+            return UICollectionReusableView()
+        }
+        return components[indexPath.section].collectionView(viewOfKind: kind, at: indexPath)
+    }
+    
+}
+
+// MARK : layout customization
+
+extension FLCollectionComponentController {
+    
+    final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, sizeForItemAt indexPath: IndexPath) -> CGSize {
+        guard components.count > 0 else {
+            return CGSize.zero
+        }
+        var size : CGSize = components[indexPath.section].sizeForItem(withLayout: collectionViewLayout, at: indexPath.item)
         if size == .zero {
             if self.collectionViewLayout is FLCollectionViewFlowLayout {
                 let flowLayout = collectionViewLayout as! UICollectionViewFlowLayout
@@ -111,33 +156,41 @@ extension FLCollectionComponentController : UICollectionViewDelegate, UICollecti
         }
         return size
     }
-}
-
-// MARK : header or footer customizaion
-
-extension FLCollectionComponentController {
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
+    final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, insetForSectionAt section: Int) -> UIEdgeInsets {
         guard components.count > 0 else {
-            return CGSize.zero
+            return UIEdgeInsets.zero
         }
-        return CGSize.init(width: collectionView.bounds.size.width,
-                           height: components[section].heightForHeader(at: section))
+        
+        let inset : UIEdgeInsets = components[section].sectionInset(at: section)
+        // set sectionInset, because custom flowLayout can not get that automatily
+        if let flowLayout = self.collectionView.collectionViewLayout as? FLCollectionViewFlowLayout {
+            flowLayout.sectionInsetArray.append(inset)
+        }
+        return inset
     }
     
-    func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForFooterInSection section: Int) -> CGSize {
+    final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumLineSpacingForSectionAt section: Int) -> CGFloat {
         guard components.count > 0 else {
-            return CGSize.zero
+            return 0
         }
-        return CGSize.init(width: collectionView.bounds.size.width,
-                           height: components[section].heightForFooter(at: section))
+        let minimumLineSpacing : CGFloat = components[section].minimumLineSpacing(at: section)
+        // set minimumLineSpacing, because custom flowLayout can not get that automatily
+        if let flowLayout = self.collectionView.collectionViewLayout as? FLCollectionViewFlowLayout {
+            flowLayout.minimumLineSpacing = minimumLineSpacing
+        }
+        return minimumLineSpacing
     }
     
-    func collectionView(_ collectionView: UICollectionView, viewForSupplementaryElementOfKind kind: String, at indexPath: IndexPath) -> UICollectionReusableView {
+    final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, minimumInteritemSpacingForSectionAt section: Int) -> CGFloat {
         guard components.count > 0 else {
-            return UICollectionReusableView()
+            return 0
         }
-        return components[indexPath.section].collectionView(viewOfKind: kind, at: indexPath)
+        let minimumInteritemSpacing : CGFloat = components[section].minimumInteritemSpacing(at: section)
+        // set minimumInteritemSpacing, because custom flowLayout can not get that automatily
+        if let flowLayout = self.collectionView.collectionViewLayout as? FLCollectionViewFlowLayout {
+            flowLayout.minimumInteritemSpacing = minimumInteritemSpacing
+        }
+        return minimumInteritemSpacing
     }
-    
 }

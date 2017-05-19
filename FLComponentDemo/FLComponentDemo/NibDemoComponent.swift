@@ -17,8 +17,8 @@ class NibDemoComponent: FLTableBaseComponent {
         self.tableView?.registerNib(className: NibDemoTableViewCell.self, cellReuseIdentifier: self.cellIdentifier)
     }
     
-    override func cellForRow(at indexPath: IndexPath) -> UITableViewCell {
-        let cell : NibDemoTableViewCell = super.cellForRow(at: indexPath) as! NibDemoTableViewCell
+    override func cellForRow(at row: Int) -> UITableViewCell {
+        let cell : NibDemoTableViewCell = super.cellForRow(at: row) as! NibDemoTableViewCell
         return cell
     }
     

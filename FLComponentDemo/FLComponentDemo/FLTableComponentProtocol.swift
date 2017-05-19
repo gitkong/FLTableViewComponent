@@ -20,7 +20,7 @@ import UIKit
     
     @objc optional func numberOfRows() -> NSInteger
     
-    @objc optional func cellForRow(at indexPath: IndexPath) -> UITableViewCell
+    @objc optional func cellForRow(at row: Int) -> UITableViewCell
     
     // header or footer customizaion
     

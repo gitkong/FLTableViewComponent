@@ -14,6 +14,8 @@ class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
     
     var tableView : UITableView?
     
+    var section : Int? = 0
+    
     weak var componentController : FLTableComponentEvent?
     
     init(tableView : UITableView){
@@ -38,8 +40,8 @@ extension FLTableBaseComponent {
         return 0
     }
     
-    func cellForRow(at indexPath: IndexPath) -> UITableViewCell {
-        return (tableView?.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: indexPath))!
+    func cellForRow(at row: Int) -> UITableViewCell {
+        return (tableView?.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: IndexPath.init(row: row, section: self.section!)))!
     }
 }
 
