@@ -1,8 +1,8 @@
-# FLTableViewComponent
+# FLTableComponent for tableView and collectionView
 
 ## Introduce
 
-A component for tableView, which can greatly reduce your controller codes, also, you can set header or footer more easily
+A component for tableView and collectionView, which can greatly reduce your controller codes, also, you can set header or footer more easily
 
 ## Requirements
 
@@ -14,7 +14,7 @@ swift3+ and xcode8+
 pod "FLTableComponent"
 ```
 
-## How To Use
+## How To Use (Just give an example for tableView)
 
 1. Create a controller which  inherit the class of FLTableComponentController
 
@@ -134,7 +134,7 @@ override func footerView(of tableView: UITableView) -> UIView? {
 
 ## Author
 
-279761135@qq.com
+279761135@qq.com、[简书](http://www.jianshu.com/u/fe5700cfb223)、[My blog](https://gitkong.github.io)
 
 ## Thanks
 
