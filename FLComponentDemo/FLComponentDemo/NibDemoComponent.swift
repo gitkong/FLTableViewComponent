@@ -26,13 +26,13 @@ class NibDemoComponent: FLTableBaseComponent {
         return 3
     }
     
-    override func heightForRow(at indexPath: IndexPath) -> CGFloat {
+    override func heightForRow(at row: Int) -> CGFloat {
         return 60
     }
     
-    override func headerView(at section: Int) -> FLTableViewHeaderFooterView? {
+    override func headerView() -> FLTableViewHeaderFooterView? {
         // reuse slider too
-        let headerView = super.headerView(at: section)
+        let headerView = super.headerView()
         headerView?.contentView.backgroundColor = UIColor.yellow
         return headerView
     }
@@ -44,13 +44,13 @@ class NibDemoComponent: FLTableBaseComponent {
         headerView?.addSubview(btn)
     }
     
-    override func heightForHeader(at section: Int) -> CGFloat {
+    override func heightForHeader() -> CGFloat {
         return 30
     }
     
-    override func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
+    override func footerView() -> FLTableViewHeaderFooterView? {
         // reuse slider too
-        let footerView = super.footerView(at: section)
+        let footerView = super.footerView()
         footerView?.contentView.backgroundColor = UIColor.purple
         return footerView
     }
@@ -59,7 +59,7 @@ class NibDemoComponent: FLTableBaseComponent {
         // the same as header
     }
     
-    override func heightForFooter(at section: Int) -> CGFloat {
+    override func heightForFooter() -> CGFloat {
         return 10
     }
     

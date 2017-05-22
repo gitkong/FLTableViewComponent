@@ -23,11 +23,11 @@ class DemoComponent: FLTableBaseComponent {
         return 2
     }
     
-    override func tableView(willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath) {
+    override func tableView(willDisplayCell cell: UITableViewCell, at row: Int) {
         cell.textLabel?.text = "gitKong"
     }
     
-    override func titleForHeader(at section: Int) -> NSMutableAttributedString? {
+    override func titleForHeader() -> NSMutableAttributedString? {
         let attStr = NSMutableAttributedString.init(string: "hello world,hello gitKong, i am header title test test test test test test test test test test test test test test test test test test test test test test test test test test test test test test")
         // must add attribute,otherwise,calculate the wrong rect for attribute string
         attStr.addAttribute(NSFontAttributeName, value: UIFont.systemFont(ofSize: 17), range: NSRange.init(location: 0, length: attStr.length))
@@ -36,14 +36,16 @@ class DemoComponent: FLTableBaseComponent {
         return attStr
     }
     
-    override func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
+    override func footerView() -> FLTableViewHeaderFooterView? {
         // just resue footerView,so call super.register()
-        let footerView = super.footerView(at: section)
+        let footerView = super.footerView()
         footerView?.contentView.backgroundColor = UIColor.red
         return footerView
     }
     
-    override func heightForFooter(at section: Int) -> CGFloat {
+    override func heightForFooter() -> CGFloat {
         return 20
     }
+    
+    
 }

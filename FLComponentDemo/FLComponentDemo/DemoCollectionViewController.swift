@@ -8,9 +8,9 @@
 
 import UIKit
 
-class DemoCollectionViewController: FLCollectionComponentController {
+class DemoCollectionViewController: FLCollectionComponentController{
     
-    var flag : Bool = false
+    var flag : Bool = true
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -46,8 +46,12 @@ class DemoCollectionViewController: FLCollectionComponentController {
 
     override func flowLayoutConfiguration(_ flowLayout: FLCollectionViewFlowLayout) {
 //        flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
+        flowLayout.itemSize = CGSize.init(width: 100, height: 100)
+        flowLayout.flowLayoutStyle = .Custom
     }
     
-    
+    func test<T>() -> T {
+        return self as! T
+    }
 
 }

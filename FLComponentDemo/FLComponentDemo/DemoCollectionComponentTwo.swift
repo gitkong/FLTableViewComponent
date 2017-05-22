@@ -63,29 +63,34 @@ class DemoCollectionComponentTwo: FLCollectionBaseComponent {
         return CGSize.init(width: width, height: height)
     }
     
-    override func headerView(at section: Int) -> UICollectionReusableView {
-        let headerView : UICollectionReusableView = super.headerView(at: section)
+    override func headerView() -> UICollectionReusableView {
+        let headerView : UICollectionReusableView = super.headerView()
         headerView.backgroundColor = UIColor.blue
         return headerView
     }
     
-    override func heightForHeader(at section : Int) -> CGFloat {
+    override func heightForHeader() -> CGFloat {
         return 50
     }
     
     
-    override func footerView(at section: Int) -> UICollectionReusableView {
-        let footerView : UICollectionReusableView = super.footerView(at: section)
+    override func footerView() -> UICollectionReusableView {
+        let footerView : UICollectionReusableView = super.footerView()
         footerView.backgroundColor = UIColor.brown
         return footerView
     }
     
-    override func heightForFooter(at section : Int) -> CGFloat {
+    override func heightForFooter() -> CGFloat {
         return 10
     }
     
-    override func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at item: Int) -> CGSize {
-        
-        return customSize(at: item)
+//    override func sizeForItem(at item: Int) -> CGSize {
+//        
+//        return customSize(at: item)
+//    }
+    
+    override func sectionInset() -> UIEdgeInsets {
+        return UIEdgeInsetsMake(30, 30, 30, 30)
     }
+    
 }

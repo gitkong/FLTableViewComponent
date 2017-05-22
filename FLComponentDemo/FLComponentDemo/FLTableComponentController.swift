@@ -92,7 +92,7 @@ extension FLTableComponentController {
         }
         let component = components[section]
         component.componentController = self
-        return component.headerView(at: section)
+        return component.headerView()
     }
     
     final func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView?{
@@ -101,7 +101,7 @@ extension FLTableComponentController {
         }
         let component = components[section]
         component.componentController = self
-        return component.footerView(at: section)
+        return component.footerView()
     }
 }
 
@@ -113,21 +113,21 @@ extension FLTableComponentController {
         guard components.count > 0 else {
             return 0
         }
-        return components[indexPath.section].heightForRow(at: indexPath)
+        return components[indexPath.section].heightForRow(at: indexPath.row)
     }
     
     final func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
         guard components.count > 0 else {
             return 0
         }
-        return components[section].heightForHeader(at: section)
+        return components[section].heightForHeader()
     }
     
     final func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat{
         guard components.count > 0 else {
             return 0
         }
-        return components[section].heightForFooter(at: section)
+        return components[section].heightForFooter()
     }
     
 }
@@ -140,42 +140,42 @@ extension FLTableComponentController {
         guard components.count > 0 else {
             return
         }
-        components[indexPath.section].tableView(willDisplay: cell, forRowAt: indexPath)
+        components[indexPath.section].tableView(willDisplayCell: cell, at: indexPath.row)
     }
     
     final public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
         guard components.count > 0 else {
             return
         }
-        components[indexPath.section].tableView(didEndDisplaying: cell, forRowAt: indexPath)
+        components[indexPath.section].tableView(didEndDisplayCell: cell, at: indexPath.row)
     }
     
     final public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
         guard components.count > 0 else {
             return
         }
-        components[section].tableView(willDisplayHeaderView: (view as? FLTableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(willDisplayHeaderView: (view as? FLTableViewHeaderFooterView)!)
     }
     
     final public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int){
         guard components.count > 0 else {
             return
         }
-        components[section].tableView(willDisplayFooterView: (view as? FLTableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(willDisplayFooterView: (view as? FLTableViewHeaderFooterView)!)
     }
     
     final public func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int){
         guard components.count > 0 else {
             return
         }
-        components[section].tableView(didEndDisplayingHeaderView: (view as? FLTableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(didEndDisplayHeaderView: (view as? FLTableViewHeaderFooterView)!)
     }
     
     final public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int){
         guard components.count > 0 else {
             return
         }
-        components[section].tableView(didEndDisplayingFooterView: (view as? FLTableViewHeaderFooterView)!, forSection: section)
+        components[section].tableView(didEndDisplayFooterView: (view as? FLTableViewHeaderFooterView)!)
     }
 }
 

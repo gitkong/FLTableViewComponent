@@ -62,33 +62,41 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
         return CGSize.init(width: width, height: height)
     }
     
-    override func headerView(at section: Int) -> UICollectionReusableView {
-        let headerView : UICollectionReusableView = super.headerView(at: section)
+    override func headerView() -> UICollectionReusableView {
+        let headerView : UICollectionReusableView = super.headerView()
         headerView.backgroundColor = UIColor.gray
         return headerView
     }
     
-    override func heightForHeader(at section : Int) -> CGFloat {
+    override func heightForHeader() -> CGFloat {
         return 20
     }
     
-    override func footerView(at section: Int) -> UICollectionReusableView {
-        let footerView : UICollectionReusableView = super.footerView(at: section)
+    override func footerView() -> UICollectionReusableView {
+        let footerView : UICollectionReusableView = super.footerView()
         footerView.backgroundColor = UIColor.purple
         return footerView
     }
     
-    override func heightForFooter(at section : Int) -> CGFloat {
+    override func heightForFooter() -> CGFloat {
         return 60
     }
     
-    override func sizeForItem(withLayout collectionViewLayout: UICollectionViewLayout, at item: Int) -> CGSize {
+    override func sizeForItem(at item: Int) -> CGSize {
         
         return customSize(at: item)
     }
     
-    override func sectionInset(at section: Int) -> UIEdgeInsets {
+    override func sectionInset() -> UIEdgeInsets {
         return UIEdgeInsets.zero
+    }
+    
+    override func minimumLineSpacing() -> CGFloat {
+        return 50
+    }
+    
+    override func minimumInteritemSpacing() -> CGFloat {
+        return 50
     }
     
 }

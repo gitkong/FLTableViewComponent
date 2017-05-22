@@ -70,15 +70,15 @@ extension FLTableBaseComponent {
     ///
     /// - Parameter section: current section
     /// - Returns: FLTableViewHeaderFooterView
-    func headerView(at section: Int) -> FLTableViewHeaderFooterView? {
+    func headerView() -> FLTableViewHeaderFooterView? {
         var headerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.headerIdentifier)
         // MARK : if subclass override headerView(at section: Int) method , also override register() and do nothing in it, so headerView will be nil, then create the new one to reuse it
         if (headerView == nil) {
             // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
-            headerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.headerIdentifier,section: section)
+            headerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.headerIdentifier,section: section!)
             additionalOperationForReuseHeaderView(headerView)
         }
-        if let headerTitle = self.titleForHeader(at: section) {
+        if let headerTitle = self.titleForHeader() {
             headerView?.titleLabel.attributedText = headerTitle
         }
         addClickDelegete(for: headerView)
@@ -88,16 +88,15 @@ extension FLTableBaseComponent {
     
     /// when you override this method, you should call super to get footerView if you just regist the class of FLTableViewHeaderFooterView; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if this footerView have to accurate tapping event
     ///
-    /// - Parameter section: current section
     /// - Returns: FLTableViewHeaderFooterView
-    func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
+    func footerView() -> FLTableViewHeaderFooterView? {
         var footerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.footerIdentifier)
         if (footerView == nil) {
             // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
-            footerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.footerIdentifier,section: section)
+            footerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.footerIdentifier,section: section!)
             additionalOperationForReuseFooterView(footerView)
         }
-        if let footerTitle = self.titleForFooter(at: section) {
+        if let footerTitle = self.titleForFooter() {
             footerView?.titleLabel.attributedText = footerTitle
         }
         addClickDelegete(for: footerView)
@@ -105,11 +104,11 @@ extension FLTableBaseComponent {
         return footerView
     }
     
-    func titleForHeader(at section : Int) -> NSMutableAttributedString? {
+    func titleForHeader() -> NSMutableAttributedString? {
         return nil
     }
     
-    func titleForFooter(at section : Int) -> NSMutableAttributedString? {
+    func titleForFooter() -> NSMutableAttributedString? {
         return nil
     }
     
@@ -122,19 +121,19 @@ extension FLTableBaseComponent {
 
 extension FLTableBaseComponent {
     
-    func heightForRow(at indexPath: IndexPath) -> CGFloat {
+    func heightForRow(at row: Int) -> CGFloat {
         return FLTableViewCellDefaultHeight
     }
     
-    func heightForHeader(at section : Int) -> CGFloat {
-        if let headerTitle = self.titleForHeader(at: section) {
+    func heightForHeader() -> CGFloat {
+        if let headerTitle = self.titleForHeader() {
             return suitableTitleHeight(forString: headerTitle)
         }
         return CGFloat.leastNormalMagnitude
     }
     
-    func heightForFooter(at section : Int) -> CGFloat {
-        if let footerTitle = self.titleForFooter(at: section) {
+    func heightForFooter() -> CGFloat {
+        if let footerTitle = self.titleForFooter() {
             return suitableTitleHeight(forString: footerTitle)
         }
         return CGFloat.leastNormalMagnitude
@@ -151,27 +150,27 @@ extension FLTableBaseComponent {
 // MARK : Display customization
 
 extension FLTableBaseComponent {
-    func tableView(willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
+    func tableView(willDisplayCell cell: UITableViewCell, at row: Int){
         // do nothing
     }
     
-    func tableView(didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
+    func tableView(didEndDisplayCell cell: UITableViewCell, at row: Int){
         
     }
     
-    func tableView(willDisplayHeaderView view: FLTableViewHeaderFooterView, forSection section: Int){
+    func tableView(willDisplayHeaderView view: FLTableViewHeaderFooterView){
         
     }
     
-    func tableView(willDisplayFooterView view: FLTableViewHeaderFooterView, forSection section: Int){
+    func tableView(willDisplayFooterView view: FLTableViewHeaderFooterView){
         
     }
     
-    func tableView(didEndDisplayingHeaderView view: FLTableViewHeaderFooterView, forSection section: Int){
+    func tableView(didEndDisplayHeaderView view: FLTableViewHeaderFooterView){
         
     }
     
-    func tableView(didEndDisplayingFooterView view: FLTableViewHeaderFooterView, forSection section: Int){
+    func tableView(didEndDisplayFooterView view: FLTableViewHeaderFooterView){
         
     }
 }
