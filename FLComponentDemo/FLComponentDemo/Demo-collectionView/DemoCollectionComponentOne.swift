@@ -11,8 +11,8 @@ import UIKit
 class DemoCollectionComponentOne: FLCollectionBaseComponent {
     
     override func register() {
-        super.register()
-        self.collectionView?.register(UINib.init(nibName: "DemoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: self.cellIdentifier)
+//        super.register()
+        self.collectionView?.registerNib(DemoCollectionViewCell.self, withReuseIdentifier: cellIdentifier)
     }
     
     override func numberOfItems() -> NSInteger {
@@ -62,8 +62,8 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
         return CGSize.init(width: width, height: height)
     }
     
-    override func headerView() -> UICollectionReusableView {
-        let headerView : UICollectionReusableView = super.headerView()
+    override func headerView() -> FLCollectionHeaderFooterView {
+        let headerView : FLCollectionHeaderFooterView = super.headerView()
         headerView.backgroundColor = UIColor.gray
         return headerView
     }
@@ -72,8 +72,8 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
         return 20
     }
     
-    override func footerView() -> UICollectionReusableView {
-        let footerView : UICollectionReusableView = super.footerView()
+    override func footerView() -> FLCollectionHeaderFooterView {
+        let footerView : FLCollectionHeaderFooterView = super.footerView()
         footerView.backgroundColor = UIColor.purple
         return footerView
     }

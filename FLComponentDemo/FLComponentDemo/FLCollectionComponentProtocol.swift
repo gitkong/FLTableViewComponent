@@ -64,12 +64,23 @@ import UIKit
     /// override this method in component to custom headerView for current component, default is UICollectionReusableView which registed as the class of UICollectionReusableView
     ///
     /// - Returns: custom headerView for current component
-    @objc optional func headerView() -> UICollectionReusableView
+    @objc optional func headerView() -> FLCollectionHeaderFooterView
     
     /// override this method in component to custom footerView for current component, default is UICollectionReusableView which registed as the class of UICollectionReusableView
     ///
     /// - Returns: custom footerView for current component
-    @objc optional func footerView() -> UICollectionReusableView
+    @objc optional func footerView() -> FLCollectionHeaderFooterView
+    
+    /// override this method in component to perform additional operation, such as add lable or button into headerView to resue, but if you had registed the class of UICollectionReusableView for headerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
+    ///
+    /// - Parameter headerView:  headerView for ready to reuse
+    @objc optional func additionalOperationForReuseHeaderView(_ headerView : FLCollectionHeaderFooterView?)
+    
+    
+    /// override this method in component to perform additional operation, such as add lable or button into footerView to resue, but if you had registed the class of UICollectionReusableView for footerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
+    ///
+    /// - Parameter footerView: footerView for ready to reuse
+    @objc optional func additionalOperationForReuseFooterView(_ footerView : FLCollectionHeaderFooterView?)
     
     /// override this method in component to custom the height of headerView for current component, default is 0
     ///
@@ -141,4 +152,24 @@ import UIKit
     ///   - forItemAt: current item
     ///   - withSender: The object that initiated the action.
     @objc optional func perform(selector : Selector, forItemAt: Int, withSender: Any?)
+}
+
+@objc protocol FLCollectionComponentEvent {
+    
+    // Header or Footer tapping event
+    
+    /// override this method in controller to handle the event of headerView tapping
+    ///
+    /// - Parameters:
+    ///   - headerView: current component's headerView
+    ///   - section: current component's section
+    @objc optional func collectionHeaderView(_  headerView : UICollectionReusableView, didClickSectionAt section: Int)
+    
+    /// override this method in controller to handle the event of footerView tapping
+    ///
+    /// - Parameters:
+    ///   - headerView: current component's footerView
+    ///   - section: current component's section
+    @objc optional func collectionFooterView(_  footerView : UICollectionReusableView, didClickSectionAt section: Int)
+    
 }

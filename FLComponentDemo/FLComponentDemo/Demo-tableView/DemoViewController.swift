@@ -14,6 +14,7 @@ class DemoViewController: FLTableComponentController {
         super.viewDidLoad()
         
         // Do any additional setup after loading the view.
+        title = "gitKong"
         var arr : Array<FLTableBaseComponent> = []
         
         let component = DemoComponent.init(tableView: self.tableView)

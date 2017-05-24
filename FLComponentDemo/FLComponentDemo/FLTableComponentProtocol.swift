@@ -32,15 +32,26 @@ import UIKit
     
     // header or footer customizaion
     
-    /// override this method in component to custom headerView for current component, default is FLTableViewHeaderFooterView which registed as the class of FLTableViewHeaderFooterView
+    /// when you override this method, you should call super to get headerView if you just regist the class of FLTableViewHeaderFooterView; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if this headerView have to accurate tapping event
     ///
     /// - Returns: custom headerView for current component
     @objc optional func headerView() -> FLTableViewHeaderFooterView?
     
-    /// override this method in component to custom footerView for current component, default is UICollectionReusableView which registed as the class of UICollectionReusableView
+    /// when you override this method, you should call super to get footerView if you just regist the class of FLTableViewHeaderFooterView; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if this footerView have to accurate tapping event
     ///
     /// - Returns: custom footerView for current component
     @objc optional func footerView() -> FLTableViewHeaderFooterView?
+    
+    /// override this method in component to perform additional operation, such as add lable or button into headerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for headerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
+    ///
+    /// - Parameter headerView:  headerView for ready to reuse
+    @objc optional func additionalOperationForReuseHeaderView(_ headerView : FLTableViewHeaderFooterView?)
+    
+    
+    /// override this method in component to perform additional operation, such as add lable or button into footerView to resue, but if you had registed the class of FLTableViewHeaderFooterView for footerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
+    ///
+    /// - Parameter footerView: footerView for ready to reuse
+    @objc optional func additionalOperationForReuseFooterView(_ footerView : FLTableViewHeaderFooterView?)
     
     /// override this method to set a mutable attribute string for headerView
     ///

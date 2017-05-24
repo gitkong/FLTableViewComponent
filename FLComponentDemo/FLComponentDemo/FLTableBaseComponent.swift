@@ -31,9 +31,9 @@ class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
 extension FLTableBaseComponent {
     
     override func register() {
-        tableView?.registerClass(className: UITableViewCell.self, cellReuseIdentifier: self.cellIdentifier)
-        tableView?.registerClass(className: FLTableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.headerIdentifier)
-        tableView?.registerClass(className: FLTableViewHeaderFooterView.self, headerFooterViewReuseIdentifier: self.footerIdentifier)
+        tableView?.registerClass(UITableViewCell.self, withReuseIdentifier: cellIdentifier)
+        tableView?.registerClass(FLTableViewHeaderFooterView.self, withReuseIdentifier: headerIdentifier)
+        tableView?.registerClass(FLTableViewHeaderFooterView.self, withReuseIdentifier: footerIdentifier)
     }
     
     func numberOfRows() -> NSInteger {
@@ -71,7 +71,7 @@ extension FLTableBaseComponent {
     /// - Parameter section: current section
     /// - Returns: FLTableViewHeaderFooterView
     func headerView() -> FLTableViewHeaderFooterView? {
-        var headerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.headerIdentifier)
+        var headerView = tableView?.dequeueReusableHeaderFooterView(withReuseIdentifier: self.headerIdentifier)
         // MARK : if subclass override headerView(at section: Int) method , also override register() and do nothing in it, so headerView will be nil, then create the new one to reuse it
         if (headerView == nil) {
             // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
@@ -90,7 +90,7 @@ extension FLTableBaseComponent {
     ///
     /// - Returns: FLTableViewHeaderFooterView
     func footerView() -> FLTableViewHeaderFooterView? {
-        var footerView = tableView?.dequeueReusableFLHeaderFooterView(withIdentifier: self.footerIdentifier)
+        var footerView = tableView?.dequeueReusableHeaderFooterView(withReuseIdentifier: footerIdentifier)
         if (footerView == nil) {
             // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
             footerView = FLTableViewHeaderFooterView.init(reuseIdentifier: self.footerIdentifier,section: section!)
@@ -176,44 +176,5 @@ extension FLTableBaseComponent {
 }
 
 
-extension UITableView{
-    func registerNib(className : AnyClass, cellReuseIdentifier : String){
 
-        if let name = NSStringFromClass(className).components(separatedBy: ".").last {
-            self.register(UINib.init(nibName: name, bundle: nil), forCellReuseIdentifier: cellReuseIdentifier)
-        }
-        else{
-            print("registerNib \(className) failure")
-        }
-    }
-    
-    func registerClass(className : AnyClass, cellReuseIdentifier : String){
-        
-        self.register(className, forCellReuseIdentifier: cellReuseIdentifier)
-    }
-    
-    
-    func registerNib(className : AnyClass, headerFooterViewReuseIdentifier : String){
-        
-        if let name = NSStringFromClass(className).components(separatedBy: ".").last {
-            self.register(UINib.init(nibName: name, bundle: nil), forHeaderFooterViewReuseIdentifier: headerFooterViewReuseIdentifier)
-        }
-        else{
-            print("registerNib \(className) failure")
-        }
-    }
-    
-    func registerClass(className : AnyClass, headerFooterViewReuseIdentifier : String){
-        
-        self.register(className, forHeaderFooterViewReuseIdentifier: headerFooterViewReuseIdentifier)
-    }
-    
-    func dequeueReusableFLHeaderFooterView(withIdentifier identifier: String) -> FLTableViewHeaderFooterView?{
-        return self.dequeueReusableHeaderFooterView(withIdentifier: identifier) as? FLTableViewHeaderFooterView
-    }
-}
-
-extension NSMutableAttributedString {
-    
-}
 

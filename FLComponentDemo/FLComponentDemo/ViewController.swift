@@ -13,15 +13,17 @@ class ViewController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
-//        let collectionView : UICollectionView = UICollectionView()
-        
+        title = "gitKong"
     }
     
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-//        self.navigationController?.pushViewController(DemoViewController(), animated: true)
+
+    @IBAction func showTableViewComponent(_ sender: UIButton) {
+        self.navigationController?.pushViewController(DemoViewController(), animated: true)
+    }
+    
+    @IBAction func showCollectionViewComponent(_ sender: UIButton) {
         self.navigationController?.pushViewController(DemoCollectionViewController(), animated: true)
     }
-
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.

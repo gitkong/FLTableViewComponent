@@ -29,9 +29,9 @@ class FLCollectionBaseComponent: FLBaseComponent, FLCollectionComponentConfigura
 extension FLCollectionBaseComponent {
     
     override func register() {
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: self.cellIdentifier)
-        collectionView?.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier)
-        collectionView?.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: self.footerIdentifier)
+        collectionView?.registerClass(UICollectionViewCell.self, withReuseIdentifier: cellIdentifier)
+        collectionView?.registerClass(FLCollectionHeaderFooterView.self, withReuseIdentifier: headerIdentifier)
+        collectionView?.registerClass(FLCollectionHeaderFooterView.self, withReuseIdentifier: footerIdentifier)
     }
     
     func numberOfItems() -> NSInteger {
@@ -72,12 +72,48 @@ extension FLCollectionBaseComponent {
         return 0
     }
     
-    func headerView() -> UICollectionReusableView {
-        return (collectionView?.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier, for: IndexPath.init(row: 0, section: section!)))!
+    func headerView() -> FLCollectionHeaderFooterView {
+        guard let collectionView = collectionView ,let section = section else {
+            return FLCollectionHeaderFooterView(frame: .zero)
+        }
+        
+//        if let flag = self.responds(to: #selector(collectionView.register(_:forSupplementaryViewOfKind:withReuseIdentifier:)))  {
+//            
+//        }
+        
+        var headerView = collectionView.dequeueReusableHeaderFooterView(withReuseIdentifier: headerIdentifier, section: section)
+        
+        
+        if headerView == nil {
+            headerView = FLCollectionHeaderFooterView.init(frame: CGRect.init(origin: CGPoint.zero, size: CGSize.init(width: collectionView.bounds.size.width,height: self.heightForHeader())), reuseIdentifier: headerIdentifier, section: section)
+            additionalOperationForReuseHeaderView(headerView)
+            headerView?.prepareForReuse()
+        }
+        
+        return headerView!
     }
     
-    func footerView() -> UICollectionReusableView {
-        return (collectionView?.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: self.footerIdentifier, for: IndexPath.init(row: 0, section: section!)))!
+    func footerView() -> FLCollectionHeaderFooterView {
+        guard collectionView != nil, let section = section else {
+            return FLCollectionHeaderFooterView(frame: CGRect.zero)
+        }
+        
+        var footerView = collectionView?.dequeueReusableHeaderFooterView(withReuseIdentifier: footerIdentifier, section: section)
+        if footerView == nil {
+            footerView = FLCollectionHeaderFooterView.init(frame: CGRect.init(origin: CGPoint.zero, size: CGSize.init(width: collectionView!.bounds.size.width,height: self.heightForFooter())), reuseIdentifier: self.footerIdentifier, section: section)
+            additionalOperationForReuseFooterView(footerView)
+            footerView?.prepareForReuse()
+        }
+        
+        return footerView!
+    }
+    
+    func additionalOperationForReuseHeaderView(_ headerView : FLCollectionHeaderFooterView?) {
+        
+    }
+    
+    func additionalOperationForReuseFooterView(_ footerView : FLCollectionHeaderFooterView?) {
+        
     }
     
     final func collectionView(viewOfKind kind: String) -> UICollectionReusableView {
@@ -186,3 +222,5 @@ extension FLCollectionBaseComponent {
         // do nothing
     }
 }
+
+

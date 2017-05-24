@@ -14,7 +14,7 @@ class NibDemoComponent: FLTableBaseComponent {
         // MARK : Do not call super register, if you just want to reuse headerView, otherwise, you should call super
 //        super.register()
         
-        self.tableView?.registerNib(className: NibDemoTableViewCell.self, cellReuseIdentifier: self.cellIdentifier)
+        self.tableView?.registerNib(NibDemoTableViewCell.self, withReuseIdentifier: self.cellIdentifier)
     }
     
     override func cellForRow(at row: Int) -> UITableViewCell {

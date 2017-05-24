@@ -63,8 +63,8 @@ class DemoCollectionComponentTwo: FLCollectionBaseComponent {
         return CGSize.init(width: width, height: height)
     }
     
-    override func headerView() -> UICollectionReusableView {
-        let headerView : UICollectionReusableView = super.headerView()
+    override func headerView() -> FLCollectionHeaderFooterView {
+        let headerView : FLCollectionHeaderFooterView = super.headerView()
         headerView.backgroundColor = UIColor.blue
         return headerView
     }
@@ -74,8 +74,8 @@ class DemoCollectionComponentTwo: FLCollectionBaseComponent {
     }
     
     
-    override func footerView() -> UICollectionReusableView {
-        let footerView : UICollectionReusableView = super.footerView()
+    override func footerView() -> FLCollectionHeaderFooterView {
+        let footerView : FLCollectionHeaderFooterView = super.footerView()
         footerView.backgroundColor = UIColor.brown
         return footerView
     }
