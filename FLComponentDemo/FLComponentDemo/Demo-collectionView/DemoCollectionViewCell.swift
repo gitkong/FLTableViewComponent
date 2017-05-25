@@ -2,7 +2,7 @@
 //  DemoCollectionViewCell.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/18.
+//  Created by gitKong on 2017/5/18.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 

@@ -24,6 +24,8 @@
 		B62A0C251ED2DD8900245D42 /* NibDemoTableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B62A0C1C1ED2DD8900245D42 /* NibDemoTableViewCell.xib */; };
 		B62A0C271ED2DDAB00245D42 /* DemoViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C261ED2DDAA00245D42 /* DemoViewController.swift */; };
 		B62A0C291ED2E5AF00245D42 /* FLCollectionHeaderFooterView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0C281ED2E5AF00245D42 /* FLCollectionHeaderFooterView.swift */; };
+		B6559FAE1ED5AC8B0010186B /* DemoHeaderFooterViewOne.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6559FAD1ED5AC8B0010186B /* DemoHeaderFooterViewOne.swift */; };
+		B6559FB61ED6D3AA0010186B /* FLCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6559FB51ED6D3AA0010186B /* FLCollectionViewCell.swift */; };
 		B6B5C9CC1EC443AE006BA487 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9CB1EC443AE006BA487 /* AppDelegate.swift */; };
 		B6B5C9CE1EC443AE006BA487 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B6B5C9CD1EC443AE006BA487 /* ViewController.swift */; };
 		B6B5C9D11EC443AE006BA487 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6B5C9CF1EC443AE006BA487 /* Main.storyboard */; };
@@ -53,6 +55,8 @@
 		B62A0C1C1ED2DD8900245D42 /* NibDemoTableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = NibDemoTableViewCell.xib; sourceTree = "<group>"; };
 		B62A0C261ED2DDAA00245D42 /* DemoViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoViewController.swift; sourceTree = "<group>"; };
 		B62A0C281ED2E5AF00245D42 /* FLCollectionHeaderFooterView.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLCollectionHeaderFooterView.swift; sourceTree = "<group>"; };
+		B6559FAD1ED5AC8B0010186B /* DemoHeaderFooterViewOne.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = DemoHeaderFooterViewOne.swift; sourceTree = "<group>"; };
+		B6559FB51ED6D3AA0010186B /* FLCollectionViewCell.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLCollectionViewCell.swift; sourceTree = "<group>"; };
 		B6B5C9C81EC443AE006BA487 /* FLComponentDemo.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = FLComponentDemo.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6B5C9CB1EC443AE006BA487 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		B6B5C9CD1EC443AE006BA487 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -85,6 +89,7 @@
 				B62A0C011ECC4D6800245D42 /* FLCollectionComponentController.swift */,
 				B62A0C071ECD424000245D42 /* FLCollectionViewFlowLayout.swift */,
 				B62A0C281ED2E5AF00245D42 /* FLCollectionHeaderFooterView.swift */,
+				B6559FB51ED6D3AA0010186B /* FLCollectionViewCell.swift */,
 			);
 			name = FLCollectionComponent;
 			sourceTree = "<group>";
@@ -105,6 +110,7 @@
 			children = (
 				B62A0C131ED2DD8900245D42 /* DemoCollectionComponentOne.swift */,
 				B62A0C141ED2DD8900245D42 /* DemoCollectionComponentTwo.swift */,
+				B6559FAD1ED5AC8B0010186B /* DemoHeaderFooterViewOne.swift */,
 				B62A0C151ED2DD8900245D42 /* DemoCollectionViewCell.swift */,
 				B62A0C161ED2DD8900245D42 /* DemoCollectionViewCell.xib */,
 				B62A0C171ED2DD8900245D42 /* DemoCollectionViewController.swift */,
@@ -246,6 +252,7 @@
 				B6B5C9E01EC45216006BA487 /* FLTableBaseComponent.swift in Sources */,
 				B62A0C231ED2DD8900245D42 /* NibDemoComponent.swift in Sources */,
 				B62A0C211ED2DD8900245D42 /* DemoCollectionViewController.swift in Sources */,
+				B6559FAE1ED5AC8B0010186B /* DemoHeaderFooterViewOne.swift in Sources */,
 				B62A0C1F1ED2DD8900245D42 /* DemoCollectionViewCell.swift in Sources */,
 				B62A0C241ED2DD8900245D42 /* NibDemoTableViewCell.swift in Sources */,
 				B6B5C9DE1EC44466006BA487 /* FLTableComponentController.swift in Sources */,
@@ -255,6 +262,7 @@
 				B62A0C021ECC4D6800245D42 /* FLCollectionComponentController.swift in Sources */,
 				B62A0BFE1ECC49B500245D42 /* FLCollectionComponentProtocol.swift in Sources */,
 				B6B5C9CE1EC443AE006BA487 /* ViewController.swift in Sources */,
+				B6559FB61ED6D3AA0010186B /* FLCollectionViewCell.swift in Sources */,
 				B62A0BFC1ECC2F0A00245D42 /* FLCollectionBaseComponent.swift in Sources */,
 				B6B5C9E21EC454E2006BA487 /* FLTableComponentProtocol.swift in Sources */,
 				B62A0C1E1ED2DD8900245D42 /* DemoCollectionComponentTwo.swift in Sources */,

@@ -2,7 +2,7 @@
 //  FLTableComponentConfiguration.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/11.
+//  Created by gitKong on 2017/5/11.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -17,6 +17,9 @@ import UIKit
     /// override this property in controller to change current tableView style
     @objc optional var tableViewStyle : UITableViewStyle { get }
     
+    /// override this property in component to change current tableViewCell style, default is .default
+    @objc optional var tableViewCellStyle : UITableViewCellStyle { get }
+    
     // dataSource configuration
     
     /// override this method in component to set number of rows for current section, default   is 0
@@ -24,20 +27,25 @@ import UIKit
     /// - Returns: number of rows for current section
     @objc optional func numberOfRows() -> NSInteger
     
-    /// override this method in component to set custom cell, default is UITableViewCell which registed as the class of UITableViewCell
+    /// override this method in component to set custom cell, you can call super to get reusable cell,default is UITableViewCell which registed as the class of UITableViewCell, if your cell is created from Nib, you must have to regist Nib cell first
     ///
     /// - Parameter item: current row
     /// - Returns: cell for current row
     @objc optional func cellForRow(at row: Int) -> UITableViewCell
     
+    /// override this method in component to perform additional operation, such as add lable or button into cell to resue, but if you had registed the class of UITableViewCell for headerView, this method will be invalid, so if you want it to be valiable, do not regist cell
+    ///
+    /// - Parameter cell: custom cell
+    @objc optional func additionalOperationForReuseCell(_ cell : UITableViewCell?)
+    
     // header or footer customizaion
     
-    /// when you override this method, you should call super to get headerView if you just regist the class of FLTableViewHeaderFooterView; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if this headerView have to accurate tapping event
+    /// when you override this method, you can call super to get reusable headerView, and override additionalOperationForReuseHeaderView(_ headerView:) method to add new UI to reuse
     ///
     /// - Returns: custom headerView for current component
     @objc optional func headerView() -> FLTableViewHeaderFooterView?
     
-    /// when you override this method, you should call super to get footerView if you just regist the class of FLTableViewHeaderFooterView; if you override the method of register() to regist the subclass of FLTableViewHeaderFooterView, you can not call super to get headerView, and you should call init(reuseIdentifier: String?, section: Int) and addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  if this footerView have to accurate tapping event
+    /// when you override this method, you can call super to get reusable footerView, and override additionalOperationForReuseFooterView(_ footerView:) method to add new UI to reuse
     ///
     /// - Returns: custom footerView for current component
     @objc optional func footerView() -> FLTableViewHeaderFooterView?

@@ -2,7 +2,7 @@
 //  FLCollectionComponentController.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/17.
+//  Created by gitKong on 2017/5/17.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -127,21 +127,21 @@ extension FLCollectionComponentController : UICollectionViewDelegate {
         guard components.count > 0 else {
             return
         }
-        components[indexPath.section].collectionView(willDisplayView: view, viewOfKind: elementKind)
+        components[indexPath.section].collectionView(willDisplayView: view as! FLCollectionHeaderFooterView, viewOfKind: elementKind)
     }
     
     final func collectionView(_ collectionView: UICollectionView, didEndDisplayingSupplementaryView view: UICollectionReusableView, forElementOfKind elementKind: String, at indexPath: IndexPath){
         guard components.count > 0 else {
             return
         }
-        components[indexPath.section].collectionView(didEndDisplayView: view, viewOfKind: elementKind)
+        components[indexPath.section].collectionView(didEndDisplayView: view as! FLCollectionHeaderFooterView, viewOfKind: elementKind)
     }
 }
 
 
 // MARK : header or footer customizaion
 
-extension FLCollectionComponentController {
+extension FLCollectionComponentController: FLCollectionComponentEvent {
     
     final func collectionView(_ collectionView: UICollectionView, layout collectionViewLayout: UICollectionViewLayout, referenceSizeForHeaderInSection section: Int) -> CGSize {
         guard components.count > 0 else {
@@ -163,7 +163,19 @@ extension FLCollectionComponentController {
         guard components.count > 0 else {
             return UICollectionReusableView()
         }
-        return components[indexPath.section].collectionView(viewOfKind: kind)
+        let component = components[indexPath.section]
+        component.componentController = self
+        return component.collectionView(viewOfKind: kind)
+    }
+    
+    func collectionHeaderView(_ headerView: FLCollectionHeaderFooterView, didClickSectionAt section: Int) {
+        // do something
+        print("header(\(section)) : hello gitKong");
+    }
+    
+    func collectionFooterView(_ footerView: FLCollectionHeaderFooterView, didClickSectionAt section: Int) {
+        // do something
+        print("footer(\(section)) : hello gitKong");
     }
     
 }
@@ -225,6 +237,7 @@ extension FLCollectionComponentController {
         }
         return minimumInteritemSpacing
     }
+    
 }
 
 // MARK : Managing Actions for Cells

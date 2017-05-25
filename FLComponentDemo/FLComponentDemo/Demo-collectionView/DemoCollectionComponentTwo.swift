@@ -2,7 +2,7 @@
 //  DemoCollectionComponentTwo.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/18.
+//  Created by gitKong on 2017/5/18.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -12,7 +12,6 @@ class DemoCollectionComponentTwo: FLCollectionBaseComponent {
     
     override func register() {
         super.register()
-        self.collectionView?.register(UINib.init(nibName: "DemoCollectionViewCell", bundle: nil), forCellWithReuseIdentifier: self.cellIdentifier)
     }
     
     override func numberOfItems() -> NSInteger {
@@ -20,10 +19,15 @@ class DemoCollectionComponentTwo: FLCollectionBaseComponent {
     }
     
     override func cellForItem(at item: Int) -> UICollectionViewCell {
-        let cell : DemoCollectionViewCell = super.cellForItem(at: item) as! DemoCollectionViewCell
+        let cell : FLCollectionViewCell = super.cellForItem(at: item) as! FLCollectionViewCell
         cell.backgroundColor = UIColor.lightGray
-        cell.textLabel.text = stringFromSize(at: item)
         return cell
+    }
+    
+    override func additionalOperationForReuseCell(_ cell: FLCollectionViewCell?) {
+        let switchView : UISwitch = UISwitch.init(frame: CGRect.init(x: 0, y: 0, width: 60, height: 30))
+        
+        cell?.addSubview(switchView)
     }
     
     private func stringFromSize(at item: Int) -> String{
@@ -80,8 +84,14 @@ class DemoCollectionComponentTwo: FLCollectionBaseComponent {
         return footerView
     }
     
+    override func additionalOperationForReuseFooterView(_ footerView: FLCollectionHeaderFooterView?) {
+        let label : UILabel = UILabel.init(frame: CGRect.init(x: 0, y: 5, width: (footerView?.frame.size.width)!, height: 20))
+        label.text = "hello gitKong"
+        footerView?.addSubview(label)
+    }
+    
     override func heightForFooter() -> CGFloat {
-        return 10
+        return 30
     }
     
 //    override func sizeForItem(at item: Int) -> CGSize {

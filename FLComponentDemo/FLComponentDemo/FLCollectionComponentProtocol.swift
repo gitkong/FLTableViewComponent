@@ -2,7 +2,7 @@
 //  FLCollectionComponentProtocol.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/17.
+//  Created by gitKong on 2017/5/17.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -45,11 +45,16 @@ import UIKit
     /// - Returns: number of items for current section
     @objc optional func numberOfItems() -> NSInteger
     
-    /// override this method in component to set custom cell, default is UICollectionViewCell which registed as the class of UICollectionViewCell
+    /// override this method in component to set custom cell, default is FLCollectionViewCell which registed as the class of FLCollectionViewCell, if you want to custom cell and change the value of the custom cell properties, you should create a new cell inherited from FLCollectionViewCell
     ///
     /// - Parameter item: current item
     /// - Returns: cell for current item
     @objc optional func cellForItem(at item: Int) -> UICollectionViewCell
+    
+    /// override this method in component to perform additional operation, such as add lable or button into headerView to resue, but you can not change it again,because this dost not call when the cell prepare to reuse, Attention,you must regist first
+    ///
+    /// - Parameter cell:  cell for ready to reuse
+    @objc optional func additionalOperationForReuseCell(_ cell : FLCollectionViewCell?)
     
     /// if current collectionViewLayout is kind of FLCollectionViewFlowLayout, you can override this method in component to set the size for current cell, if you did not override it, default is the itemSize of flowLayout
     ///
@@ -60,24 +65,23 @@ import UIKit
     
     // MARK : Header or footer view customization
     
-    
-    /// override this method in component to custom headerView for current component, default is UICollectionReusableView which registed as the class of UICollectionReusableView
+    /// override this method in component to custom headerView for current component, default is FLCollectionHeaderFooterView which registed as the class of FLCollectionHeaderFooterView, Attention,you must regist first
     ///
     /// - Returns: custom headerView for current component
     @objc optional func headerView() -> FLCollectionHeaderFooterView
     
-    /// override this method in component to custom footerView for current component, default is UICollectionReusableView which registed as the class of UICollectionReusableView
+    /// override this method in component to custom footerView for current component, default is FLCollectionHeaderFooterView which registed as the class of FLCollectionHeaderFooterView, Attention,you must regist first
     ///
     /// - Returns: custom footerView for current component
     @objc optional func footerView() -> FLCollectionHeaderFooterView
     
-    /// override this method in component to perform additional operation, such as add lable or button into headerView to resue, but if you had registed the class of UICollectionReusableView for headerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
+    /// override this method in component to perform additional operation, such as add lable or button into headerView to resue, Attention,you must regist first
     ///
     /// - Parameter headerView:  headerView for ready to reuse
     @objc optional func additionalOperationForReuseHeaderView(_ headerView : FLCollectionHeaderFooterView?)
     
     
-    /// override this method in component to perform additional operation, such as add lable or button into footerView to resue, but if you had registed the class of UICollectionReusableView for footerView, this method will be invalid, so if you want it to be valiable, do not call super when you override register() method
+    /// override this method in component to perform additional operation, such as add lable or button into footerView to resue, Attention,you must regist first
     ///
     /// - Parameter footerView: footerView for ready to reuse
     @objc optional func additionalOperationForReuseFooterView(_ footerView : FLCollectionHeaderFooterView?)
@@ -111,22 +115,22 @@ import UIKit
     /// this method will call when the headerView will display
     ///
     /// - Parameter view: headerView which will display
-    @objc optional func collectionView(willDisplayHeaderView view: UICollectionReusableView)
+    @objc optional func collectionView(willDisplayHeaderView view: FLCollectionHeaderFooterView)
     
     /// this method will call when the headerView did displayed
     ///
     /// - Parameter view: headerView which did displayed
-    @objc optional func collectionView(didEndDisplayHeaderView view: UICollectionReusableView)
+    @objc optional func collectionView(didEndDisplayHeaderView view: FLCollectionHeaderFooterView)
     
     /// this method will call when the footerView will display
     ///
     /// - Parameter view: footerView which will display
-    @objc optional func collectionView(willDisplayFooterView view: UICollectionReusableView)
+    @objc optional func collectionView(willDisplayFooterView view: FLCollectionHeaderFooterView)
     
     /// this method will call when the footerView did displayed
     ///
     /// - Parameter view: footerView which did displayed
-    @objc optional func collectionView(didEndDisplayFooterView view: UICollectionReusableView)
+    @objc optional func collectionView(didEndDisplayFooterView view: FLCollectionHeaderFooterView)
     
     // MARK : Managing Actions for Cells
     
@@ -163,13 +167,13 @@ import UIKit
     /// - Parameters:
     ///   - headerView: current component's headerView
     ///   - section: current component's section
-    @objc optional func collectionHeaderView(_  headerView : UICollectionReusableView, didClickSectionAt section: Int)
+    @objc optional func collectionHeaderView(_  headerView : FLCollectionHeaderFooterView, didClickSectionAt section: Int)
     
     /// override this method in controller to handle the event of footerView tapping
     ///
     /// - Parameters:
     ///   - headerView: current component's footerView
     ///   - section: current component's section
-    @objc optional func collectionFooterView(_  footerView : UICollectionReusableView, didClickSectionAt section: Int)
+    @objc optional func collectionFooterView(_  footerView : FLCollectionHeaderFooterView, didClickSectionAt section: Int)
     
 }

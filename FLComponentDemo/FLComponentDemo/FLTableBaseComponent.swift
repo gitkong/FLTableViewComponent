@@ -2,7 +2,7 @@
 //  FLTableBaseComponent.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/11.
+//  Created by gitKong on 2017/5/11.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -13,8 +13,6 @@ let FLTableViewCellDefaultHeight : CGFloat = 44
 class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
     
     var tableView : UITableView?
-    
-    var section : Int? = 0
     
     weak var componentController : FLTableComponentEvent?
     
@@ -36,12 +34,26 @@ extension FLTableBaseComponent {
         tableView?.registerClass(FLTableViewHeaderFooterView.self, withReuseIdentifier: footerIdentifier)
     }
     
+    var tableViewCellStyle: UITableViewCellStyle {
+        return .default
+    }
+    
     func numberOfRows() -> NSInteger {
         return 0
     }
     
     func cellForRow(at row: Int) -> UITableViewCell {
-        return (tableView?.dequeueReusableCell(withIdentifier: self.cellIdentifier, for: IndexPath.init(row: row, section: self.section!)))!
+        var cell = tableView?.dequeueReusableCell(withIdentifier: cellIdentifier)
+        if cell == nil {
+            cell = UITableViewCell.init(style: tableViewCellStyle, reuseIdentifier: cellIdentifier)
+            self.additionalOperationForReuseCell(cell)
+        }
+        
+        return cell!
+    }
+    
+    func additionalOperationForReuseCell(_ cell : UITableViewCell?) {
+        // something to reuse
     }
 }
 

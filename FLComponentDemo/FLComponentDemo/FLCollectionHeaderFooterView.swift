@@ -2,29 +2,17 @@
 //  FLCollectionReusableView.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/22.
+//  Created by gitKong on 2017/5/22.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
 import UIKit
 
-class FLCollectionHeaderFooterView: UICollectionReusableView {
+class FLCollectionHeaderFooterView: UICollectionReusableView, FLCollectionComponentConfiguration {
     
-    public var section : Int?
-    
-    weak var delegate : FLCollectionComponentEvent?
-    
-    public var identifier : String?
-    
-    override var reuseIdentifier: String? {
-        return self.identifier
-    }
-    
-    convenience init(frame: CGRect, reuseIdentifier: String?, section: Int){
-        self.init(frame: frame)
-        self.identifier = reuseIdentifier
-        self.section = section
-    }
+    /// get component and type for reuse before the method init(frame:) call
+    static var component : FLCollectionBaseComponent?
+    static var type : FLIdentifierType?
     
     // MARK : dequeue will call init
     
@@ -32,8 +20,16 @@ class FLCollectionHeaderFooterView: UICollectionReusableView {
         super.init(frame: frame)
         // add gesture
         let tapG : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.headerFooterDidClick))
-        
         self.addGestureRecognizer(tapG)
+        
+        // need to know self is header or footer
+        // custom reuse UI, need to init here
+        if FLCollectionHeaderFooterView.type == .Header {
+            FLCollectionHeaderFooterView.component?.additionalOperationForReuseHeaderView(self)
+        }
+        else if FLCollectionHeaderFooterView.type == .Footer {
+            FLCollectionHeaderFooterView.component?.additionalOperationForReuseFooterView(self)
+        }
     }
     
     
@@ -46,14 +42,14 @@ class FLCollectionHeaderFooterView: UICollectionReusableView {
     }
     
     func headerFooterDidClick() {
-        guard let identifierType = FLIdentifierType.type(of: identifier) , let section = self.section else {
+        guard let identifierType = FLIdentifierType.type(of: self.reuseIdentifier) , let section = FLCollectionHeaderFooterView.component?.section else {
             return
         }
         switch identifierType {
         case .Header:
-            delegate?.collectionHeaderView!(self, didClickSectionAt: section)
+            FLCollectionHeaderFooterView.component?.componentController?.collectionHeaderView!(self, didClickSectionAt: section)
         case .Footer:
-            delegate?.collectionFooterView!(self, didClickSectionAt: section)
+            FLCollectionHeaderFooterView.component?.componentController?.collectionFooterView!(self, didClickSectionAt: section)
         default : break
         }
     }

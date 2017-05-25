@@ -2,7 +2,7 @@
 //  FLTableViewHeaderFooterView.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/12.
+//  Created by gitKong on 2017/5/12.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 

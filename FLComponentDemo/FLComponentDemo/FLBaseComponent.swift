@@ -2,7 +2,7 @@
 //  FLBaseComponent.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/17.
+//  Created by gitKong on 2017/5/17.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -127,10 +127,10 @@ extension UICollectionView {
         }
     }
     
-    func dequeueReusableCell<T : UICollectionViewCell>(withReuseIdentifier identifier: String, forIndxPath: IndexPath) -> T? {
+    func dequeueCell(withReuseIdentifier identifier: String, forIndxPath: IndexPath) -> UICollectionViewCell? {
         let identifierType = FLIdentifierType.type(of: identifier)
         if identifierType == .Cell {
-            return self.dequeueReusableCell(withReuseIdentifier: identifier, for: forIndxPath) as? T
+            return self.dequeueReusableCell(withReuseIdentifier: identifier, for: forIndxPath)
         }
         else{
             return nil
@@ -152,6 +152,8 @@ extension UICollectionView {
 }
 
 class FLBaseComponent: NSObject, FLBaseComponentProtocol {
+
+    var section : Int? = 0
     
     final var cellIdentifier : String {
         return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Cell.rawValue)"

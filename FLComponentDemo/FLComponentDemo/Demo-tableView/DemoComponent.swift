@@ -2,7 +2,7 @@
 //  DemoComponent.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/11.
+//  Created by gitKong on 2017/5/11.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -11,12 +11,17 @@ import UIKit
 class DemoComponent: FLTableBaseComponent {
     
     override func register() {
-        super.register()
+//        super.register()
     }
     
     override func cellForRow(at row: Int) -> UITableViewCell {
         let cell : UITableViewCell = super.cellForRow(at: row)
         return cell
+    }
+    
+    override func additionalOperationForReuseCell(_ cell: UITableViewCell?) {
+        let switchView : UISwitch = UISwitch.init(frame: CGRect.init(x: 200, y: 0, width: 60, height: 30))
+        cell?.addSubview(switchView)
     }
     
     override func numberOfRows() -> NSInteger {

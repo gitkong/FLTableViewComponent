@@ -2,7 +2,7 @@
 //  DemoCollectionComponentOne.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/17.
+//  Created by gitKong on 2017/5/17.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -11,7 +11,7 @@ import UIKit
 class DemoCollectionComponentOne: FLCollectionBaseComponent {
     
     override func register() {
-//        super.register()
+        super.register()
         self.collectionView?.registerNib(DemoCollectionViewCell.self, withReuseIdentifier: cellIdentifier)
     }
     
@@ -68,8 +68,14 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
         return headerView
     }
     
+    override func additionalOperationForReuseHeaderView(_ headerView: FLCollectionHeaderFooterView?) {
+        let btn : UIButton = UIButton.init(type: UIButtonType.contactAdd)
+        btn.frame = CGRect.init(x: 30, y: 0, width: 30, height: 30)
+        headerView?.addSubview(btn)
+    }
+    
     override func heightForHeader() -> CGFloat {
-        return 20
+        return 30
     }
     
     override func footerView() -> FLCollectionHeaderFooterView {
