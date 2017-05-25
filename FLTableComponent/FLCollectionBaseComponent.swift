@@ -2,7 +2,7 @@
 //  FLCollectionBaseComponent.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/17.
+//  Created by gitKong on 2017/5/17.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
@@ -12,9 +12,7 @@ class FLCollectionBaseComponent: FLBaseComponent, FLCollectionComponentConfigura
     
     var collectionView : UICollectionView?
     
-    var section : Int? = 0
-    
-    weak var componentController : FLTableComponentEvent?
+    weak var componentController : FLCollectionComponentEvent?
     
     init(collectionView : UICollectionView){
         super.init()
@@ -29,9 +27,9 @@ class FLCollectionBaseComponent: FLBaseComponent, FLCollectionComponentConfigura
 extension FLCollectionBaseComponent {
     
     override func register() {
-        collectionView?.register(UICollectionViewCell.self, forCellWithReuseIdentifier: self.cellIdentifier)
-        collectionView?.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier)
-        collectionView?.register(UICollectionReusableView.self, forSupplementaryViewOfKind: UICollectionElementKindSectionFooter, withReuseIdentifier: self.footerIdentifier)
+        collectionView?.registerClass(FLCollectionViewCell.self, withReuseIdentifier: cellIdentifier)
+        collectionView?.registerClass(FLCollectionHeaderFooterView.self, withReuseIdentifier: headerIdentifier)
+        collectionView?.registerClass(FLCollectionHeaderFooterView.self, withReuseIdentifier: footerIdentifier)
     }
     
     func numberOfItems() -> NSInteger {
@@ -39,7 +37,16 @@ extension FLCollectionBaseComponent {
     }
     
     func cellForItem(at item: Int) -> UICollectionViewCell {
-        return (collectionView?.dequeueReusableCell(withReuseIdentifier: self.cellIdentifier, for: IndexPath.init(item: item, section: section!)))!
+        guard let collectionView = collectionView else {
+            return FLCollectionViewCell()
+        }
+        FLCollectionViewCell.component = self
+        
+        return collectionView.dequeueCell(withReuseIdentifier: cellIdentifier, forIndxPath: IndexPath.init(row: item, section: section!))!
+    }
+    
+    func additionalOperationForReuseCell(_ cell : FLCollectionViewCell?) {
+        
     }
     
     
@@ -72,12 +79,35 @@ extension FLCollectionBaseComponent {
         return 0
     }
     
-    func headerView() -> UICollectionReusableView {
-        return (collectionView?.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionHeader, withReuseIdentifier: self.headerIdentifier, for: IndexPath.init(row: 0, section: section!)))!
+    func headerView() -> FLCollectionHeaderFooterView {
+        guard let collectionView = collectionView ,let section = section else {
+            return FLCollectionHeaderFooterView(frame: .zero)
+        }
+        FLCollectionHeaderFooterView.type = .Header
+        FLCollectionHeaderFooterView.component = self
+        
+        let headerView = collectionView.dequeueReusableHeaderFooterView(withReuseIdentifier: headerIdentifier, section: section)
+        
+        return headerView!
     }
     
-    func footerView() -> UICollectionReusableView {
-        return (collectionView?.dequeueReusableSupplementaryView(ofKind: UICollectionElementKindSectionFooter, withReuseIdentifier: self.footerIdentifier, for: IndexPath.init(row: 0, section: section!)))!
+    func footerView() -> FLCollectionHeaderFooterView {
+        guard let collectionView = collectionView, let section = section else {
+            return FLCollectionHeaderFooterView(frame: CGRect.zero)
+        }
+        FLCollectionHeaderFooterView.type = .Footer
+        FLCollectionHeaderFooterView.component = self
+        
+        let footerView = collectionView.dequeueReusableHeaderFooterView(withReuseIdentifier: footerIdentifier, section: section)
+        return footerView!
+    }
+    
+    func additionalOperationForReuseHeaderView(_ headerView : FLCollectionHeaderFooterView?) {
+        
+    }
+    
+    func additionalOperationForReuseFooterView(_ footerView : FLCollectionHeaderFooterView?) {
+        
     }
     
     final func collectionView(viewOfKind kind: String) -> UICollectionReusableView {
@@ -134,23 +164,23 @@ extension FLCollectionBaseComponent {
         
     }
     
-    func collectionView(willDisplayHeaderView view: UICollectionReusableView) {
+    func collectionView(willDisplayHeaderView view: FLCollectionHeaderFooterView) {
         
     }
     
-    func collectionView(didEndDisplayHeaderView view: UICollectionReusableView) {
+    func collectionView(didEndDisplayHeaderView view: FLCollectionHeaderFooterView) {
         
     }
     
-    func collectionView(willDisplayFooterView view: UICollectionReusableView) {
+    func collectionView(willDisplayFooterView view: FLCollectionHeaderFooterView) {
         
     }
     
-    func collectionView(didEndDisplayFooterView view: UICollectionReusableView) {
+    func collectionView(didEndDisplayFooterView view: FLCollectionHeaderFooterView) {
         
     }
     
-    final func collectionView(willDisplayView view : UICollectionReusableView, viewOfKind kind: String) {
+    final func collectionView(willDisplayView view : FLCollectionHeaderFooterView, viewOfKind kind: String) {
         
         if kind == UICollectionElementKindSectionHeader {
             self.collectionView(willDisplayHeaderView: view)
@@ -160,7 +190,7 @@ extension FLCollectionBaseComponent {
         }
     }
     
-    final func collectionView(didEndDisplayView view : UICollectionReusableView, viewOfKind kind: String) {
+    final func collectionView(didEndDisplayView view : FLCollectionHeaderFooterView, viewOfKind kind: String) {
         
         if kind == UICollectionElementKindSectionHeader {
             self.collectionView(didEndDisplayHeaderView: view)
@@ -186,3 +216,5 @@ extension FLCollectionBaseComponent {
         // do nothing
     }
 }
+
+
