@@ -18,7 +18,7 @@ class ViewController: UIViewController {
     
 
     @IBAction func showTableViewComponent(_ sender: UIButton) {
-        self.navigationController?.pushViewController(DemoViewController(), animated: true)
+        self.navigationController?.pushViewController(TestViewController(), animated: true)
     }
     
     @IBAction func showCollectionViewComponent(_ sender: UIButton) {
