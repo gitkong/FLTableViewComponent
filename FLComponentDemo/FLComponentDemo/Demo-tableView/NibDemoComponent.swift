@@ -2,23 +2,23 @@
 //  NibDemoComponent.swift
 //  FLComponentDemo
 //
-//  Created by Lyon on 2017/5/11.
+//  Created by gitKong on 2017/5/11.
 //  Copyright © 2017年 gitKong. All rights reserved.
 //
 
 import UIKit
 
-class NibDemoComponent: FLBaseComponent {
+class NibDemoComponent: FLTableBaseComponent {
     
     override func register() {
         // MARK : Do not call super register, if you just want to reuse headerView, otherwise, you should call super
 //        super.register()
         
-        self.tableView?.registerNib(className: NibDemoTableViewCell.self, cellReuseIdentifier: self.cellIdentifier)
+        self.tableView?.registerNib(NibDemoTableViewCell.self, withReuseIdentifier: self.cellIdentifier)
     }
     
-    override func cellForRow(at indexPath: IndexPath) -> UITableViewCell {
-        let cell : NibDemoTableViewCell = super.cellForRow(at: indexPath) as! NibDemoTableViewCell
+    override func cellForRow(at row: Int) -> UITableViewCell {
+        let cell : NibDemoTableViewCell = super.cellForRow(at: row) as! NibDemoTableViewCell
         return cell
     }
     
@@ -26,9 +26,13 @@ class NibDemoComponent: FLBaseComponent {
         return 3
     }
     
-    override func headerView(at section: Int) -> FLTableViewHeaderFooterView? {
+    override func heightForRow(at row: Int) -> CGFloat {
+        return 60
+    }
+    
+    override func headerView() -> FLTableViewHeaderFooterView? {
         // reuse slider too
-        let headerView = super.headerView(at: section)
+        let headerView = super.headerView()
         headerView?.contentView.backgroundColor = UIColor.yellow
         return headerView
     }
@@ -40,18 +44,22 @@ class NibDemoComponent: FLBaseComponent {
         headerView?.addSubview(btn)
     }
     
-    override func heightForHeader(at section: Int) -> CGFloat {
+    override func heightForHeader() -> CGFloat {
         return 30
     }
     
-    override func footerView(at section: Int) -> FLTableViewHeaderFooterView? {
+    override func footerView() -> FLTableViewHeaderFooterView? {
         // reuse slider too
-        let footerView = super.footerView(at: section)
+        let footerView = super.footerView()
         footerView?.contentView.backgroundColor = UIColor.purple
         return footerView
     }
     
-    override func heightForFooter(at section: Int) -> CGFloat {
+    override func additionalOperationForReuseFooterView(_ footerView: FLTableViewHeaderFooterView?) {
+        // the same as header
+    }
+    
+    override func heightForFooter() -> CGFloat {
         return 10
     }
     
