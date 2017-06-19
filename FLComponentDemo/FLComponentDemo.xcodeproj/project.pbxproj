@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3567ADDB1EF7F46400D4D91B /* FLCollectionViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3567ADDA1EF7F46400D4D91B /* FLCollectionViewHandler.swift */; };
 		B621A3B81EF3E3AD00B60503 /* FLTableViewHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621A3B71EF3E3AD00B60503 /* FLTableViewHandler.swift */; };
 		B621A3BA1EF3E4EE00B60503 /* TestViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = B621A3B91EF3E4EE00B60503 /* TestViewController.swift */; };
 		B62A0BFA1ECC2C8E00245D42 /* FLBaseComponent.swift in Sources */ = {isa = PBXBuildFile; fileRef = B62A0BF91ECC2C8E00245D42 /* FLBaseComponent.swift */; };
@@ -40,8 +41,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3567ADDA1EF7F46400D4D91B /* FLCollectionViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLCollectionViewHandler.swift; sourceTree = "<group>"; };
 		B621A3B71EF3E3AD00B60503 /* FLTableViewHandler.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLTableViewHandler.swift; sourceTree = "<group>"; };
-		B621A3B91EF3E4EE00B60503 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TestViewController.swift; sourceTree = "<group>"; };
+		B621A3B91EF3E4EE00B60503 /* TestViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; name = TestViewController.swift; path = "Demo-tableView/TestViewController.swift"; sourceTree = "<group>"; };
 		B62A0BF91ECC2C8E00245D42 /* FLBaseComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLBaseComponent.swift; sourceTree = "<group>"; };
 		B62A0BFB1ECC2F0A00245D42 /* FLCollectionBaseComponent.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLCollectionBaseComponent.swift; sourceTree = "<group>"; };
 		B62A0BFD1ECC49B500245D42 /* FLCollectionComponentProtocol.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = FLCollectionComponentProtocol.swift; sourceTree = "<group>"; };
@@ -94,6 +96,7 @@
 				B62A0C071ECD424000245D42 /* FLCollectionViewFlowLayout.swift */,
 				B62A0C281ED2E5AF00245D42 /* FLCollectionHeaderFooterView.swift */,
 				B6559FB51ED6D3AA0010186B /* FLCollectionViewCell.swift */,
+				3567ADDA1EF7F46400D4D91B /* FLCollectionViewHandler.swift */,
 			);
 			name = FLCollectionComponent;
 			sourceTree = "<group>";
@@ -130,7 +133,6 @@
 				B62A0C1A1ED2DD8900245D42 /* NibDemoComponent.swift */,
 				B62A0C1B1ED2DD8900245D42 /* NibDemoTableViewCell.swift */,
 				B62A0C1C1ED2DD8900245D42 /* NibDemoTableViewCell.xib */,
-				B621A3B91EF3E4EE00B60503 /* TestViewController.swift */,
 			);
 			path = "Demo-tableView";
 			sourceTree = "<group>";
@@ -157,6 +159,7 @@
 				B62A0C111ED2CCCD00245D42 /* FLComponent */,
 				B6B5C9CB1EC443AE006BA487 /* AppDelegate.swift */,
 				B6B5C9CD1EC443AE006BA487 /* ViewController.swift */,
+				B621A3B91EF3E4EE00B60503 /* TestViewController.swift */,
 				B62A0C121ED2DD8900245D42 /* Demo-collectionView */,
 				B62A0C181ED2DD8900245D42 /* Demo-tableView */,
 				B6B5C9CF1EC443AE006BA487 /* Main.storyboard */,
@@ -257,6 +260,7 @@
 				B62A0C221ED2DD8900245D42 /* DemoComponent.swift in Sources */,
 				B6B5C9E01EC45216006BA487 /* FLTableBaseComponent.swift in Sources */,
 				B62A0C231ED2DD8900245D42 /* NibDemoComponent.swift in Sources */,
+				3567ADDB1EF7F46400D4D91B /* FLCollectionViewHandler.swift in Sources */,
 				B62A0C211ED2DD8900245D42 /* DemoCollectionViewController.swift in Sources */,
 				B6559FAE1ED5AC8B0010186B /* DemoHeaderFooterViewOne.swift in Sources */,
 				B62A0C1F1ED2DD8900245D42 /* DemoCollectionViewCell.swift in Sources */,

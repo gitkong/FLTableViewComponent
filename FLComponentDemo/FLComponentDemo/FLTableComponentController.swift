@@ -91,7 +91,7 @@ extension FLTableComponentController {
             return nil
         }
         let component = components[section]
-        component.componentController = self
+        component.handler = self
         return component.headerView()
     }
     
@@ -100,7 +100,7 @@ extension FLTableComponentController {
             return nil
         }
         let component = components[section]
-        component.componentController = self
+        component.handler = self
         return component.footerView()
     }
 }

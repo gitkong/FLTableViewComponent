@@ -14,7 +14,7 @@ class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
     
     var tableView : UITableView?
     
-    weak var componentController : FLTableComponentEvent?
+    weak var handler : FLTableComponentEvent?
     
     init(tableView : UITableView){
         super.init()
@@ -125,7 +125,7 @@ extension FLTableBaseComponent {
     }
     
     private func addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  {
-        headerFooterView?.delegate = componentController
+        headerFooterView?.delegate = handler
     }
 }
 

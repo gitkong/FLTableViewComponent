@@ -9,9 +9,9 @@
 import UIKit
 
 protocol FLTableViewHandlerDelegate {
-    func didClick(handler : FLTableViewHandler, cellAt : IndexPath)
-    func didClick(handler : FLTableViewHandler, headerAt : NSInteger)
-    func didClick(handler : FLTableViewHandler, footerAt : NSInteger)
+    func tableViewDidClick(handler : FLTableViewHandler, cellAt : IndexPath)
+    func tableViewDidClick(handler : FLTableViewHandler, headerAt : NSInteger)
+    func tableViewDidClick(handler : FLTableViewHandler, footerAt : NSInteger)
 }
 
 class FLTableViewHandler: NSObject {
@@ -21,13 +21,9 @@ class FLTableViewHandler: NSObject {
     var tableView : UITableView? {
         return components.first?.tableView
     }
-    
-//    var currentHeaderFooterView : FLTableViewHeaderFooterView? {
-//        return
-//    }
 }
 
-extension FLTableViewHandler : UITableViewDelegate, UITableViewDataSource {
+extension FLTableViewHandler :  UITableViewDataSource {
     final func numberOfSections(in tableView: UITableView) -> Int {
         return components.count
     }
@@ -58,7 +54,7 @@ extension FLTableViewHandler {
             return nil
         }
         let component = components[section]
-//        component.componentController = self
+        component.handler = self
         return component.headerView()
     }
     
@@ -67,7 +63,7 @@ extension FLTableViewHandler {
             return nil
         }
         let component = components[section]
-//        component.componentController = self
+        component.handler = self
         return component.footerView()
     }
 }
@@ -149,12 +145,18 @@ extension FLTableViewHandler {
 
 // MARK : Event
 
-extension FLTableViewHandler : FLTableComponentEvent {
+extension FLTableViewHandler : UITableViewDelegate, FLTableComponentEvent {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.delegate?.didClick(handler: self, cellAt: indexPath)
+        self.delegate?.tableViewDidClick(handler: self, cellAt: indexPath)
     }
     
     func tableHeaderView(_ headerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {
-        self.delegate?.didClick(handler: <#T##FLTableViewHandler#>, headerAt: <#T##NSInteger#>)
+        self.delegate?.tableViewDidClick(handler: self, headerAt: section)
+    }
+    
+    func tableFooterView(_ footerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {
+        self.delegate?.tableViewDidClick(handler: self, footerAt: section)
     }
 }
+
+

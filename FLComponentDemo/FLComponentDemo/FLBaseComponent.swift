@@ -9,7 +9,9 @@
 import UIKit
 import ObjectiveC
 
-private var FLAssociationKey: UInt8 = 0
+private var FLTableViewAssociationKey: UInt8 = 0
+private var FLCollectionViewAssociationKey: UInt8 = 1
+
 let FLHeaderFooterTitleTopPadding : CGFloat = 5
 let FLHeaderFooterTitleLeftPadding : CGFloat = 20
 
@@ -43,10 +45,10 @@ extension UITableView{
     
     var handler : FLTableViewHandler? {
         get {
-            return objc_getAssociatedObject(self, &FLAssociationKey) as? FLTableViewHandler
+            return objc_getAssociatedObject(self, &FLTableViewAssociationKey) as? FLTableViewHandler
         }
         set(newValue) {
-            objc_setAssociatedObject(self, &FLAssociationKey, newValue, objc_AssociationPolicy(rawValue: 1)!)
+            objc_setAssociatedObject(self, &FLTableViewAssociationKey, newValue, objc_AssociationPolicy(rawValue: 1)!)
             self.dataSource = newValue
             self.delegate = newValue
         }
@@ -108,6 +110,17 @@ extension UITableView{
 }
 
 extension UICollectionView {
+    
+    var handler : FLCollectionViewHandler? {
+        get {
+            return objc_getAssociatedObject(self, &FLCollectionViewAssociationKey) as? FLCollectionViewHandler
+        }
+        set(newValue) {
+            objc_setAssociatedObject(self, &FLCollectionViewAssociationKey, newValue, objc_AssociationPolicy(rawValue: 1)!)
+            self.dataSource = newValue
+            self.delegate = newValue
+        }
+    }
     
     func registerClass(_ viewClass: Swift.AnyClass, withReuseIdentifier identifier: String) {
         let identifierType = FLIdentifierType.type(of: identifier)
