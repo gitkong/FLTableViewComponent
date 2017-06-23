@@ -3,13 +3,22 @@
 //  FLComponentDemo
 //
 //  Created by 孔凡列 on 2017/6/19.
-//  Copyright © 2017年 gitKong. All rights reserved.
+//  Copyright © 2017年 YY Inc. All rights reserved.
 //
 
 import UIKit
 
+@objc protocol FLCollectionViewHandlerDelegate {
+    @objc optional func collectionViewDidClick(_ handler : FLCollectionViewHandler, itemAt indexPath : IndexPath)
+    @objc optional func collectionViewDidClick(_ handler : FLCollectionViewHandler, headerAt section : NSInteger)
+    @objc optional func collectionViewDidClick(_ handler : FLCollectionViewHandler, footerAt section : NSInteger)
+}
+
 class FLCollectionViewHandler: NSObject {
+    
     var components : Array<FLCollectionBaseComponent> = []
+    
+    var delegate : FLCollectionViewHandlerDelegate?
     
     var collectionView : UICollectionView? {
         return components.first?.collectionView
@@ -101,7 +110,7 @@ extension FLCollectionViewHandler {
             return UICollectionReusableView()
         }
         let component = components[indexPath.section]
-        component.componentController = self
+        component.handler = self
         return component.collectionView(viewOfKind: kind)
     }
     
@@ -197,14 +206,17 @@ extension FLCollectionViewHandler {
 // MARK ：Event
 
 extension FLCollectionViewHandler : FLCollectionComponentEvent {
+    
+    func collectionView(_ collectionView: UICollectionView, didSelectItemAt indexPath: IndexPath) {
+        self.delegate?.collectionViewDidClick?(self, itemAt: indexPath)
+    }
+    
     func collectionHeaderView(_ headerView: FLCollectionHeaderFooterView, didClickSectionAt section: Int) {
-        // do something
-        print("header(\(section)) : hello gitKong");
+        self.delegate?.collectionViewDidClick?(self, headerAt: section)
     }
     
     func collectionFooterView(_ footerView: FLCollectionHeaderFooterView, didClickSectionAt section: Int) {
-        // do something
-        print("footer(\(section)) : hello gitKong");
+        self.delegate?.collectionViewDidClick?(self, footerAt: section)
     }
 }
 

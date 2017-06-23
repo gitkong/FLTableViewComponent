@@ -52,16 +52,22 @@ class DemoViewController: FLTableComponentController {
         return nil
     }
     
-    override func tableHeaderView(_ headerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {
-        print("header-\(section)-title = \(String(describing: headerView.titleLabel.text))")
-    }
-    
-    override func tableFooterView(_ footerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {
-        print("footer-\(section)-title = \(String(describing: footerView.titleLabel.text))")
-    }
-    
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+    override func tableViewDidClick(_ handler: FLTableViewHandler, cellAt indexPath: IndexPath) {
+        let cell  =  handler.cellForRow(at: indexPath)
+        if cell is NibDemoTableViewCell {
+            print("NIB")
+        }
         print("section-\(indexPath.section), row-\(indexPath.row)")
+    }
+    
+    override func tableViewDidClick(_ handler: FLTableViewHandler, headerAt section: NSInteger) {
+        let headerView = handler.headerView(forSection: section)
+        print("header-\(section)-title = \(String(describing: headerView?.titleLabel.text))")
+    }
+    
+    override func tableViewDidClick(_ handler: FLTableViewHandler, footerAt section: NSInteger) {
+        let footerView = handler.footerView(forSection: section)
+        print("footer-\(section)-title = \(String(describing: footerView?.titleLabel.text))")
     }
 
 }

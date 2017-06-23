@@ -41,7 +41,7 @@ enum ComponentError: Error {
     case DequeueError(String)
 }
 
-extension UITableView{
+extension UITableView {
     
     var handler : FLTableViewHandler? {
         get {

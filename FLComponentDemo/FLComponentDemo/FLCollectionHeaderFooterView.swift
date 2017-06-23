@@ -8,11 +8,23 @@
 
 import UIKit
 
+@objc protocol FLCollectionHeaderFooterViewDelegate {
+    func headerFooterViewDidClick(_ headerFooterView : FLCollectionHeaderFooterView, atSection : NSInteger)
+}
+
 class FLCollectionHeaderFooterView: UICollectionReusableView, FLCollectionComponentConfiguration {
     
     /// get component and type for reuse before the method init(frame:) call
-    static var component : FLCollectionBaseComponent?
+    static weak var component : FLCollectionBaseComponent?
     static var type : FLIdentifierType?
+    weak var delegate : FLCollectionComponentEvent?
+    public var section : Int?
+    
+    // MARK : if you want header or footer view have accurate event handling capabilities, you should initialize with init(reuseIdentifier: String?, section: Int)
+    convenience init(frame: CGRect, section: Int){
+        self.init(frame: frame)
+        self.section = section
+    }
     
     // MARK : dequeue will call init
     
@@ -42,14 +54,16 @@ class FLCollectionHeaderFooterView: UICollectionReusableView, FLCollectionCompon
     }
     
     func headerFooterDidClick() {
-        guard let identifierType = FLIdentifierType.type(of: self.reuseIdentifier) , let section = FLCollectionHeaderFooterView.component?.section else {
+        
+        guard let identifierType = FLIdentifierType.type(of: self.reuseIdentifier) , let section = section else {
             return
         }
+        
         switch identifierType {
         case .Header:
-            FLCollectionHeaderFooterView.component?.componentController?.collectionHeaderView!(self, didClickSectionAt: section)
+            FLCollectionHeaderFooterView.component?.handler?.collectionHeaderView!(self, didClickSectionAt: section)
         case .Footer:
-            FLCollectionHeaderFooterView.component?.componentController?.collectionFooterView!(self, didClickSectionAt: section)
+            FLCollectionHeaderFooterView.component?.handler?.collectionFooterView!(self, didClickSectionAt: section)
         default : break
         }
     }

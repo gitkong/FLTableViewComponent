@@ -68,7 +68,7 @@ class DemoCollectionComponentOne: FLCollectionBaseComponent {
         return headerView
     }
     
-    override func additionalOperationForReuseHeaderView(_ headerView: FLCollectionHeaderFooterView?) {
+    override func additionalOperationForReuseHeaderView(_ headerView: FLCollectionHeaderFooterView?){
         let btn : UIButton = UIButton.init(type: UIButtonType.contactAdd)
         btn.frame = CGRect.init(x: 30, y: 0, width: 30, height: 30)
         headerView?.addSubview(btn)

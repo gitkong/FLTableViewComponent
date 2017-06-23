@@ -3,12 +3,12 @@
 //  FLComponentDemo
 //
 //  Created by gitKong on 2017/6/16.
-//  Copyright © 2017年 gitKong. All rights reserved.
+//  Copyright © 2017年 YY Inc. All rights reserved.
 //
 
 import UIKit
 
-class TestViewController: UIViewController, FLTableViewHandlerDelegate {
+class TestViewController: UIViewController, FLTableViewHandlerDelegate, FLCollectionViewHandlerDelegate {
 
     var handler : FLTableViewHandler?
     var secondHandler : FLTableViewHandler?
@@ -36,6 +36,7 @@ class TestViewController: UIViewController, FLTableViewHandlerDelegate {
         collectionArr.append(DemoCollectionComponentTwo(collectionView: collectionView))
         collectionViewHandler?.components = collectionArr
         flowLayout.delegate = collectionViewHandler
+        collectionViewHandler?.delegate = self
         collectionView.handler = collectionViewHandler
         self.view.addSubview(collectionView)
         
@@ -76,7 +77,9 @@ class TestViewController: UIViewController, FLTableViewHandlerDelegate {
         secondTableView.reloadData()
     }
 
-    func tableViewDidClick(handler: FLTableViewHandler, cellAt: IndexPath) {
+    
+    
+    func tableViewDidClick(_ handler: FLTableViewHandler, cellAt indexPath: IndexPath) {
         if handler == self.handler {
             print("second tableView cell")
         }
@@ -85,22 +88,35 @@ class TestViewController: UIViewController, FLTableViewHandlerDelegate {
         }
     }
     
-    func tableViewDidClick(handler: FLTableViewHandler, headerAt: NSInteger) {
+    func tableViewDidClick(_ handler: FLTableViewHandler, headerAt section: NSInteger) {
+        print(handler.tableView?.headerView(forSection: section) ?? "")
         if handler == self.handler {
-            print("second tableView header")
+            print("second tableView header-\(section)")
         }
         else {
-            print("first tableView header")
+            print("first tableView header-\(section)")
         }
     }
     
-    func tableViewDidClick(handler: FLTableViewHandler, footerAt: NSInteger) {
+    func tableViewDidClick(_ handler: FLTableViewHandler, footerAt section: NSInteger) {
         if handler == self.handler {
-            print("second tableView footer")
+            print("second tableView footer-\(section)")
         }
         else {
-            print("first tableView footer")
+            print("first tableView footer-\(section)")
         }
+    }
+    
+    func collectionViewDidClick(_ handler: FLCollectionViewHandler, itemAt indexPath: IndexPath) {
+        print(indexPath)
+    }
+    
+    func collectionViewDidClick(_ handler: FLCollectionViewHandler, headerAt section: NSInteger) {
+        print("header\(section)")
+    }
+    
+    func collectionViewDidClick(_ handler: FLCollectionViewHandler, footerAt section: NSInteger) {
+        print("footer\(section)")
     }
 
 }

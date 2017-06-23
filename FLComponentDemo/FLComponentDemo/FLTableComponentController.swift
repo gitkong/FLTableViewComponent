@@ -10,14 +10,18 @@ import UIKit
 
 class FLTableComponentController: UIViewController {
     
+    private(set) var handler : FLTableViewHandler = FLTableViewHandler()
+    
     lazy var tableView : UITableView = {
         let tableView : UITableView = UITableView.init(frame: self.customRect, style: self.tableViewStyle)
-        tableView.delegate = self
-        tableView.dataSource = self
         return tableView
     }()
     
-    var components : Array<FLTableBaseComponent> = []
+    var components : Array<FLTableBaseComponent> = [] {
+        didSet {
+            handler.components = components
+        }
+    }
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
@@ -27,6 +31,8 @@ class FLTableComponentController: UIViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
+        handler.delegate = self
+        tableView.handler = handler
         view.addSubview(tableView)
         
         self.tableView.tableHeaderView = headerView(of: tableView)
@@ -42,7 +48,7 @@ class FLTableComponentController: UIViewController {
     }
 }
 
-extension FLTableComponentController : FLTableComponentConfiguration,UITableViewDelegate, UITableViewDataSource{
+extension FLTableComponentController : FLTableComponentConfiguration {
     
     var tableViewStyle: UITableViewStyle {
         return UITableViewStyle.plain
@@ -57,141 +63,21 @@ extension FLTableComponentController : FLTableComponentConfiguration,UITableView
     }
 }
 
-// MARK : tableView datasource
-
-extension FLTableComponentController {
+extension FLTableComponentController : FLTableViewHandlerDelegate {
     
-    final func numberOfSections(in tableView: UITableView) -> Int {
-        return components.count
+    func tableViewDidClick(_ handler: FLTableViewHandler, cellAt indexPath: IndexPath) {
+        // subclass override it
     }
     
-    final func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        guard components.count > 0 else {
-            return 0
-        }
-        return components[section].numberOfRows()
+    func tableViewDidClick(_ handler: FLTableViewHandler, headerAt section: NSInteger) {
+        // subclass override it
     }
     
-    final func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
-        guard components.count > 0 else {
-            return UITableViewCell()
-        }
-        let component : FLTableBaseComponent = components[indexPath.section]
-        component.section = indexPath.section
-        return component.cellForRow(at: indexPath.row)
+    func tableViewDidClick(_ handler: FLTableViewHandler, footerAt section: NSInteger) {
+        // subclass override it
     }
 }
 
-// MARK : header or footer customizaion
-
-extension FLTableComponentController {
-    
-    final func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView?{
-        guard components.count > 0 else {
-            return nil
-        }
-        let component = components[section]
-        component.handler = self
-        return component.headerView()
-    }
-    
-    final func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView?{
-        guard components.count > 0 else {
-            return nil
-        }
-        let component = components[section]
-        component.handler = self
-        return component.footerView()
-    }
-}
-
-// MARK : Hight customization
-
-extension FLTableComponentController {
-    
-    final func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat{
-        guard components.count > 0 else {
-            return 0
-        }
-        return components[indexPath.section].heightForRow(at: indexPath.row)
-    }
-    
-    final func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat{
-        guard components.count > 0 else {
-            return 0
-        }
-        return components[section].heightForHeader()
-    }
-    
-    final func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat{
-        guard components.count > 0 else {
-            return 0
-        }
-        return components[section].heightForFooter()
-    }
-    
-}
-
-// MARK : Display customization
-
-extension FLTableComponentController {
-    
-    final func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
-        guard components.count > 0 else {
-            return
-        }
-        components[indexPath.section].tableView(willDisplayCell: cell, at: indexPath.row)
-    }
-    
-    final public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
-        guard components.count > 0 else {
-            return
-        }
-        components[indexPath.section].tableView(didEndDisplayCell: cell, at: indexPath.row)
-    }
-    
-    final public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
-            return
-        }
-        components[section].tableView(willDisplayHeaderView: (view as? FLTableViewHeaderFooterView)!)
-    }
-    
-    final public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
-            return
-        }
-        components[section].tableView(willDisplayFooterView: (view as? FLTableViewHeaderFooterView)!)
-    }
-    
-    final public func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
-            return
-        }
-        components[section].tableView(didEndDisplayHeaderView: (view as? FLTableViewHeaderFooterView)!)
-    }
-    
-    final public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
-            return
-        }
-        components[section].tableView(didEndDisplayFooterView: (view as? FLTableViewHeaderFooterView)!)
-    }
-}
-
-// MARK : selection
-
-extension FLTableComponentController : FLTableComponentEvent{
-    
-    func tableHeaderView(_  headerView : FLTableViewHeaderFooterView, didClickSectionAt section: Int){
-        // do nothing
-    }
-    
-    func tableFooterView(_  footerView : FLTableViewHeaderFooterView, didClickSectionAt section: Int){
-        
-    }
-    
-}
 
 
 

@@ -48,6 +48,11 @@ class DemoCollectionViewController: FLCollectionComponentController{
 //        flowLayout.sectionInset = UIEdgeInsetsMake(10, 10, 10, 10)
         flowLayout.itemSize = CGSize.init(width: 100, height: 100)
         flowLayout.flowLayoutStyle = .Custom
+        if #available(iOS 9.0, *) {
+            flowLayout.sectionHeadersPinToVisibleBounds = true
+        } else {
+            // Fallback on earlier versions
+        }
     }
     
     func test<T>() -> T {
