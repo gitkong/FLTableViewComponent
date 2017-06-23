@@ -4,6 +4,10 @@
 
 A component for tableView and collectionView, which can greatly reduce your controller codes, also, you can set header or footer more easily
 
+## what can it do
+
+![component](http://upload-images.jianshu.io/upload_images/1085031-3861ed3e2fd62b79.gif?imageMogr2/auto-orient/strip)
+
 ## Requirements
 
 swift3+ and xcode8+
@@ -16,7 +20,7 @@ pod "FLTableComponent"
 
 ## How To Use (Just give an example for tableView)
 
-1. Create a controller which  inherit the class of FLTableComponentController
+1. Create a controller which  inherit the class of FLTableComponentController Or Create FLTableViewHandler to handle it, you can refer to the implementation of FLTableComponentController
 
 ``` swift
 class DemoViewController: FLTableComponentController {
