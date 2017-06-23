@@ -6,7 +6,7 @@ A component for tableView and collectionView, which can greatly reduce your cont
 
 ## what can it do
 
-![component](http://upload-images.jianshu.io/upload_images/1085031-3861ed3e2fd62b79.gif?imageMogr2/auto-orient/strip)
+![component](https://github.com/gitkong/FLTableViewComponent/blob/master/FLComponentDemo/component.gif)
 
 ## Requirements
 
