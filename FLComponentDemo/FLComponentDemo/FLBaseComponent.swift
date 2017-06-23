@@ -43,7 +43,7 @@ enum ComponentError: Error {
 
 extension UITableView {
     
-    var handler : FLTableViewHandler? {
+    weak var handler : FLTableViewHandler? {
         get {
             return objc_getAssociatedObject(self, &FLTableViewAssociationKey) as? FLTableViewHandler
         }
@@ -111,7 +111,7 @@ extension UITableView {
 
 extension UICollectionView {
     
-    var handler : FLCollectionViewHandler? {
+    weak var handler : FLCollectionViewHandler? {
         get {
             return objc_getAssociatedObject(self, &FLCollectionViewAssociationKey) as? FLCollectionViewHandler
         }
