@@ -1,5 +1,7 @@
 # FLTableComponent for tableView and collectionView
 
+[中文说明](https://github.com/gitkong/FLTableViewComponent/blob/master/README_CN.md)
+
 ## Introduce
 
 A component for tableView and collectionView, which can greatly reduce your controller codes, also, you can set header or footer more easily
