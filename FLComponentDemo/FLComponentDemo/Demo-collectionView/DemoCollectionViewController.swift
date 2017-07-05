@@ -18,7 +18,7 @@ class DemoCollectionViewController: FLCollectionComponentController{
         
         var arr : Array<FLCollectionBaseComponent> = []
         
-        let component = DemoCollectionComponentOne(collectionView: collectionView)
+        let component = DemoCollectionComponentOne.init(collectionView: collectionView, identifier : "gitKong_DemoCollection")
         arr.append(component)
         arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
         arr.append(component)
@@ -42,6 +42,9 @@ class DemoCollectionViewController: FLCollectionComponentController{
             self.title = "custom style"
         }
         self.flag = !self.flag
+        
+        // Delete Test
+        self.handler.removeComponent(by: "gitKong_DemoCollection", removeType: .All)
     }
 
     override func flowLayoutConfiguration(_ flowLayout: FLCollectionViewFlowLayout) {

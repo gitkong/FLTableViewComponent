@@ -37,7 +37,6 @@ class TestViewController: UIViewController, FLTableViewHandlerDelegate, FLCollec
         collectionViewHandler?.components = collectionArr
         flowLayout.delegate = collectionViewHandler
         collectionViewHandler?.delegate = self
-        collectionView.handler = collectionViewHandler
         self.view.addSubview(collectionView)
         
         let secondTableView : UITableView = UITableView.init(frame: CGRect.init(x: 0, y: 64, width: self.view.bounds.width, height: 300), style: UITableViewStyle.grouped)
@@ -58,7 +57,6 @@ class TestViewController: UIViewController, FLTableViewHandlerDelegate, FLCollec
         handler = FLTableViewHandler.init()
         handler?.components = arr
         handler?.delegate = self
-        tableView.handler = handler
         tableView.reloadData()
         
         
@@ -69,11 +67,10 @@ class TestViewController: UIViewController, FLTableViewHandlerDelegate, FLCollec
         
         secondArr.append(secondComponent)
         secondArr.append(secondNibComponent)
+        
         secondHandler = FLTableViewHandler.init()
         secondHandler?.components = secondArr
-        
         secondHandler?.delegate = self
-        secondTableView.handler = secondHandler
         secondTableView.reloadData()
     }
 

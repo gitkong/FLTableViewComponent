@@ -17,21 +17,28 @@ class DemoViewController: FLTableComponentController {
         title = "gitKong"
         var arr : Array<FLTableBaseComponent> = []
         
-        let component = DemoComponent.init(tableView: self.tableView)
+        let component = DemoComponent.init(tableView: self.tableView, identifier : "gitKong_DemoComponent")
         let NibComponent = NibDemoComponent.init(tableView: self.tableView)
+        let component1 = DemoComponent.init(tableView: self.tableView, identifier : "gitKong_DemoComponent_different")
 
         arr.append(component)
         arr.append(NibComponent)
+        arr.append(component)
         self.components = arr
         
-        self.components.append(component)
+        
+        self.components.append(component1)
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "add", style: .done, target: self, action: #selector(self.addElement))
     }
     
     func addElement() {
-        self.components.append(NibDemoComponent.init(tableView: self.tableView))
-        self.reloadComponent()
+//        self.components.append(NibDemoComponent.init(tableView: self.tableView))
+//        self.reloadComponent()
+        
+        self.handler.removeComponent(by: "gitKong_DemoComponent", removeType: .All)
+//        self.handler.removeComponent(at: 1)
+        self.handler.reloadComponents()
     }
     
     override var tableViewStyle: UITableViewStyle {
@@ -57,6 +64,7 @@ class DemoViewController: FLTableComponentController {
         if cell is NibDemoTableViewCell {
             print("NIB")
         }
+        
         print("section-\(indexPath.section), row-\(indexPath.row)")
     }
     

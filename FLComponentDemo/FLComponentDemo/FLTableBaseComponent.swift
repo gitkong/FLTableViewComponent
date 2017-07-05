@@ -14,13 +14,15 @@ class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
     
     var tableView : UITableView?
     
-    weak var handler : FLTableComponentEvent?
-    
     init(tableView : UITableView){
         super.init()
         self.tableView = tableView
-        // regist cell or header or footer
         self.register()
+    }
+    
+    convenience init(tableView : UITableView, identifier : String){
+        self.init(tableView: tableView)
+        self.componentIdentifier = identifier
     }
 }
 
@@ -93,7 +95,6 @@ extension FLTableBaseComponent {
         if let headerTitle = self.titleForHeader() {
             headerView?.titleLabel.attributedText = headerTitle
         }
-        addClickDelegete(for: headerView)
         headerView?.section = section
         return headerView
     }
@@ -111,7 +112,6 @@ extension FLTableBaseComponent {
         if let footerTitle = self.titleForFooter() {
             footerView?.titleLabel.attributedText = footerTitle
         }
-        addClickDelegete(for: footerView)
         footerView?.section = section
         return footerView
     }
@@ -122,10 +122,6 @@ extension FLTableBaseComponent {
     
     func titleForFooter() -> NSMutableAttributedString? {
         return nil
-    }
-    
-    private func addClickDelegete(for headerFooterView : FLTableViewHeaderFooterView?)  {
-        headerFooterView?.delegate = handler
     }
 }
 

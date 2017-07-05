@@ -57,7 +57,6 @@ class FLCollectionComponentController: UIViewController {
             layout.delegate = handler
         }
         handler.delegate = self
-        collectionView.handler = handler
         view.addSubview(collectionView)
     }
 }
