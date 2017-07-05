@@ -30,10 +30,6 @@ class FLCollectionHeaderFooterView: UICollectionReusableView, FLCollectionCompon
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        // add gesture
-        let tapG : UITapGestureRecognizer = UITapGestureRecognizer.init(target: self, action: #selector(self.headerFooterDidClick))
-        self.addGestureRecognizer(tapG)
-        
         // need to know self is header or footer
         // custom reuse UI, need to init here
         if FLCollectionHeaderFooterView.type == .Header {
@@ -44,7 +40,6 @@ class FLCollectionHeaderFooterView: UICollectionReusableView, FLCollectionCompon
         }
     }
     
-    
     required init?(coder aDecoder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
     }
@@ -53,18 +48,4 @@ class FLCollectionHeaderFooterView: UICollectionReusableView, FLCollectionCompon
         super.prepareForReuse()
     }
     
-    func headerFooterDidClick() {
-        
-        guard let identifierType = FLIdentifierType.type(of: self.reuseIdentifier) , let section = section else {
-            return
-        }
-        
-        switch identifierType {
-        case .Header:
-            FLCollectionHeaderFooterView.component?.handler?.collectionHeaderView!(self, didClickSectionAt: section)
-        case .Footer:
-            FLCollectionHeaderFooterView.component?.handler?.collectionFooterView!(self, didClickSectionAt: section)
-        default : break
-        }
-    }
 }

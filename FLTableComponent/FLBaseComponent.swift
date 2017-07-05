@@ -177,9 +177,16 @@ extension UICollectionView {
     }
 }
 
+enum FLComponentRemoveType {
+    case All
+    case Last
+}
+
 class FLBaseComponent: NSObject, FLBaseComponentProtocol {
 
     var section : Int? = 0
+    
+    var componentIdentifier : String = ""
     
     final var cellIdentifier : String {
         return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Cell.rawValue)"
@@ -195,6 +202,12 @@ class FLBaseComponent: NSObject, FLBaseComponentProtocol {
     
     dynamic func register() {
         // regist cell、header、footer
+    }
+    
+    override init() {
+        super.init()
+        // default
+        self.componentIdentifier = "\(NSStringFromClass(type(of: self))).\(section!)"
     }
     
 }

@@ -12,13 +12,15 @@ class FLCollectionBaseComponent: FLBaseComponent, FLCollectionComponentConfigura
     
     var collectionView : UICollectionView?
     
-    weak var handler : FLCollectionComponentEvent?
-    
     init(collectionView : UICollectionView){
         super.init()
         self.collectionView = collectionView
-        // regist cell or header or footer
         self.register()
+    }
+    
+    convenience init(collectionView : UICollectionView, identifier : String){
+        self.init(collectionView: collectionView)
+        self.componentIdentifier = identifier
     }
 }
 
@@ -86,8 +88,6 @@ extension FLCollectionBaseComponent {
         FLCollectionHeaderFooterView.component = self
         FLCollectionHeaderFooterView.type = .Header
         let headerView = collectionView.dequeueReusableHeaderFooterView(withReuseIdentifier: headerIdentifier, section: section)
-//        self.addClickDelegete(for: headerView)
-        headerView?.section = section
         return headerView!
     }
     
@@ -98,8 +98,6 @@ extension FLCollectionBaseComponent {
         FLCollectionHeaderFooterView.component = self
         FLCollectionHeaderFooterView.type = .Footer
         let footerView = collectionView.dequeueReusableHeaderFooterView(withReuseIdentifier: footerIdentifier, section: section)
-//        self.addClickDelegete(for: footerView)
-        footerView?.section = section
         return footerView!
     }
     
@@ -111,7 +109,7 @@ extension FLCollectionBaseComponent {
         
     }
     
-    final func collectionView(viewOfKind kind: String) -> UICollectionReusableView {
+    final func collectionView(viewOfKind kind: String) -> FLCollectionHeaderFooterView {
         
         if kind == UICollectionElementKindSectionHeader {
             return self.headerView()
@@ -120,12 +118,8 @@ extension FLCollectionBaseComponent {
             return self.footerView()
         }
         else {
-            return UICollectionReusableView()
+            return FLCollectionHeaderFooterView()
         }
-    }
-    
-    private func addClickDelegete(for headerFooterView : FLCollectionHeaderFooterView?)  {
-        headerFooterView?.delegate = handler
     }
 }
 

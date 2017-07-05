@@ -32,7 +32,6 @@ class FLTableComponentController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = UIColor.white
         handler.delegate = self
-        tableView.handler = handler
         view.addSubview(tableView)
         
         self.tableView.tableHeaderView = headerView(of: tableView)

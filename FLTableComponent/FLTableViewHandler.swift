@@ -16,7 +16,20 @@ import UIKit
 
 class FLTableViewHandler: NSObject {
     
-    var components : Array<FLTableBaseComponent> = []
+    private(set) lazy var componentsDict : NSMutableDictionary = {
+        return NSMutableDictionary.init()
+    }()
+    
+    var components : Array<FLTableBaseComponent> = [] {
+        didSet {
+            self.tableView?.handler = self
+            componentsDict.removeAllObjects()
+            for component in components {
+                // same key will override the old value, so the last component will alaways remove first
+                componentsDict.setValue(component, forKey: component.componentIdentifier)
+            }
+        }
+    }
     
     weak var delegate : FLTableViewHandlerDelegate?
     
@@ -38,6 +51,63 @@ class FLTableViewHandler: NSObject {
         return footer
     }
     
+    func component(at index : NSInteger) -> FLTableBaseComponent? {
+        guard components.count > 0, index < components.count else {
+            return nil
+        }
+        return components[index]
+    }
+    
+    func removeComponent(by identifier : String, removeType : FLComponentRemoveType) {
+        guard components.count > 0 else {
+            return
+        }
+        if let component = self.component(by: identifier) {
+            self.componentsDict.removeObject(forKey: identifier)
+            if removeType == .All {
+                self.components = self.components.filter({ $0 != component })
+            }
+            else if removeType == .Last {
+                self.removeComponent(component)
+            }
+        }
+    }
+    
+    func removeComponent(_ component : FLTableBaseComponent?) {
+        guard component != nil else {
+            return
+        }
+        self.removeComponent(at: component!.section!)
+    }
+    
+    func removeComponent(at index : NSInteger) {
+        guard  index < components.count else {
+            return
+        }
+        self.components.remove(at: index)
+    }
+    
+    func reloadComponents() {
+        self.tableView?.reloadData()
+    }
+    
+    func reloadComponent(_ component : FLTableBaseComponent) {
+        self.reloadComponent(at: component.section!)
+    }
+    
+    func reloadComponent(at index : NSInteger) {
+        guard components.count > 0, index < components.count else {
+            return
+        }
+        self.tableView?.reloadSections(IndexSet.init(integer: index), with: UITableViewRowAnimation.none)
+    }
+    
+    private func component(by identifier : String) -> FLTableBaseComponent? {
+        guard componentsDict.count > 0, !identifier.isEmpty else {
+            return nil
+        }
+        return componentsDict.value(forKey: identifier) as? FLTableBaseComponent
+    }
 }
 
 extension FLTableViewHandler :  UITableViewDataSource {
@@ -71,8 +141,9 @@ extension FLTableViewHandler {
             return nil
         }
         let component = components[section]
-        component.handler = self
-        return component.headerView()
+        let headerView : FLTableViewHeaderFooterView? = component.headerView()
+        headerView?.delegate = self
+        return headerView
     }
     
     final func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView?{
@@ -80,8 +151,9 @@ extension FLTableViewHandler {
             return nil
         }
         let component = components[section]
-        component.handler = self
-        return component.footerView()
+        let footerView : FLTableViewHeaderFooterView? = component.footerView()
+        footerView?.delegate = self
+        return footerView
     }
 }
 
@@ -117,42 +189,42 @@ extension FLTableViewHandler {
 extension FLTableViewHandler {
     
     final func tableView(_ tableView: UITableView, willDisplay cell: UITableViewCell, forRowAt indexPath: IndexPath){
-        guard components.count > 0 else {
+        guard components.count > 0, indexPath.section < components.count else {
             return
         }
         components[indexPath.section].tableView(willDisplayCell: cell, at: indexPath.row)
     }
     
     final public func tableView(_ tableView: UITableView, didEndDisplaying cell: UITableViewCell, forRowAt indexPath: IndexPath){
-        guard components.count > 0 else {
+        guard components.count > 0, indexPath.section < components.count else {
             return
         }
         components[indexPath.section].tableView(didEndDisplayCell: cell, at: indexPath.row)
     }
     
     final public func tableView(_ tableView: UITableView, willDisplayHeaderView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
+        guard components.count > 0, section < components.count else {
             return
         }
         components[section].tableView(willDisplayHeaderView: (view as? FLTableViewHeaderFooterView)!)
     }
     
     final public func tableView(_ tableView: UITableView, willDisplayFooterView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
+        guard components.count > 0, section < components.count else {
             return
         }
         components[section].tableView(willDisplayFooterView: (view as? FLTableViewHeaderFooterView)!)
     }
     
     final public func tableView(_ tableView: UITableView, didEndDisplayingHeaderView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
+        guard components.count > 0, section < components.count else {
             return
         }
         components[section].tableView(didEndDisplayHeaderView: (view as? FLTableViewHeaderFooterView)!)
     }
     
     final public func tableView(_ tableView: UITableView, didEndDisplayingFooterView view: UIView, forSection section: Int){
-        guard components.count > 0 else {
+        guard components.count > 0, section < components.count else {
             return
         }
         components[section].tableView(didEndDisplayFooterView: (view as? FLTableViewHeaderFooterView)!)
