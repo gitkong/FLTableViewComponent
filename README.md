@@ -14,7 +14,7 @@ A component for tableView and collectionView, which can greatly reduce your cont
 
 ## Requirements
 
-swift3+ and xcode8+
+swift3+ and xcode8+,新增Objective-C缩减版本（只针对UITableView）
 
 ## Installation
 
