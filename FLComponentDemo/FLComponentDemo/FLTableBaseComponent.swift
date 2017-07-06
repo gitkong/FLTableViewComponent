@@ -12,17 +12,32 @@ let FLTableViewCellDefaultHeight : CGFloat = 44
 
 class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
     
-    var tableView : UITableView?
+    private(set) var tableView : UITableView?
+    
+    private(set) var componentIdentifier : String = ""
+    
+    private(set) var isCustomIdentifier = false
     
     init(tableView : UITableView){
         super.init()
         self.tableView = tableView
         self.register()
+        isCustomIdentifier = false
+//        self.componentIdentifier = "\(NSStringFromClass(type(of: self))).Component.\(section!))"
     }
     
     convenience init(tableView : UITableView, identifier : String){
         self.init(tableView: tableView)
+        isCustomIdentifier = true
         self.componentIdentifier = identifier
+    }
+    
+    final override var section: Int? {
+        didSet {
+            if !isCustomIdentifier {
+                self.componentIdentifier = "\(NSStringFromClass(type(of: self))).Component.\(section!))"
+            }
+        }
     }
 }
 

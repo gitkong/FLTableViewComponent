@@ -10,17 +10,32 @@ import UIKit
 
 class FLCollectionBaseComponent: FLBaseComponent, FLCollectionComponentConfiguration{
     
-    var collectionView : UICollectionView?
+    private(set) var collectionView : UICollectionView?
+    
+    private(set) var componentIdentifier : String = ""
+    
+    private(set) var isCustomIdentifier = false
     
     init(collectionView : UICollectionView){
         super.init()
         self.collectionView = collectionView
         self.register()
+        isCustomIdentifier = false
+//        self.componentIdentifier = "\(NSStringFromClass(type(of: self))).Component.\(section!))"
     }
     
     convenience init(collectionView : UICollectionView, identifier : String){
         self.init(collectionView: collectionView)
+        isCustomIdentifier = true
         self.componentIdentifier = identifier
+    }
+    
+    final override var section: Int? {
+        didSet {
+            if !isCustomIdentifier {
+                self.componentIdentifier = "\(NSStringFromClass(type(of: self))).Component.\(section!))"
+            }
+        }
     }
 }
 

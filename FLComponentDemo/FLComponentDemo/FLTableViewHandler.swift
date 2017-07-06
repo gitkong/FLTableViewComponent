@@ -24,7 +24,9 @@ class FLTableViewHandler: NSObject {
         didSet {
             self.tableView?.handler = self
             componentsDict.removeAllObjects()
-            for component in components {
+            for section in 0..<components.count {
+                let component = components[section]
+                component.section = section
                 // same key will override the old value, so the last component will alaways remove first
                 componentsDict.setValue(component, forKey: component.componentIdentifier)
             }
@@ -51,11 +53,31 @@ class FLTableViewHandler: NSObject {
         return footer
     }
     
+}
+
+// Mark : component control
+
+extension FLTableViewHandler {
+    
+    func component(by identifier : String) -> FLTableBaseComponent? {
+        guard componentsDict.count > 0, !identifier.isEmpty else {
+            return nil
+        }
+        return componentsDict.value(forKey: identifier) as? FLTableBaseComponent
+    }
+    
     func component(at index : NSInteger) -> FLTableBaseComponent? {
         guard components.count > 0, index < components.count else {
             return nil
         }
         return components[index]
+    }
+    
+    func add(_ component : FLTableBaseComponent, after index : NSInteger) {
+        guard components.count > 0, index < components.count else {
+            return
+        }
+        self.components.append(component)
     }
     
     func removeComponent(by identifier : String, removeType : FLComponentRemoveType) {
@@ -100,13 +122,6 @@ class FLTableViewHandler: NSObject {
             return
         }
         self.tableView?.reloadSections(IndexSet.init(integer: index), with: UITableViewRowAnimation.none)
-    }
-    
-    private func component(by identifier : String) -> FLTableBaseComponent? {
-        guard componentsDict.count > 0, !identifier.isEmpty else {
-            return nil
-        }
-        return componentsDict.value(forKey: identifier) as? FLTableBaseComponent
     }
 }
 

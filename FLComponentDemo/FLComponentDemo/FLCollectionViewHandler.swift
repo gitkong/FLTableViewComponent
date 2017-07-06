@@ -24,7 +24,9 @@ class FLCollectionViewHandler: NSObject {
         didSet {
             self.collectionView?.handler = self
             componentsDict.removeAllObjects()
-            for component in components {
+            for section in 0..<components.count {
+                let component = components[section]
+                component.section = section
                 // same key will override the old value, so the last component will alaways remove first
                 componentsDict.setValue(component, forKey: component.componentIdentifier)
             }
@@ -36,7 +38,11 @@ class FLCollectionViewHandler: NSObject {
     var collectionView : UICollectionView? {
         return components.first?.collectionView
     }
-    
+}
+
+// Mark : component control
+
+extension FLCollectionViewHandler {
     func component(at index : NSInteger) -> FLCollectionBaseComponent? {
         guard components.count > 0, index < components.count else {
             return nil
@@ -88,13 +94,12 @@ class FLCollectionViewHandler: NSObject {
         self.collectionView?.reloadSections(IndexSet.init(integer: index))
     }
     
-    private func component(by identifier : String) -> FLCollectionBaseComponent? {
+    func component(by identifier : String) -> FLCollectionBaseComponent? {
         guard componentsDict.count > 0, !identifier.isEmpty else {
             return nil
         }
         return componentsDict.value(forKey: identifier) as? FLCollectionBaseComponent
     }
-    
 }
 
 // MARK : dataSources customizaion

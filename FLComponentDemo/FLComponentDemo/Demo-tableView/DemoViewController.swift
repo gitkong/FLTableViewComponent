@@ -20,14 +20,20 @@ class DemoViewController: FLTableComponentController {
         let component = DemoComponent.init(tableView: self.tableView, identifier : "gitKong_DemoComponent")
         let NibComponent = NibDemoComponent.init(tableView: self.tableView)
         let component1 = DemoComponent.init(tableView: self.tableView, identifier : "gitKong_DemoComponent_different")
-
+        let NibComponent1 = NibDemoComponent.init(tableView: self.tableView)
         arr.append(component)
         arr.append(NibComponent)
         arr.append(component)
+        arr.append(NibComponent1)
         self.components = arr
         
         
         self.components.append(component1)
+        
+        for component in components {
+            print(component.componentIdentifier)
+        }
+        
         
         self.navigationItem.rightBarButtonItem = UIBarButtonItem.init(title: "add", style: .done, target: self, action: #selector(self.addElement))
     }
