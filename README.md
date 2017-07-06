@@ -6,6 +6,8 @@
 
 A component for tableView and collectionView, which can greatly reduce your controller codes, also, you can set header or footer more easily
 
+![Process](https://github.com/gitkong/FLTableViewComponent/blob/master/FLComponentDemo/Snip20170706_3.png)
+
 ## what can it do
 
 ![component](https://github.com/gitkong/FLTableViewComponent/blob/master/FLComponentDemo/component.gif)
