@@ -22,7 +22,7 @@ pod "FLTableComponent"
 
 ## How To Use (Just give an example for tableView)
 
-1. Create a controller which  inherit the class of FLTableComponentController Or Create FLTableViewHandler to handle it, you can refer to the implementation of FLTableComponentController
+1. Create a controller which  inherit the class of FLTableComponentController Or Create FLTableViewHandler to handle it, you can check the implementation of FLTableComponentController，and it will show you how to use it
 
 ``` swift
 class DemoViewController: FLTableComponentController {
