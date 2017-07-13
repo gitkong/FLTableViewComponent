@@ -175,6 +175,34 @@
     return nil;
 }
 
+- (BOOL)tableView:(UITableView *)tableView shouldHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isHaveComponents && indexPath.section < self.components.count) {
+        FLTableComponent *component = self.components[indexPath.section];
+        component.section = indexPath.section;
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        return [component tableViewShouldHighlightCell:cell atRow:indexPath.row];
+    }
+    return NO;
+}
+
+- (void)tableView:(UITableView *)tableView didHighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isHaveComponents && indexPath.section < self.components.count) {
+        FLTableComponent *component = self.components[indexPath.section];
+        component.section = indexPath.section;
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        return [component tableViewDidHighlightCell:cell atRow:indexPath.row];
+    }
+}
+
+- (void)tableView:(UITableView *)tableView didUnhighlightRowAtIndexPath:(NSIndexPath *)indexPath {
+    if (self.isHaveComponents && indexPath.section < self.components.count) {
+        FLTableComponent *component = self.components[indexPath.section];
+        component.section = indexPath.section;
+        UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
+        return [component tableViewDidUnHighlightCell:cell atRow:indexPath.row];
+    }
+}
+
 - (void)tableView:(UITableView *)tableView willDisplayCell:(UITableViewCell *)cell forRowAtIndexPath:(NSIndexPath *)indexPath {
     if (self.isHaveComponents && indexPath.section < self.components.count) {
         FLTableComponent *component = self.components[indexPath.section];

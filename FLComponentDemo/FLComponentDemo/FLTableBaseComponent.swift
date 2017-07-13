@@ -140,6 +140,22 @@ extension FLTableBaseComponent {
     }
 }
 
+// MARK : highlight control
+
+extension FLTableBaseComponent {
+    func tableView(shouldHighlight cell: UITableViewCell?, at row: Int) -> Bool {
+        return true;
+    }
+    
+    func tableView(didHighlight cell: UITableViewCell?, at row: Int) {
+        // do something
+    }
+    
+    func tableView(didUnHighlight cell: UITableViewCell?, at row: Int) {
+        // do something
+    }
+}
+
 // MARK : height customization
 
 extension FLTableBaseComponent {

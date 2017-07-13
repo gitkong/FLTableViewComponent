@@ -70,6 +70,18 @@
     return [self.tableView dequeueReusableCellWithIdentifier:self.cellIdentifier];
 }
 
+- (BOOL)tableViewShouldHighlightCell:(UITableViewCell *)cell atRow:(NSInteger)row {
+    return YES;
+}
+
+- (void)tableViewDidHighlightCell:(UITableViewCell *)cell atRow:(NSInteger)row {
+    
+}
+
+- (void)tableViewDidUnHighlightCell:(UITableViewCell *)cell atRow:(NSInteger)row {
+    
+}
+
 - (void)tableViewWillDisplayCell:(UITableViewCell *)cell atRow:(NSInteger)row {
     // subClass override it
 }

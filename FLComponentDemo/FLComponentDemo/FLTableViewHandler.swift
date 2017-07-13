@@ -254,6 +254,34 @@ extension FLTableViewHandler : UITableViewDelegate, FLTableComponentEvent {
         self.delegate?.tableViewDidClick?(self, cellAt: indexPath)
     }
     
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        guard components.count > 0, indexPath.section < components.count else {
+            return false
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            return components[indexPath.section].tableView(shouldHighlight: cell, at: indexPath.row)
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard components.count > 0, indexPath.section < components.count else {
+            return
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            components[indexPath.section].tableView(didHighlight: cell, at: indexPath.row)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard components.count > 0, indexPath.section < components.count else {
+            return
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            components[indexPath.section].tableView(didUnHighlight: cell, at: indexPath.row)
+        }
+    }
+    
     func tableHeaderView(_ headerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {
         self.delegate?.tableViewDidClick?(self, headerAt: section)
     }

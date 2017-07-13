@@ -18,6 +18,12 @@
 
 @optional
 
+- (BOOL)tableViewShouldHighlightCell:(UITableViewCell *)cell atRow:(NSInteger)row;
+
+- (void)tableViewDidHighlightCell:(UITableViewCell *)cell atRow:(NSInteger)row;
+
+- (void)tableViewDidUnHighlightCell:(UITableViewCell *)cell atRow:(NSInteger)row;
+
 - (void)tableViewWillDisplayCell:(UITableViewCell *)cell atRow:(NSInteger)row;
 
 - (void)tableViewWillDisplayHeader:(UITableViewHeaderFooterView *)headerView atSection:(NSInteger)section;
