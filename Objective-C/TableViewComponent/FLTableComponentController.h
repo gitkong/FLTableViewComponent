@@ -8,11 +8,11 @@
 
 #import <UIKit/UIKit.h>
 #import "FLTableComponent.h"
-#import "HYTableViewHandler.h"
+#import "FLTableViewHandler.h"
 
 @interface FLTableComponentController : UIViewController
 
-@property (nonatomic, strong, readonly) HYTableViewHandler *handler;
+@property (nonatomic, strong, readonly) FLTableViewHandler *handler;
 
 @property (nonatomic, strong) NSArray<FLTableComponent *> *components;
 

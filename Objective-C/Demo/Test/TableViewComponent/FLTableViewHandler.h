@@ -9,25 +9,25 @@
 #import <Foundation/Foundation.h>
 #import "FLTableComponent.h"
 @import UIKit;
-@class HYTableViewHandler;
+@class FLTableViewHandler;
 
-@protocol HYTableViewHandlerDelegate <NSObject>
+@protocol FLTableViewHandlerDelegate <NSObject>
 @optional
-- (void)tableViewDidClick:(HYTableViewHandler *)handler cellAtIndexPath:(NSIndexPath *)indexPath;
+- (void)tableViewDidClick:(FLTableViewHandler *)handler cellAtIndexPath:(NSIndexPath *)indexPath;
 
-- (void)tableViewDidClick:(HYTableViewHandler *)handler headerAtSection:(NSInteger)section;
+- (void)tableViewDidClick:(FLTableViewHandler *)handler headerAtSection:(NSInteger)section;
 
-- (void)tableViewDidClick:(HYTableViewHandler *)handler footerAtSection:(NSInteger)section;
+- (void)tableViewDidClick:(FLTableViewHandler *)handler footerAtSection:(NSInteger)section;
 
 @end
 
-@interface HYTableViewHandler : NSObject<UITableViewDelegate, UITableViewDataSource>
+@interface FLTableViewHandler : NSObject<UITableViewDelegate, UITableViewDataSource>
 
 @property (nonatomic, weak, readonly) UITableView *tableView;
 
 @property (nonatomic, strong) NSArray<FLTableComponent *> *components;
 
-@property (nonatomic, weak) id<HYTableViewHandlerDelegate> delegate;
+@property (nonatomic, weak) id<FLTableViewHandlerDelegate> delegate;
 
 //- (void)set
 
@@ -41,6 +41,8 @@
 - (void)removeComponentAtIndex:(NSInteger)index;
 
 - (void)addComponent:(FLTableComponent *)component afterSection:(NSInteger)section;
+- (void)addComponent:(FLTableComponent *)component afterComponent:(FLTableComponent *)afterComponent;
+- (void)addComponent:(FLTableComponent *)component afterIdentifier:(NSString *)componentIdentifier;
 - (void)addComponents:(NSArray<FLTableComponent *> *)components afterSection:(NSInteger)section;
 - (void)addComponent:(FLTableComponent *)component;
 

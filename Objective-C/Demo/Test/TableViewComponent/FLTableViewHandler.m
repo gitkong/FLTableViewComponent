@@ -6,12 +6,12 @@
 //  Copyright © 2017年 YY Inc. All rights reserved.
 //
 
-#import "HYTableViewHandler.h"
+#import "FLTableViewHandler.h"
 #import "FLTableComponent.h"
 #import "UITableViewHeaderFooterView+Component.h"
 #import "NSString+Empty.h"
 
-@interface HYTableViewHandler ()
+@interface FLTableViewHandler ()
 
 @property (nonatomic, strong) NSMutableDictionary *componentDict;
 
@@ -19,7 +19,7 @@
 
 @end
 
-@implementation HYTableViewHandler
+@implementation FLTableViewHandler
 
 #pragma mark Public Method
 
@@ -74,6 +74,23 @@
 - (void)reloadComponent:(FLTableComponent *)component {
     if (self.tableView && component && component.section < self.components.count) {
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:component.section] withRowAnimation:UITableViewRowAnimationNone];
+    }
+}
+
+- (void)addComponent:(FLTableComponent *)component afterIdentifier:(NSString *)componentIdentifier {
+    FLTableComponent *afterComponent = [self componentByIdentifier:componentIdentifier];
+    [self addComponent:component afterComponent:afterComponent];
+}
+
+- (void)addComponent:(FLTableComponent *)component afterComponent:(FLTableComponent *)afterComponent {
+    if (afterComponent && [self isHaveComponents]) {
+        NSInteger section = afterComponent.section;
+        if (section + 1 >= 0 && section + 1 < self.components.count) {
+            [self addComponent:component afterSection:section + 1];
+        }
+        else {
+            [self addComponent:component afterSection:section];
+        }
     }
 }
 

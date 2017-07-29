@@ -10,7 +10,7 @@
 
 @interface FLTableComponentController ()
 
-@property (nonatomic, strong) HYTableViewHandler *handler;
+@property (nonatomic, strong) FLTableViewHandler *handler;
 
 @property (nonatomic, strong) UITableView *tableView;
 
@@ -47,9 +47,9 @@
     return _tableView;
 }
 
-- (HYTableViewHandler *)handler {
+- (FLTableViewHandler *)handler {
     if (_handler == nil) {
-        _handler = [[HYTableViewHandler alloc] init];
+        _handler = [[FLTableViewHandler alloc] init];
     }
     return _handler;
 }

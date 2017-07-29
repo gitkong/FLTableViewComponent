@@ -7,11 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
-@class HYTableViewHandler;
+@class FLTableViewHandler;
 
 @interface UITableView (Component)
 
-@property (nonatomic, weak) HYTableViewHandler *handler;
+@property (nonatomic, weak) FLTableViewHandler *handler;
 
 - (void)registerNibClass:(Class)nibClass forCellReuseIdentifier:(NSString *)identifier;
 

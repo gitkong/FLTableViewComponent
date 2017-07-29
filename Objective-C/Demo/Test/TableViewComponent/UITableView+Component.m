@@ -7,21 +7,21 @@
 //
 
 #import "UITableView+Component.h"
-#import "HYTableViewHandler.h"
+#import "FLTableViewHandler.h"
 #import <objc/runtime.h>
 
-static char *KHYTableViewHandlerKey = "KHYTableViewHandlerKey";
+static char *KFLTableViewHandlerKey = "KFLTableViewHandlerKey";
 
 @implementation UITableView (Component)
 
-- (void)setHandler:(HYTableViewHandler *)handler {
-    objc_setAssociatedObject(self, &KHYTableViewHandlerKey, handler, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
+- (void)setHandler:(FLTableViewHandler *)handler {
+    objc_setAssociatedObject(self, &KFLTableViewHandlerKey, handler, OBJC_ASSOCIATION_RETAIN_NONATOMIC);
     self.delegate = handler;
     self.dataSource = handler;
 }
 
-- (HYTableViewHandler *)handler {
-    return objc_getAssociatedObject(self, &KHYTableViewHandlerKey);
+- (FLTableViewHandler *)handler {
+    return objc_getAssociatedObject(self, &KFLTableViewHandlerKey);
 }
 
 - (void)registerNibClass:(Class)nibClass forCellReuseIdentifier:(NSString *)identifier {
