@@ -57,13 +57,13 @@ class FLTableViewHandler: NSObject {
 
 // Mark : component control
 
-extension FLTableViewHandler {
-    
-    func component(by identifier : String) -> FLTableBaseComponent? {
+extension FLTableViewHandler : FLTableViewHandlerProtocol {
+
+    func component(by identifier: String) -> FLTableBaseComponent? {
         guard componentsDict.count > 0, !identifier.isEmpty else {
             return nil
         }
-        return componentsDict.value(forKey: identifier) as? FLTableBaseComponent
+        return componentsDict.value(forKey: identifier)  as? FLTableBaseComponent
     }
     
     func component(at index : NSInteger) -> FLTableBaseComponent? {
@@ -73,8 +73,33 @@ extension FLTableViewHandler {
         return components[index]
     }
     
-    func add(_ component : FLTableBaseComponent, after index : NSInteger) {
+    func exchange(_ component : FLTableBaseComponent, by exchangeComponent : FLTableBaseComponent) {
+        self.components.exchange(component.section!, by: exchangeComponent.section!)
+    }
+    
+    func replace(_ component : FLTableBaseComponent, by replacementComponent : FLTableBaseComponent) {
+        self.components.replaceSubrange(component.section!...component.section!, with: [replacementComponent])
+    }
+    
+    func addAfterIdentifier(_ component : FLTableBaseComponent, after identifier : String) {
+        if let afterComponent = self.component(by: identifier) {
+            self.addAfterComponent(component, after: afterComponent)
+        }
+    }
+    
+    func addAfterComponent(_ component : FLTableBaseComponent, after afterComponent : FLTableBaseComponent) {
+        self.addAfterSection(component, after: afterComponent.section!)
+    }
+    
+    func addAfterSection(_ component : FLTableBaseComponent, after index : NSInteger) {
         guard components.count > 0, index < components.count else {
+            return
+        }
+        self.components.insert(component, at: index)
+    }
+    
+    func add(_ component : FLTableBaseComponent) {
+        guard components.count > 0 else {
             return
         }
         self.components.append(component)

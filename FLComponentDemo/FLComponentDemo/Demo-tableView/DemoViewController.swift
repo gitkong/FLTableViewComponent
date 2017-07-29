@@ -18,12 +18,12 @@ class DemoViewController: FLTableComponentController {
         var arr : Array<FLTableBaseComponent> = []
         
         let component = DemoComponent.init(tableView: self.tableView, identifier : "gitKong_DemoComponent")
-        let NibComponent = NibDemoComponent.init(tableView: self.tableView)
+        let NibComponent = NibDemoComponent.init(tableView: self.tableView, identifier : "gitKong_NibComponent")
         let component1 = DemoComponent.init(tableView: self.tableView, identifier : "gitKong_DemoComponent_different")
         let NibComponent1 = NibDemoComponent.init(tableView: self.tableView)
         arr.append(component)
         arr.append(NibComponent)
-        arr.append(component)
+//        arr.append(component)
         arr.append(NibComponent1)
         self.components = arr
         
@@ -39,12 +39,19 @@ class DemoViewController: FLTableComponentController {
     }
     
     func addElement() {
-//        self.components.append(NibDemoComponent.init(tableView: self.tableView))
-//        self.reloadComponent()
+//        self.handler.addAfterSection(NibDemoComponent.init(tableView: self.tableView), after: 1)
+//        let newComponent = NibDemoComponent.init(tableView: self.tableView)
         
-        self.handler.removeComponent(by: "gitKong_DemoComponent", removeType: .All)
+        if let firstComponent = self.handler.component(by: "gitKong_DemoComponent"), let secondComponent = self.handler.component(by: "gitKong_NibComponent") {
+//            self.handler.replace(component, by: newComponent)
+            self.handler.exchange(firstComponent, by: secondComponent)
+        }
+        
+        self.reloadComponent()
+        
+//        self.handler.removeComponent(by: "gitKong_DemoComponent", removeType: .All)
 //        self.handler.removeComponent(at: 1)
-        self.handler.reloadComponents()
+//        self.handler.reloadComponents()
     }
     
     override var tableViewStyle: UITableViewStyle {

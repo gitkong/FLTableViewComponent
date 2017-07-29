@@ -41,6 +41,16 @@ enum ComponentError: Error {
     case DequeueError(String)
 }
 
+extension Array  {
+    mutating func exchange(_ from : Int, by to : Int) {
+        guard from < self.count, to < self.count else {
+            return
+        }
+        swap(&self[from], &self[to])
+    }
+    
+}
+
 extension UITableView {
     
     weak var handler : FLTableViewHandler? {

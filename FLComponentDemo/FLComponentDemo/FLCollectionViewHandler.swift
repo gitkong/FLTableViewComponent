@@ -42,12 +42,44 @@ class FLCollectionViewHandler: NSObject {
 
 // Mark : component control
 
-extension FLCollectionViewHandler {
+extension FLCollectionViewHandler : FLCollectionViewHandlerProtocol {
     func component(at index : NSInteger) -> FLCollectionBaseComponent? {
         guard components.count > 0, index < components.count else {
             return nil
         }
         return components[index]
+    }
+    
+    func exchange(_ component : FLCollectionBaseComponent, by exchangeComponent : FLCollectionBaseComponent) {
+        self.components.exchange(component.section!, by: exchangeComponent.section!)
+    }
+    
+    func replace(_ component : FLCollectionBaseComponent, by replacementComponent : FLCollectionBaseComponent) {
+        self.components.replaceSubrange(component.section!...component.section!, with: [replacementComponent])
+    }
+    
+    func addAfterIdentifier(_ component : FLCollectionBaseComponent, after identifier : String) {
+        if let afterComponent = self.component(by: identifier) {
+            self.addAfterComponent(component, after: afterComponent)
+        }
+    }
+    
+    func addAfterComponent(_ component : FLCollectionBaseComponent, after afterComponent : FLCollectionBaseComponent) {
+        self.addAfterSection(component, after: afterComponent.section!)
+    }
+    
+    func addAfterSection(_ component : FLCollectionBaseComponent, after index : NSInteger) {
+        guard components.count > 0, index < components.count else {
+            return
+        }
+        self.components.insert(component, at: index)
+    }
+    
+    func add(_ component : FLCollectionBaseComponent) {
+        guard components.count > 0 else {
+            return
+        }
+        self.components.append(component)
     }
     
     func removeComponent(by identifier : String, removeType : FLComponentRemoveType) {

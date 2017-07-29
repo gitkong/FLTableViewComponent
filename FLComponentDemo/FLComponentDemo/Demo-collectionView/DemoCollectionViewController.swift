@@ -20,11 +20,11 @@ class DemoCollectionViewController: FLCollectionComponentController{
         
         let component = DemoCollectionComponentOne.init(collectionView: collectionView, identifier : "gitKong_DemoCollection")
         arr.append(component)
-        arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
-        arr.append(component)
-        arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
-        arr.append(component)
-        arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
+        arr.append(DemoCollectionComponentTwo(collectionView: collectionView, identifier : "gitKong_Demo_Two_collection"))
+//        arr.append(component)
+//        arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
+//        arr.append(component)
+//        arr.append(DemoCollectionComponentTwo(collectionView: collectionView))
         self.components = arr
         
         
@@ -44,7 +44,11 @@ class DemoCollectionViewController: FLCollectionComponentController{
         self.flag = !self.flag
         
         // Delete Test
-        self.handler.removeComponent(by: "gitKong_DemoCollection", removeType: .All)
+        if let firstComponent = self.handler.component(by: "gitKong_DemoCollection"), let secondComponent = self.handler.component(by: "gitKong_Demo_Two_collection") {
+            self.handler.exchange(firstComponent, by: secondComponent)
+        }
+        
+//        self.handler.removeComponent(by: "gitKong_DemoCollection", removeType: .All)
     }
 
     override func flowLayoutConfiguration(_ flowLayout: FLCollectionViewFlowLayout) {
