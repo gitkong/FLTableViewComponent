@@ -29,6 +29,7 @@ protocol FLTableViewHandlerProtocol {
     func removeComponent(at index : NSInteger)
 
     func reloadComponents()
+    func reloadComponents(_ components : [FLTableBaseComponent])
     func reloadComponent(_ component : FLTableBaseComponent)
     func reloadComponent(at index : NSInteger)
     
@@ -53,6 +54,7 @@ protocol FLCollectionViewHandlerProtocol {
     func removeComponent(at index : NSInteger)
     
     func reloadComponents()
+    func reloadComponents(_ components : [FLCollectionBaseComponent])
     func reloadComponent(_ component : FLCollectionBaseComponent)
     func reloadComponent(at index : NSInteger)
     

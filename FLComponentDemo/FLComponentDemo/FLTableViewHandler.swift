@@ -138,6 +138,15 @@ extension FLTableViewHandler : FLTableViewHandlerProtocol {
         self.tableView?.reloadData()
     }
     
+    func reloadComponents(_ components : [FLTableBaseComponent]) {
+        guard self.components.count > 0, components.count <= self.components.count else {
+            return
+        }
+        for component in components {
+            self.reloadComponent(at: component.section!)
+        }
+    }
+    
     func reloadComponent(_ component : FLTableBaseComponent) {
         self.reloadComponent(at: component.section!)
     }

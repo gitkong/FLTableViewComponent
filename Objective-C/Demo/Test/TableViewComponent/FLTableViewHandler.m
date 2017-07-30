@@ -71,6 +71,14 @@
     }
 }
 
+- (void)reloadComponents:(NSArray <FLTableComponent *>*)components {
+    if (self.tableView && components && components.count <= self.components.count) {
+        for (FLTableComponent *component in components) {
+            [self reloadComponent:component];
+        }
+    }
+}
+
 - (void)reloadComponent:(FLTableComponent *)component {
     if (self.tableView && component && component.section < self.components.count) {
         [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:component.section] withRowAnimation:UITableViewRowAnimationNone];

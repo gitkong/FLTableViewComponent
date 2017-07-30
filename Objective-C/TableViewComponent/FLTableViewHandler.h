@@ -35,6 +35,7 @@
 
 - (void)reloadComponents;
 - (void)reloadComponent:(FLTableComponent *)component;
+- (void)reloadComponents:(NSArray <FLTableComponent *>*)components;
 
 - (void)removeComponentByIdentifier:(NSString *)identifier type:(FLComponentRemoveType)type;
 - (void)removeComponent:(FLTableComponent *)component;

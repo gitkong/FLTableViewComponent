@@ -115,6 +115,15 @@ extension FLCollectionViewHandler : FLCollectionViewHandlerProtocol {
         self.collectionView?.reloadData()
     }
     
+    func reloadComponents(_ components : [FLCollectionBaseComponent]) {
+        guard self.components.count > 0, components.count <= self.components.count else {
+            return
+        }
+        for component in components {
+            self.reloadComponent(at: component.section!)
+        }
+    }
+    
     func reloadComponent(_ component : FLCollectionBaseComponent) {
         self.reloadComponent(at: component.section!)
     }
