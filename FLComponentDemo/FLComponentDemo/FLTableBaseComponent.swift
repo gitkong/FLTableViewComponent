@@ -39,6 +39,11 @@ class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
             }
         }
     }
+    
+    final override func reloadSelfComponent() {
+        tableView?.reloadSections(IndexSet.init(integer: section!), with: UITableViewRowAnimation.none)
+    }
+    
 }
 
 // MARK : base configuration
@@ -50,6 +55,7 @@ extension FLTableBaseComponent {
         tableView?.registerClass(FLTableViewHeaderFooterView.self, withReuseIdentifier: headerIdentifier)
         tableView?.registerClass(FLTableViewHeaderFooterView.self, withReuseIdentifier: footerIdentifier)
     }
+    
     
     var tableViewCellStyle: UITableViewCellStyle {
         return .default

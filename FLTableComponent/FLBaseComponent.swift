@@ -41,6 +41,16 @@ enum ComponentError: Error {
     case DequeueError(String)
 }
 
+extension Array  {
+    mutating func exchange(_ from : Int, by to : Int) {
+        guard from < self.count, to < self.count else {
+            return
+        }
+        swap(&self[from], &self[to])
+    }
+    
+}
+
 extension UITableView {
     
     weak var handler : FLTableViewHandler? {
@@ -186,8 +196,6 @@ class FLBaseComponent: NSObject, FLBaseComponentProtocol {
 
     var section : Int? = 0
     
-    var componentIdentifier : String = ""
-    
     final var cellIdentifier : String {
         return "\(NSStringFromClass(type(of: self))).\(FLIdentifierType.Cell.rawValue)"
     }
@@ -204,12 +212,9 @@ class FLBaseComponent: NSObject, FLBaseComponentProtocol {
         // regist cell、header、footer
     }
     
-    override init() {
-        super.init()
-        // default
-        self.componentIdentifier = "\(NSStringFromClass(type(of: self))).\(section!)"
+    dynamic func reloadSelfComponent() {
+        
     }
-    
 }
 
 

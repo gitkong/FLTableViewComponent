@@ -79,7 +79,7 @@ extension FLCollectionComponentController : FLCollectionComponentConfiguration {
     }
     
     final func reloadComponent() {
-        self.collectionView.reloadData()
+        handler.reloadComponents()
     }
 }
 

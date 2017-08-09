@@ -58,7 +58,7 @@ extension FLTableComponentController : FLTableComponentConfiguration {
     }
     
     func reloadComponent() {
-        self.tableView.reloadData()
+        handler.reloadComponents()
     }
 }
 

@@ -12,18 +12,38 @@ let FLTableViewCellDefaultHeight : CGFloat = 44
 
 class FLTableBaseComponent: FLBaseComponent, FLTableComponentConfiguration {
     
-    var tableView : UITableView?
+    private(set) var tableView : UITableView?
+    
+    private(set) var componentIdentifier : String = ""
+    
+    private(set) var isCustomIdentifier = false
     
     init(tableView : UITableView){
         super.init()
         self.tableView = tableView
         self.register()
+        isCustomIdentifier = false
+//        self.componentIdentifier = "\(NSStringFromClass(type(of: self))).Component.\(section!))"
     }
     
     convenience init(tableView : UITableView, identifier : String){
         self.init(tableView: tableView)
+        isCustomIdentifier = true
         self.componentIdentifier = identifier
     }
+    
+    final override var section: Int? {
+        didSet {
+            if !isCustomIdentifier {
+                self.componentIdentifier = "\(NSStringFromClass(type(of: self))).Component.\(section!))"
+            }
+        }
+    }
+    
+    final override func reloadSelfComponent() {
+        tableView?.reloadSections(IndexSet.init(integer: section!), with: UITableViewRowAnimation.none)
+    }
+    
 }
 
 // MARK : base configuration
@@ -35,6 +55,7 @@ extension FLTableBaseComponent {
         tableView?.registerClass(FLTableViewHeaderFooterView.self, withReuseIdentifier: headerIdentifier)
         tableView?.registerClass(FLTableViewHeaderFooterView.self, withReuseIdentifier: footerIdentifier)
     }
+    
     
     var tableViewCellStyle: UITableViewCellStyle {
         return .default
@@ -122,6 +143,22 @@ extension FLTableBaseComponent {
     
     func titleForFooter() -> NSMutableAttributedString? {
         return nil
+    }
+}
+
+// MARK : highlight control
+
+extension FLTableBaseComponent {
+    func tableView(shouldHighlight cell: UITableViewCell?, at row: Int) -> Bool {
+        return true;
+    }
+    
+    func tableView(didHighlight cell: UITableViewCell?, at row: Int) {
+        // do something
+    }
+    
+    func tableView(didUnHighlight cell: UITableViewCell?, at row: Int) {
+        // do something
     }
 }
 

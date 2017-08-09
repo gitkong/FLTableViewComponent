@@ -26,4 +26,8 @@
     // subClass override it
 }
 
+- (void)reloadSelfComponent {
+    
+}
+
 @end

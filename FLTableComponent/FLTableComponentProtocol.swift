@@ -89,6 +89,14 @@ import UIKit
     /// - Returns: custom the height of footerView for current component
     @objc optional func heightForFooter() -> CGFloat
     
+    // Highlight control
+    
+    @objc optional func tableView(shouldHighlight cell: UITableViewCell?, at row: Int) -> Bool
+    
+    @objc optional func tableView(didHighlight cell: UITableViewCell?, at row: Int)
+    
+    @objc optional func tableView(didUnHighlight cell: UITableViewCell?, at row: Int)
+    
     // Display customization
     
     /// this method will call when the cell will display

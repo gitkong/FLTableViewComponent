@@ -24,7 +24,9 @@ class FLCollectionViewHandler: NSObject {
         didSet {
             self.collectionView?.handler = self
             componentsDict.removeAllObjects()
-            for component in components {
+            for section in 0..<components.count {
+                let component = components[section]
+                component.section = section
                 // same key will override the old value, so the last component will alaways remove first
                 componentsDict.setValue(component, forKey: component.componentIdentifier)
             }
@@ -36,12 +38,48 @@ class FLCollectionViewHandler: NSObject {
     var collectionView : UICollectionView? {
         return components.first?.collectionView
     }
-    
+}
+
+// Mark : component control
+
+extension FLCollectionViewHandler : FLCollectionViewHandlerProtocol {
     func component(at index : NSInteger) -> FLCollectionBaseComponent? {
         guard components.count > 0, index < components.count else {
             return nil
         }
         return components[index]
+    }
+    
+    func exchange(_ component : FLCollectionBaseComponent, by exchangeComponent : FLCollectionBaseComponent) {
+        self.components.exchange(component.section!, by: exchangeComponent.section!)
+    }
+    
+    func replace(_ component : FLCollectionBaseComponent, by replacementComponent : FLCollectionBaseComponent) {
+        self.components.replaceSubrange(component.section!...component.section!, with: [replacementComponent])
+    }
+    
+    func addAfterIdentifier(_ component : FLCollectionBaseComponent, after identifier : String) {
+        if let afterComponent = self.component(by: identifier) {
+            self.addAfterComponent(component, after: afterComponent)
+        }
+    }
+    
+    func addAfterComponent(_ component : FLCollectionBaseComponent, after afterComponent : FLCollectionBaseComponent) {
+        self.addAfterSection(component, after: afterComponent.section!)
+    }
+    
+    func addAfterSection(_ component : FLCollectionBaseComponent, after index : NSInteger) {
+        guard components.count > 0, index < components.count else {
+            return
+        }
+        self.components.insert(component, at: index)
+    }
+    
+    func add(_ component : FLCollectionBaseComponent) {
+        guard components.count > 0 else {
+            return
+        }
+        self.components.append(component)
     }
     
     func removeComponent(by identifier : String, removeType : FLComponentRemoveType) {
@@ -77,6 +115,15 @@ class FLCollectionViewHandler: NSObject {
         self.collectionView?.reloadData()
     }
     
+    func reloadComponents(_ components : [FLCollectionBaseComponent]) {
+        guard self.components.count > 0, components.count <= self.components.count else {
+            return
+        }
+        for component in components {
+            self.reloadComponent(at: component.section!)
+        }
+    }
+    
     func reloadComponent(_ component : FLCollectionBaseComponent) {
         self.reloadComponent(at: component.section!)
     }
@@ -88,13 +135,12 @@ class FLCollectionViewHandler: NSObject {
         self.collectionView?.reloadSections(IndexSet.init(integer: index))
     }
     
-    private func component(by identifier : String) -> FLCollectionBaseComponent? {
+    func component(by identifier : String) -> FLCollectionBaseComponent? {
         guard componentsDict.count > 0, !identifier.isEmpty else {
             return nil
         }
         return componentsDict.value(forKey: identifier) as? FLCollectionBaseComponent
     }
-    
 }
 
 // MARK : dataSources customizaion

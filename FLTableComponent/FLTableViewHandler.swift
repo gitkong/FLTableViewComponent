@@ -24,7 +24,9 @@ class FLTableViewHandler: NSObject {
         didSet {
             self.tableView?.handler = self
             componentsDict.removeAllObjects()
-            for component in components {
+            for section in 0..<components.count {
+                let component = components[section]
+                component.section = section
                 // same key will override the old value, so the last component will alaways remove first
                 componentsDict.setValue(component, forKey: component.componentIdentifier)
             }
@@ -51,11 +53,56 @@ class FLTableViewHandler: NSObject {
         return footer
     }
     
+}
+
+// Mark : component control
+
+extension FLTableViewHandler : FLTableViewHandlerProtocol {
+
+    func component(by identifier: String) -> FLTableBaseComponent? {
+        guard componentsDict.count > 0, !identifier.isEmpty else {
+            return nil
+        }
+        return componentsDict.value(forKey: identifier)  as? FLTableBaseComponent
+    }
+    
     func component(at index : NSInteger) -> FLTableBaseComponent? {
         guard components.count > 0, index < components.count else {
             return nil
         }
         return components[index]
+    }
+    
+    func exchange(_ component : FLTableBaseComponent, by exchangeComponent : FLTableBaseComponent) {
+        self.components.exchange(component.section!, by: exchangeComponent.section!)
+    }
+    
+    func replace(_ component : FLTableBaseComponent, by replacementComponent : FLTableBaseComponent) {
+        self.components.replaceSubrange(component.section!...component.section!, with: [replacementComponent])
+    }
+    
+    func addAfterIdentifier(_ component : FLTableBaseComponent, after identifier : String) {
+        if let afterComponent = self.component(by: identifier) {
+            self.addAfterComponent(component, after: afterComponent)
+        }
+    }
+    
+    func addAfterComponent(_ component : FLTableBaseComponent, after afterComponent : FLTableBaseComponent) {
+        self.addAfterSection(component, after: afterComponent.section!)
+    }
+    
+    func addAfterSection(_ component : FLTableBaseComponent, after index : NSInteger) {
+        guard components.count > 0, index < components.count else {
+            return
+        }
+        self.components.insert(component, at: index)
+    }
+    
+    func add(_ component : FLTableBaseComponent) {
+        guard components.count > 0 else {
+            return
+        }
+        self.components.append(component)
     }
     
     func removeComponent(by identifier : String, removeType : FLComponentRemoveType) {
@@ -91,6 +138,15 @@ class FLTableViewHandler: NSObject {
         self.tableView?.reloadData()
     }
     
+    func reloadComponents(_ components : [FLTableBaseComponent]) {
+        guard self.components.count > 0, components.count <= self.components.count else {
+            return
+        }
+        for component in components {
+            self.reloadComponent(at: component.section!)
+        }
+    }
+    
     func reloadComponent(_ component : FLTableBaseComponent) {
         self.reloadComponent(at: component.section!)
     }
@@ -100,13 +156,6 @@ class FLTableViewHandler: NSObject {
             return
         }
         self.tableView?.reloadSections(IndexSet.init(integer: index), with: UITableViewRowAnimation.none)
-    }
-    
-    private func component(by identifier : String) -> FLTableBaseComponent? {
-        guard componentsDict.count > 0, !identifier.isEmpty else {
-            return nil
-        }
-        return componentsDict.value(forKey: identifier) as? FLTableBaseComponent
     }
 }
 
@@ -237,6 +286,34 @@ extension FLTableViewHandler {
 extension FLTableViewHandler : UITableViewDelegate, FLTableComponentEvent {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         self.delegate?.tableViewDidClick?(self, cellAt: indexPath)
+    }
+    
+    func tableView(_ tableView: UITableView, shouldHighlightRowAt indexPath: IndexPath) -> Bool {
+        guard components.count > 0, indexPath.section < components.count else {
+            return false
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            return components[indexPath.section].tableView(shouldHighlight: cell, at: indexPath.row)
+        }
+        return false
+    }
+    
+    func tableView(_ tableView: UITableView, didHighlightRowAt indexPath: IndexPath) {
+        guard components.count > 0, indexPath.section < components.count else {
+            return
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            components[indexPath.section].tableView(didHighlight: cell, at: indexPath.row)
+        }
+    }
+    
+    func tableView(_ tableView: UITableView, didUnhighlightRowAt indexPath: IndexPath) {
+        guard components.count > 0, indexPath.section < components.count else {
+            return
+        }
+        if let cell = tableView.cellForRow(at: indexPath) {
+            components[indexPath.section].tableView(didUnHighlight: cell, at: indexPath.row)
+        }
     }
     
     func tableHeaderView(_ headerView: FLTableViewHeaderFooterView, didClickSectionAt section: Int) {

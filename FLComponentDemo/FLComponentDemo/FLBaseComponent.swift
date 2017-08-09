@@ -211,6 +211,10 @@ class FLBaseComponent: NSObject, FLBaseComponentProtocol {
     dynamic func register() {
         // regist cell、header、footer
     }
+    
+    dynamic func reloadSelfComponent() {
+        
+    }
 }
 
 

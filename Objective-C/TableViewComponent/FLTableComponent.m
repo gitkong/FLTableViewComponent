@@ -50,6 +50,10 @@
 
 #pragma mark HYTableComponentProtocol
 
+- (void)reloadSelfComponent {
+    [self.tableView reloadSections:[NSIndexSet indexSetWithIndex:self.section] withRowAnimation:UITableViewRowAnimationNone];
+}
+
 - (void)registComponent {
     if (!self.tableView) {
         return;

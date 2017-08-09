@@ -25,4 +25,6 @@ import UIKit
     
     @objc optional func reloadComponent()
     
+    @objc optional func reloadSelfComponent()
+    
 }

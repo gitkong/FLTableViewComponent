@@ -37,6 +37,10 @@ class FLCollectionBaseComponent: FLBaseComponent, FLCollectionComponentConfigura
             }
         }
     }
+    
+    final override func reloadSelfComponent() {
+        collectionView?.reloadSections(IndexSet.init(integer: section!))
+    }
 }
 
 // MARK : base configuration

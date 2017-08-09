@@ -19,4 +19,6 @@
 
 - (void)registComponent;
 
+- (void)reloadSelfComponent;
+
 @end
